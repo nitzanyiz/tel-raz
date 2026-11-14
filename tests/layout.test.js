@@ -59,3 +59,12 @@ test("menu labels never wrap inside the bar", () => {
   assert.match(css, /\.nav-link, \.nav-trigger \{[^}]*white-space: nowrap/);
 });
 
+
+test("404 and thanks pages are noindex without a canonical, even in production", () => {
+  for (const url of ["/404.html", "/thanks/"]) {
+    const $ = load(buildSite("prod"), url);
+    assert.strictEqual($('meta[name="robots"][content="noindex"]').length, 1, url);
+    assert.strictEqual($('link[rel="canonical"]').length, 0, url);
+  }
+  assert.strictEqual(home("prod")('link[rel="canonical"]').length, 1);
+});

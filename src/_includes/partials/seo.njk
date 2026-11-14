@@ -3,8 +3,11 @@
 {%- set canonical = site.url + page.url -%}
 <title>{{ pageTitle }}</title>
 <meta name="description" content="{{ pageDescription }}">
+{#- Pages left out of the sitemap (404, thanks) are never indexed. -#}
+{%- if sitemap !== false %}
 <link rel="canonical" href="{{ canonical }}">
-{%- if not env.isProduction %}
+{%- endif %}
+{%- if not env.isProduction or sitemap === false %}
 <meta name="robots" content="noindex">
 {%- endif %}
 <meta property="og:type" content="website">
