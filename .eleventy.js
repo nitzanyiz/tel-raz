@@ -13,6 +13,8 @@ module.exports = function (eleventyConfig) {
   ["src/assets", "src/files", "src/favicon.ico", "src/admin", "src/_redirects"].forEach((p) =>
     eleventyConfig.addPassthroughCopy(p)
   );
+  // The CMS page is copied as-is, not rendered as a site page (keeps it out of the sitemap).
+  eleventyConfig.ignores.add("src/admin/**");
 
   eleventyConfig.addGlobalData("env", { isProduction: isProduction(), subjectPrefix: subjectPrefix() });
   eleventyConfig.addGlobalData("site", () =>

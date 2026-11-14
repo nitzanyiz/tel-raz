@@ -72,6 +72,7 @@ test("sitemap", () => {
   assert.ok(xml.includes("<loc>https://tel-raz.com/</loc>"));
   assert.ok(!xml.includes("/thanks/"));
   assert.ok(!xml.includes("404"));
+  assert.ok(!xml.includes("/admin/"), "admin panel must not be in the sitemap");
 });
 
 test("redirects", () => {
