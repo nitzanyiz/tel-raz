@@ -1,0 +1,21 @@
+# "פרסום האתר" – publishes the preview (master) to the live site.
+# Run manually from GitHub: Actions → פרסום האתר → Run workflow.
+# It fast-forwards the production branch to master; Netlify then deploys it.
+# If production has commits master doesn't, the push fails instead of overwriting.
+name: פרסום האתר
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Fast-forward production to master
+        run: git push origin origin/master:refs/heads/production

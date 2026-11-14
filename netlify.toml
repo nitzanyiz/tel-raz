@@ -1,0 +1,11 @@
+# Netlify build settings. Production branch = "production" (set in the Netlify UI);
+# "master" builds as a free branch-deploy preview.
+[build]
+  command = "npm run build"
+  publish = "_site"
+  # Exit 0 = skip the build. Skip when a push only touches files that don't
+  # affect the site (docs, tests, dev scripts). Never skip a branch's first build.
+  ignore = "[ \"$CACHED_COMMIT_REF\" != \"$COMMIT_REF\" ] && git diff --quiet $CACHED_COMMIT_REF $COMMIT_REF -- . ':(exclude)docs' ':(exclude).claude' ':(exclude)README.md' ':(exclude)tests' ':(exclude)scripts'"
+
+[build.environment]
+  NODE_VERSION = "22"
