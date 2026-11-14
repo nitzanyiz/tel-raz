@@ -1,0 +1,23 @@
+---
+layout: layouts/base.njk
+---
+{#- Standard page: banner with title + intro, then the body.
+    Layouts that chain into this one set `wide: true` and lay out their own cards. -#}
+<section class="page-hero">
+  <div class="container">
+    <h1>{{ title }}</h1>
+    {%- if intro %}<p class="lead">{{ intro }}</p>{% endif %}
+  </div>
+</section>
+<div class="page-body">
+  <div class="container">
+    {%- if wide %}
+    {{ content | safe }}
+    {%- else %}
+    <article class="prose">
+      {%- if image %}<img class="page-image" src="{{ image }}" alt="{{ imageAlt }}">{% endif %}
+      {{ content | safe }}
+    </article>
+    {%- endif %}
+  </div>
+</div>

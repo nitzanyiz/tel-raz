@@ -1,0 +1,25 @@
+---
+layout: layouts/page.njk
+wide: true
+---
+{%- import "partials/icons.njk" as icons -%}
+<div class="contact-layout">
+  <div class="prose">
+    {{ content | safe }}
+    <ul class="details-list">
+      <li>{{ icons.icon("phone") }}<a href="tel:{{ site.phoneDial }}" dir="ltr">{{ site.phoneDisplay }}</a></li>
+      {%- if site.whatsapp | filled %}<li>{{ icons.icon("whatsapp") }}<a href="https://wa.me/{{ site.whatsapp }}" target="_blank" rel="noopener">שלחו הודעה בוואטסאפ</a></li>{% endif %}
+      {%- if site.email | filled %}<li>{{ icons.icon("mail") }}<a href="mailto:{{ site.email }}">{{ site.email }}</a></li>{% endif %}
+      {%- if site.address | filled %}<li>{{ icons.icon("pin") }}<span>{{ site.address }}</span></li>{% endif %}
+      {%- if site.hours | filled %}<li>{{ icons.icon("clock") }}<span>{{ site.hours }}</span></li>{% endif %}
+    </ul>
+  </div>
+  <div class="prose">
+    <h2>השאירו פרטים</h2>
+    {% include "partials/contact-form.njk" %}
+  </div>
+</div>
+{%- if site.address | filled %}
+<iframe class="map" title="מפה – {{ site.address }}" loading="lazy" referrerpolicy="no-referrer-when-downgrade"
+  src="https://www.google.com/maps?q={{ site.address | urlencode }}&output=embed"></iframe>
+{%- endif %}

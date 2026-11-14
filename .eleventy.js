@@ -22,6 +22,7 @@ module.exports = function (eleventyConfig) {
   eleventyConfig.addGlobalData("year", () => new Date().getFullYear());
   eleventyConfig.addFilter("filled", filled);
   eleventyConfig.addFilter("localBusiness", localBusiness);
+  eleventyConfig.addFilter("encodeUri", (s) => encodeURI(s));
 
   eleventyConfig.addCollection("menuPages", (api) => api.getAll().filter((item) => item.data.menu));
   eleventyConfig.addFilter("buildMenu", (items, groups, site) =>

@@ -1,0 +1,22 @@
+{#- Short contact form (Netlify form "contact"). Used on the home page, the
+    contact page and service pages. Set `formInline` for the one-row layout. -#}
+<form name="contact" method="POST" action="/thanks/" data-netlify="true" netlify-honeypot="bot-field" class="{{ 'form-inline' if formInline else 'form-stack' }}">
+  <input type="hidden" name="form-name" value="contact">
+  <input type="hidden" name="subject" value="{{ env.subjectPrefix }}פנייה חדשה מהאתר">
+  <input type="hidden" name="page" value="{{ page.url }}">
+  <p hidden><label>אל תמלאו שדה זה <input name="bot-field" tabindex="-1" autocomplete="off"></label></p>
+  <div class="field">
+    <label for="cf-name">שם מלא <span class="req" aria-hidden="true">*</span></label>
+    <input id="cf-name" name="name" type="text" autocomplete="name" required>
+  </div>
+  <div class="field">
+    <label for="cf-phone">טלפון <span class="req" aria-hidden="true">*</span></label>
+    <input id="cf-phone" name="phone" type="tel" autocomplete="tel" dir="ltr" required>
+  </div>
+  <div class="field">
+    <label for="cf-company">שם חברה <span class="req" aria-hidden="true">*</span></label>
+    <input id="cf-company" name="company" type="text" autocomplete="organization" required>
+  </div>
+  <button type="submit" class="btn {{ 'btn-light' if formInline else 'btn-primary' }}">דברו איתנו</button>
+</form>
+<p class="form-note">בשליחת הטופס אתם מאשרים את <a href="/privacy/">מדיניות הפרטיות</a> שלנו.</p>

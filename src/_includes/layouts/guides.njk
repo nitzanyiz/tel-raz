@@ -1,0 +1,27 @@
+---
+layout: layouts/page.njk
+wide: true
+---
+{%- import "partials/icons.njk" as icons -%}
+{%- set badges = { pdf: ["PDF", ""], doc: ["DOC", "word"], docx: ["DOC", "word"], xls: ["XLS", "excel"], xlsx: ["XLS", "excel"] } -%}
+{%- if content | trim %}<div class="prose" style="margin-bottom:24px">{{ content | safe }}</div>{% endif %}
+{%- if downloads.items.length %}
+<ul class="downloads">
+  {%- for item in downloads.items %}
+  {%- set ext = item.file.split(".") | last | lower %}
+  {%- set badge = badges[ext] or [ext | upper, ""] %}
+  <li>
+    <a href="{{ item.file | encodeUri }}" download>
+      <span class="badge {{ badge[1] }}">{{ badge[0] }}</span>
+      <span class="file-text">
+        <span class="file-title">{{ item.title }}</span>
+        {%- if item.desc %}<span class="file-desc">{{ item.desc }}</span>{% endif %}
+      </span>
+      {{ icons.icon("download") }}
+    </a>
+  </li>
+  {%- endfor %}
+</ul>
+{%- else %}
+<p class="prose">בקרוב</p>
+{%- endif %}
