@@ -7,8 +7,7 @@
   "scripts": {
     "start": "eleventy --serve",
     "build": "eleventy",
-    "test": "node --test \"tests/*.test.js\"",
-    "preview": "rm -rf _site && eleventy && npx -y netlify-cli deploy --site 9089ec73-b79e-4de1-ae0b-8a256611fb29 --dir _site --alias preview --message \"preview $(git rev-parse --short HEAD)\""
+    "test": "node --test \"tests/*.test.js\""
   },
   "repository": {
     "type": "git",

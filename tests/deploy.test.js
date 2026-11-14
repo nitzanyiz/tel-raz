@@ -23,11 +23,7 @@ test("publish workflow is manual-only and fast-forwards production", () => {
   assert.ok(!/--force|-f\b|\+origin/.test(run), "must not force-push");
 });
 
-test("npm run preview deploys a clean build to the preview alias, never production", () => {
+test("no manual preview deploy script (master's branch deploy is the preview)", () => {
   const { scripts } = JSON.parse(fs.readFileSync(path.join(ROOT, "package.json"), "utf8"));
-  assert.ok(scripts.preview, "missing preview script");
-  assert.match(scripts.preview, /rm -rf _site && eleventy && /);
-  assert.match(scripts.preview, /netlify-cli deploy .*--alias preview/);
-  assert.match(scripts.preview, /--dir _site/);
-  assert.doesNotMatch(scripts.preview, /--prod/);
+  assert.strictEqual(scripts.preview, undefined);
 });

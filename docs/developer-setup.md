@@ -26,7 +26,7 @@ scripts/screens.sh   # screenshots of key pages at 1280/1000/390px + open menus 
 scripts/placeholders.sh   # lists every [למילוי] left in the content
 ```
 
-**Preview before launch:** `npm run preview` builds the site and uploads it to **https://preview--tel-raz.netlify.app**, a preview deploy on the existing Netlify project. It never touches tel-raz.com and uses no credits (only production deploys do). It's a preview build: noindex, and form emails tagged "[בדיקה]". It needs a one-time `npx netlify-cli login`. After launch, the automatic `master` branch deploy replaces this.
+**Preview:** every push to `master` (and every CMS save) builds **https://master--tel-raz.netlify.app** automatically: a free Netlify branch deploy. It's noindexed, and form emails are tagged "[בדיקה]".
 
 **Editing content locally:** run `npm start`, open http://localhost:8080/admin/ in Chrome or Edge, and choose **Work with Local Repository**, then select this repo folder. Saves write straight to your working tree (no login needed). Check `git diff` afterwards.
 
