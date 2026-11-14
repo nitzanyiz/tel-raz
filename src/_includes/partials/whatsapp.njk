@@ -1,0 +1,4 @@
+{%- import "partials/icons.njk" as icons -%}
+{%- if site.whatsapp | filled %}
+<a class="whatsapp-fab" href="https://wa.me/{{ site.whatsapp }}" target="_blank" rel="noopener" aria-label="שלחו לנו הודעה בוואטסאפ">{{ icons.icon("whatsapp") }}</a>
+{%- endif %}
