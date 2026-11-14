@@ -79,3 +79,12 @@ test("redirects", () => {
   assert.match(r, /^https:\/\/tel-raz\.co\.il\/\*\s+https:\/\/tel-raz\.com\/:splat\s+301!$/m);
   assert.match(r, /^https:\/\/www\.tel-raz\.co\.il\/\*\s+https:\/\/tel-raz\.com\/:splat\s+301!$/m);
 });
+
+test("hero and logo ship as webp", () => {
+  const out = buildSite("preview");
+  assert.match(read(out, "assets/css/site.css"), /hero\.webp/);
+  const hero = path.join(out, "assets/img/hero.webp");
+  assert.ok(fs.existsSync(hero), "hero.webp missing");
+  assert.ok(fs.statSync(hero).size < 150 * 1024, "hero.webp too large");
+  assert.ok(fs.existsSync(path.join(out, "assets/img/logo.webp")), "logo.webp missing");
+});
