@@ -30,17 +30,19 @@ scripts/placeholders.sh   # lists every [למילוי] left in the content
 
 ### npm registry
 
-`.npmrc` points at the public registry with `replace-registry-host=always`. On a Wix-managed laptop the public registry is blocked; install through the Wix mirror while on VPN:
+There's deliberately **no project `.npmrc`**: npm uses whatever registry your machine is configured for.
 
-```bash
-npm install --registry=https://npm.dev.wixpress.com/
-```
+- **Netlify / a personal computer:** the default public registry.
+- **A Wix-managed laptop:** the global Wix mirror (public npm is blocked there; be on VPN). npm's default `replace-registry-host=npmjs` makes `npm ci` fetch the lockfile's public URLs through the mirror.
 
-The lockfile must keep public `https://registry.npmjs.org/...` URLs (Netlify can't reach the Wix mirror). If an install rewrites them, fix them with:
+The lockfile must keep public `https://registry.npmjs.org/...` URLs (Netlify can't reach the Wix mirror). Adding or upgrading a package through the mirror writes mirror URLs, so fix them before committing:
 
 ```bash
 sed -i '' 's#https://npm.dev.wixpress.com/api/npm/npm-repos/#https://registry.npmjs.org/#g' package-lock.json
+grep -c wixpress package-lock.json   # must print 0
 ```
+
+(A project `.npmrc` pointing at the public registry also breaks `npx`-launched MCP servers that Claude Code starts from this folder, such as the Playwright gateway; they hang until Claude Code times out.)
 
 ## Branches and deploys (credit-saving)
 
