@@ -14,6 +14,8 @@ module.exports = function (eleventyConfig) {
   eleventyConfig.addGlobalData("site", () =>
     readJson(process.env.SITE_DATA_FILE || "src/content/site.json")
   );
+  eleventyConfig.addGlobalData("home", () => readJson("src/content/home.json"));
+  eleventyConfig.addGlobalData("downloads", () => readJson("src/content/downloads.json", { items: [] }));
 
   return {
     dir: { input: "src", includes: "_includes", data: "_data", output: "_site" },

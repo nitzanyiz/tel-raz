@@ -1,0 +1,32 @@
+[
+  {
+    "key": "services",
+    "title": "שירותים",
+    "order": 1
+  },
+  {
+    "key": "cloud-pbx",
+    "title": "שירותי מרכזיה בענן",
+    "parent": "services",
+    "order": 1
+  },
+  {
+    "key": "pbx",
+    "title": "מרכזיה",
+    "parent": "services",
+    "order": 2
+  },
+  {
+    "key": "support",
+    "title": "שירות ותמיכה",
+    "order": 3
+  },
+  {
+    "key": "remote",
+    "title": "השתלטות מרחוק",
+    "parent": "support",
+    "order": 2,
+    "urlFromSite": "remoteSupportUrl",
+    "external": true
+  }
+]
