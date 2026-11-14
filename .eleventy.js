@@ -1,5 +1,6 @@
 const fs = require("node:fs");
 const { isProduction, subjectPrefix } = require("./lib/env");
+const { buildMenu } = require("./lib/menu");
 
 function readJson(file, fallback = {}) {
   return fs.existsSync(file) ? JSON.parse(fs.readFileSync(file, "utf8")) : fallback;
@@ -16,6 +17,15 @@ module.exports = function (eleventyConfig) {
   );
   eleventyConfig.addGlobalData("home", () => readJson("src/content/home.json"));
   eleventyConfig.addGlobalData("downloads", () => readJson("src/content/downloads.json", { items: [] }));
+
+  eleventyConfig.addCollection("menuPages", (api) => api.getAll().filter((item) => item.data.menu));
+  eleventyConfig.addFilter("buildMenu", (items, groups, site) =>
+    buildMenu(
+      groups,
+      items.map((item) => ({ url: item.url, title: item.data.title, menu: item.data.menu })),
+      site
+    )
+  );
 
   return {
     dir: { input: "src", includes: "_includes", data: "_data", output: "_site" },
