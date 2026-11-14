@@ -69,7 +69,7 @@ p { margin: 0 0 1em; }
    become the containing block of the fixed mobile menu. */
 .bar::before {
   content: ""; position: absolute; inset: 0; z-index: -1; border-radius: inherit;
-  background: rgb(255 255 255 / .62);
+  background: rgb(255 255 255 / .72);
   -webkit-backdrop-filter: blur(16px) saturate(1.5);
   backdrop-filter: blur(16px) saturate(1.5);
   transition: background-color .2s;
@@ -248,7 +248,7 @@ main:focus { outline: none; }
 .contact-strip .strip-text { text-align: center; opacity: .9; margin-bottom: 28px; }
 .form-inline { display: grid; gap: 12px; grid-template-columns: repeat(3, 1fr) auto; align-items: end; }
 @media (max-width: 760px) { .form-inline { grid-template-columns: 1fr; } }
-.contact-strip label { color: rgb(255 255 255 / .9); }
+.contact-strip .field label { color: rgb(255 255 255 / .92); }
 .contact-strip input { background: rgb(255 255 255 / .1); border-color: rgb(255 255 255 / .55); color: #fff; }
 .contact-strip input::placeholder { color: rgb(255 255 255 / .6); }
 .contact-strip .form-note, .contact-strip .form-note a { color: rgb(255 255 255 / .8); }
