@@ -1,17 +1,16 @@
 ---
 title: iPECS Cloud
+seoTitle: ""
+seoDescription: "מרכזיית ענן iPECS Cloud לעסקים: שלוחות, ניתוב שיחות, אפליקציה לנייד ועבודה מכל מקום."
 intro: מרכזיה בענן לעסקים – בלי ציוד בשרתים, עם כל היכולות של מרכזיה מתקדמת.
-image: ''
-imageAlt: ''
+image: ""
+imageAlt: ""
 models: []
-seoTitle: ''
-seoDescription: 'מרכזיית ענן iPECS Cloud לעסקים: שלוחות, ניתוב שיחות, אפליקציה לנייד ועבודה מכל מקום.'
 menu:
-  title: iPECS Cloud
+  title: "iPECS Cloud"
   parent: cloud-pbx
   order: 1
 ---
-
 ## מה זה iPECS Cloud?
 מרכזיה וירטואלית שפועלת בענן ומאפשרת לעסק לנהל את כל השיחות במקום אחד – מהמשרד, מהבית או מהנייד.
 
