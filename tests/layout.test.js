@@ -9,7 +9,7 @@ test("menu order", () => {
   const labels = $(".site-header nav .nav-top > li > .nav-link, .site-header nav .nav-top > li > .nav-trigger")
     .map((_, el) => $(el).text().trim())
     .get();
-  assert.deepStrictEqual(labels, ["שירותים", "עלינו", "שירות ותמיכה", "צור קשר"]);
+  assert.deepStrictEqual(labels, ["שירותים", "שירות ותמיכה", "עלינו", "צור קשר"]);
 });
 
 test("phone button", () => {
