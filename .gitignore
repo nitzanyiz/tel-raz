@@ -3,3 +3,4 @@ _site/
 .tmp-builds/
 .superpowers/
 .playwright-mcp/
+deploy-*/
