@@ -1,0 +1,24 @@
+---
+layout: layouts/page.njk
+wide: true
+---
+<article class="prose">
+  {%- if image %}<img class="page-image" src="{{ image }}" alt="{{ imageAlt }}">{% endif %}
+  {{ content | safe }}
+</article>
+{%- if models and models.length %}
+<div class="models">
+  {%- for model in models %}
+  <div class="model">
+    {%- if model.image %}<img src="{{ model.image }}" alt="{{ model.name }}" loading="lazy">{% endif %}
+    <h3>{{ model.name }}</h3>
+    {%- if model.text %}<p>{{ model.text }}</p>{% endif %}
+  </div>
+  {%- endfor %}
+</div>
+{%- endif %}
+<section class="prose" style="margin-top:32px">
+  <h2>רוצים לשמוע עוד?</h2>
+  <p>השאירו פרטים ונחזור אליכם בהקדם.</p>
+  {% include "partials/contact-form.njk" %}
+</section>

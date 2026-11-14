@@ -4,7 +4,7 @@ const { buildSite, load } = require("./helpers/build");
 
 const home = (name) => load(buildSite(name), "/");
 
-test("menu order", { todo: "needs pages" }, () => {
+test("menu order", () => {
   const $ = home("preview");
   const labels = $(".site-header nav .nav-top > li > .nav-link, .site-header nav .nav-top > li > .nav-trigger")
     .map((_, el) => $(el).text().trim())

@@ -2,3 +2,67 @@
 layout: layouts/base.njk
 bodyClass: page-home
 ---
+{%- import "partials/icons.njk" as icons -%}
+<section class="hero">
+  <div class="container">
+    <h1>{{ home.heroTitle }}</h1>
+    <p>{{ home.heroSubtitle }}</p>
+    <div class="hero-actions">
+      <a class="btn btn-primary" href="/contact/">{{ home.heroCtaContact }}</a>
+      <a class="btn btn-ghost" href="tel:{{ site.phoneDial }}">{{ icons.icon("phone") }}{{ home.heroCtaCall }}</a>
+    </div>
+  </div>
+</section>
+
+<section class="section">
+  <div class="container">
+    <h2 class="section-title">{{ home.tilesTitle }}</h2>
+    <div class="tiles">
+      {%- for tile in home.tiles %}
+      <a class="tile" href="{{ tile.url }}">
+        {%- if tile.image %}<img src="{{ tile.image }}" alt="" loading="lazy">{% endif %}
+        <h3>{{ tile.title }}</h3>
+        <p>{{ tile.text }}</p>
+        <span class="more" aria-hidden="true">לפרטים ←</span>
+      </a>
+      {%- endfor %}
+    </div>
+  </div>
+</section>
+
+<section class="section why">
+  <div class="container">
+    <h2 class="section-title">{{ home.whyTitle }}</h2>
+    <div class="why-grid">
+      {%- for item in home.why %}
+      <div>
+        <div class="why-icon">{{ icons.icon(item.icon) }}</div>
+        <h3>{{ item.title }}</h3>
+        <p>{{ item.text }}</p>
+      </div>
+      {%- endfor %}
+    </div>
+  </div>
+</section>
+
+{%- if home.customers and home.customers.length %}
+<section class="section customers">
+  <div class="container">
+    <h2 class="section-title">{{ home.customersTitle }}</h2>
+    <div class="customers-strip">
+      {%- for c in home.customers %}
+      <img src="{{ c.logo }}" alt="{{ c.name }}" loading="lazy">
+      {%- endfor %}
+    </div>
+  </div>
+</section>
+{%- endif %}
+
+<section class="contact-strip" id="contact-form">
+  <div class="container">
+    <h2>{{ home.contactTitle }}</h2>
+    <p class="strip-text">{{ home.contactText }}</p>
+    {%- set formInline = true %}
+    {% include "partials/contact-form.njk" %}
+  </div>
+</section>
