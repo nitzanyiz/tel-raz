@@ -62,3 +62,43 @@ test("admin page loads a pinned sveltia version and is noindexed", () => {
   assert.match(html, /@sveltia\/cms@\d+\.\d+\.\d+\/dist\/sveltia-cms\.js/);
   assert.match(html, /<meta name="robots" content="noindex">/);
 });
+
+test("routing is not editor-editable front matter", () => {
+  for (const c of config.collections.filter((c) => c.folder)) {
+    const names = c.fields.map((f) => f.name);
+    assert.ok(!names.includes("layout") && !names.includes("permalink"), c.name);
+    const dir = path.join(ROOT, c.folder);
+    for (const file of fs.readdirSync(dir).filter((f) => f.endsWith(".md"))) {
+      const keys = frontMatterKeys(path.join(dir, file));
+      assert.ok(!keys.includes("layout") && !keys.includes("permalink"), `${c.folder}/${file}`);
+    }
+  }
+});
+
+test("every menu page declares a developer-owned menu label", () => {
+  for (const c of config.collections.filter((c) => c.folder)) {
+    const dir = path.join(ROOT, c.folder);
+    for (const file of fs.readdirSync(dir).filter((f) => f.endsWith(".md"))) {
+      const m = fs.readFileSync(path.join(dir, file), "utf8").match(/^---\n([\s\S]*?)\n---/);
+      const fm = YAML.parse(m[1]);
+      if (fm.menu) assert.ok(fm.menu.title, `${c.folder}/${file} needs menu.title`);
+    }
+  }
+});
+
+test("settings fields validate their format", () => {
+  const fields = config.collections.find((c) => c.name === "settings").files[0].fields;
+  const byName = Object.fromEntries(fields.map((f) => [f.name, f]));
+  const social = Object.fromEntries(byName.social.fields.map((f) => [f.name, f]));
+  const check = (field, good, bad) => {
+    assert.ok(field.pattern, `${field.name} has no pattern`);
+    const re = new RegExp(field.pattern[0]);
+    for (const v of good) assert.ok(re.test(v), `${field.name} should accept ${v}`);
+    for (const v of bad) assert.ok(!re.test(v), `${field.name} should reject ${v}`);
+  };
+  check(byName.whatsapp, ["97297601760", "972541234567", ""], ["054-1234567", "+97297601760", "0541234567"]);
+  check(byName.phoneDial, ["+97297601760", "+972541234567"], ["09-7601760", "97297601760"]);
+  check(byName.email, ["info@tel-raz.com", ""], ["info@", "info tel-raz.com"]);
+  check(byName.remoteSupportUrl, ["https://anydesk.com/he/downloads", ""], ["anydesk.com", "javascript:alert(1)", "http://x.com"]);
+  for (const s of Object.values(social)) check(s, ["https://facebook.com/telraz", ""], ["facebook.com/telraz", "javascript:alert(1)"]);
+});

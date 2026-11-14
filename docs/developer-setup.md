@@ -7,8 +7,10 @@ Design: [`superpowers/specs/2026-11-14-tel-raz-site-design.md`](./superpowers/sp
 
 - **Eleventy 3** builds `src/` → `_site/`. Nunjucks layouts in `src/_includes/`, Markdown pages in `src/pages/`.
 - **Editor content** lives in `src/content/*.json` (settings, home, downloads) and the Markdown front matter/body of `src/pages/**/*.md`. It's loaded as global data in `.eleventy.js` (`site`, `home`, `downloads`).
+- **Routing is developer-owned:** `src/pages/pages.11tydata.js` (default `/<file-name>/`, plain layout) plus `<name>.11tydata.json` overrides; `services/` and `legal/` have their own data files. No `layout` or `permalink` in front matter, so a CMS save can't move a page.
+- **The build fails on dead internal links** (`lib/check-links.js`, run on `eleventy.after`). A broken preview never reaches the publish button.
 - **Markdown is not run through Nunjucks** (`markdownTemplateEngine: false`), so editor text can never break the build.
-- **Menu** = `lib/menu.js` → `buildMenu(menuGroups, pages, site)`. Pages opt in with front matter `menu: { parent, order }`, and `src/_data/menuGroups.json` defines the non-page entries (headers and the external remote-support link). Empty groups and links with empty URLs are dropped.
+- **Menu** = `lib/menu.js` → `buildMenu(menuGroups, pages, site)`. Pages opt in with front matter `menu: { title, parent, order }` (the label is `menu.title`, so editing the page title can't break the bar), and `src/_data/menuGroups.json` defines the non-page entries (headers and the external remote-support link). Empty groups and links with empty URLs are dropped.
 - **Preview vs production:** `lib/env.js`. Only `CONTEXT=production` (Netlify's production branch) is production. Every other build gets `noindex`, `robots.txt: Disallow: /` and form subjects prefixed `[בדיקה] `.
 - **Admin:** Sveltia CMS at `/admin` (`src/admin/index.html` pins the version; `src/admin/config.yml` defines the forms). `tests/cms.test.js` keeps the config in sync with the content files.
 - **Forms:** Netlify Forms (`contact`, `service-call`), with a honeypot. They redirect to `/thanks/`.
@@ -19,6 +21,7 @@ Design: [`superpowers/specs/2026-11-14-tel-raz-site-design.md`](./superpowers/sp
 npm install          # see "npm registry" below if you're on a Wix laptop
 npm start            # http://localhost:8080 with live reload
 npm test             # builds preview/prod/empty-settings variants and checks them
+scripts/behavior-check.sh # headless-Chrome checks of menu keyboard/hover behavior
 scripts/screens.sh   # screenshots of key pages at 1280/1000/390px + open menus → .tmp-builds/screens/
 scripts/placeholders.sh   # lists every [למילוי] left in the content
 ```
@@ -109,8 +112,9 @@ Not enabled now; the editor edits only. To let them add and remove pages from `/
    - set `create: true` and `delete: true`;
    - add `slug: "{{fields.slug}}"` and a required `slug` string field (English letters, digits and dashes; add a `pattern`);
    - replace `menu`'s hidden widget with an object widget whose fields are `parent` (a `select` widget with options = the keys in `src/_data/menuGroups.json`) and `order` (number);
-   - for `pages`, give `layout` a hidden `default: layouts/page.njk` and `permalink` a hidden default built from the slug, or move permalinks into a `pages.11tydata.js` like `services/`.
+   - for `pages`, the default routing in `pages.11tydata.js` already gives new pages `/<slug>/` with the plain layout.
+   - expose `menu.title` too (the label shown in the bar), with a short max length.
 2. Let them rename and reorder menu headers: add `src/_data/menuGroups.json` as a file collection with `title` and `order` editable, and `key`/`parent`/`urlFromSite`/`external` hidden. Adding or deleting headers stays with the developer (an empty header would vanish from the menu anyway, since `buildMenu` drops empty groups).
-3. Add a build-time check (a test plus a guard in `.eleventy.js`) that fails on duplicate or invalid permalinks, so a bad slug fails the preview instead of production.
+3. Duplicate permalinks already fail the Eleventy build, and dead links fail the link check. Add a slug `pattern` in the CMS so an invalid slug is rejected while the editor is typing it.
 4. Add a section "הוספת עמוד חדש" to the editor guide (section 4) and remove rule 6 in section 5.
 5. Update `tests/cms.test.js` (it asserts `create: false`) to the new policy.

@@ -5,9 +5,8 @@ seoDescription: מדריכים להורדה למרכזיות Panasonic ול-iPEC
 intro: מדריכים וקבצים שימושיים להורדה.
 image: ""
 imageAlt: ""
-layout: layouts/guides.njk
-permalink: /support/guides/
 menu:
+  title: "מדריכים"
   parent: support
   order: 1
 ---

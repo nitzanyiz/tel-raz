@@ -53,3 +53,9 @@ test("skip link and landmarks", () => {
   assert.strictEqual($('.skip-link[href="#main"]').length, 1);
   assert.strictEqual($("main#main").length, 1);
 });
+
+test("menu labels never wrap inside the bar", () => {
+  const css = require("node:fs").readFileSync(require("node:path").join(buildSite("preview"), "assets/css/site.css"), "utf8");
+  assert.match(css, /\.nav-link, \.nav-trigger \{[^}]*white-space: nowrap/);
+});
+

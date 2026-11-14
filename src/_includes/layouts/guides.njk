@@ -11,7 +11,7 @@ wide: true
   {%- set ext = item.file.split(".") | last | lower %}
   {%- set badge = badges[ext] or [ext | upper, ""] %}
   <li>
-    <a href="{{ item.file | encodeUri }}" download>
+    <a href="{{ item.file | encodeFilePath }}" download>
       <span class="badge {{ badge[1] }}">{{ badge[0] }}</span>
       <span class="file-text">
         <span class="file-title">{{ item.title }}</span>

@@ -12,7 +12,7 @@ The menu builds itself from page front matter plus `src/_data/menuGroups.json` (
 | Kind | Folder | Layout / URL |
 |---|---|---|
 | Service or product (has a "models" list and a contact form at the bottom) | `src/pages/services/` | Set by `services.11tydata.js`: `layouts/product.njk`, URL `/services/<file-name>/` |
-| General page (text, optional image) | `src/pages/` | Front matter `layout: layouts/page.njk`, `permalink: /<slug>/` |
+| General page (text, optional image) | `src/pages/` | Set by `pages.11tydata.js`: `layouts/page.njk`, URL `/<file-name>/`. A different layout or URL goes in a `<file-name>.11tydata.json` next to it (see `guides.11tydata.json`) |
 | Legal | `src/pages/legal/` | Set by `legal.11tydata.js`: URL `/<file-name>/` |
 
 File names and slugs are English, lowercase, with dashes (`cloud-backup.md`). Never Hebrew: Hebrew URLs get percent-encoded when shared.
@@ -30,9 +30,8 @@ intro: משפט פתיחה קצר.
 image: ""
 imageAlt: ""
 models: []                 # services only
-layout: layouts/page.njk   # general pages only
-permalink: /cloud-backup/  # general pages only
 menu:
+  title: גיבוי בענן        # the menu label (developer-owned; the editor can't change it)
   parent: cloud-pbx        # a key from src/_data/menuGroups.json; omit `parent` for the top bar
   order: 3                 # position among its siblings
 ---
@@ -40,6 +39,8 @@ Body in Markdown. Use `##` for section headings (the page already has the h1).
 Mark unknown content with [למילוי: ...] so scripts/placeholders.sh lists it.
 ```
 
+- Never put `layout` or `permalink` in front matter. The CMS doesn't know those keys, and routing lives in the `.11tydata` files.
+- Keep menu labels short (1–3 words): the bar doesn't wrap them.
 - No `menu` key = the page exists but isn't in the menu (like `/thanks/`).
 - Don't put `{{ }}` or `{% %}` in Markdown; templating is off for Markdown.
 - Pages that shouldn't be in the sitemap get `sitemap: false`.
@@ -53,7 +54,7 @@ Edit `src/_data/menuGroups.json`:
 
 ## 4. Keep the CMS and tests in sync
 
-- `src/admin/config.yml`: the page's folder collection must have a field for **every** front-matter key (`tests/cms.test.js` enforces this). Developer-only keys (`menu`, `layout`, `permalink`, `sitemap`) are `widget: hidden`. A new subfolder needs its own collection (`create: false`, `delete: false`).
+- `src/admin/config.yml`: the page's folder collection must have a field for **every** front-matter key (`tests/cms.test.js` enforces this). Developer-only keys (`menu`, `sitemap`) are `widget: hidden`. A new subfolder needs its own collection (`create: false`, `delete: false`).
 - `tests/pages.test.js`: add the new URL to `ROUTES`. If it's a service page, the home tiles test expects one tile per service URL. Add a tile to `src/content/home.json` (with its `url`), or adjust the test.
 - If the page changes the menu's top level, update `tests/layout.test.js` "menu order".
 
@@ -61,6 +62,7 @@ Edit `src/_data/menuGroups.json`:
 
 ```bash
 npm test
+scripts/behavior-check.sh   # menu keyboard/hover behavior
 scripts/screens.sh      # look at the open-menu screenshots in .tmp-builds/screens/
 npm start               # click through the menu at desktop and phone widths
 ```

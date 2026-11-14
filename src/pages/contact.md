@@ -5,9 +5,8 @@ seoDescription: יצירת קשר עם טלרז תקשורת מתקדמת – ט
 intro: נשמח לשמוע מכם.
 image: ""
 imageAlt: ""
-layout: layouts/contact.njk
-permalink: /contact/
 menu:
+  title: "צור קשר"
   order: 4
 ---
 ## פרטי התקשרות

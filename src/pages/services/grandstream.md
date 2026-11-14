@@ -10,6 +10,7 @@ models:
     image: ""
     text: מגוון טלפוני IP של Grandstream.
 menu:
+  title: "מרכזיית Grandstream"
   parent: pbx
   order: 2
 ---

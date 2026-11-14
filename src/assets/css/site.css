@@ -89,7 +89,7 @@ p { margin: 0 0 1em; }
   display: inline-flex; align-items: center; gap: 6px;
   font: inherit; font-size: 1rem; font-weight: 500; color: var(--navy);
   background: none; border: 0; cursor: pointer; text-decoration: none;
-  padding: 8px 16px; border-radius: 999px;
+  padding: 8px 16px; border-radius: 999px; white-space: nowrap;
   transition: background-color .2s, color .2s;
 }
 .nav-link:hover, .nav-trigger:hover { background: rgb(51 57 79 / .08); color: var(--navy); }

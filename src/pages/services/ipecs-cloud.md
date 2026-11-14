@@ -7,6 +7,7 @@ image: ""
 imageAlt: ""
 models: []
 menu:
+  title: "iPECS Cloud"
   parent: cloud-pbx
   order: 1
 ---

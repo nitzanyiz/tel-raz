@@ -5,9 +5,8 @@ seoDescription: טלרז תקשורת מתקדמת – מי אנחנו ומה א
 intro: טלרז תקשורת מתקדמת – פתרונות תקשורת וטלפוניה לעסקים.
 image: ""
 imageAlt: ""
-layout: layouts/page.njk
-permalink: /about/
 menu:
+  title: "עלינו"
   order: 2
 ---
 ## מי אנחנו

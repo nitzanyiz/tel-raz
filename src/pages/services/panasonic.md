@@ -19,6 +19,7 @@ models:
     image: ""
     text: מגוון טלפונים תואמים למרכזיות Panasonic.
 menu:
+  title: "מרכזיית Panasonic"
   parent: pbx
   order: 1
 ---

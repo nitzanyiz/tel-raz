@@ -46,20 +46,20 @@ collections:
           - { name: name, label: שם החברה, widget: string }
           - { name: url, widget: hidden }
           - { name: phoneDisplay, label: "טלפון (כפי שמוצג באתר, למשל 09-7601760)", widget: string }
-          - { name: phoneDial, label: "טלפון לחיוג (בפורמט בינלאומי, למשל ‎+97297601760)", widget: string }
-          - { name: whatsapp, label: "מספר וואטסאפ (ספרות בלבד, עם 972 ובלי 0 בהתחלה, למשל 97297601760). ריק = הכפתור לא יוצג", widget: string, required: false }
-          - { name: email, label: "דוא\"ל", widget: string, required: false }
+          - { name: phoneDial, label: "טלפון לחיוג (בפורמט בינלאומי, למשל ‎+97297601760)", widget: string, pattern: ['^\+972\d{8,9}$', 'מתחיל ב-‎+972 ואחריו ספרות בלבד, בלי 0 ובלי מקפים'] }
+          - { name: whatsapp, label: "מספר וואטסאפ (ספרות בלבד, עם 972 ובלי 0 בהתחלה, למשל 97297601760). ריק = הכפתור לא יוצג", widget: string, required: false, pattern: ['^$|^972\d{8,9}$', 'ספרות בלבד: 972 ואחריו המספר בלי ה-0 (למשל 97297601760)'] }
+          - { name: email, label: "דוא\"ל", widget: string, required: false, pattern: ['^$|^[^@\s]+@[^@\s]+\.[^@\s]+$', 'כתובת דוא"ל לא תקינה'] }
           - { name: address, label: "כתובת (מוצגת באתר וגם במפה). ריק = לא תוצג", widget: string, required: false }
           - { name: hours, label: "שעות פעילות. ריק = לא יוצגו", widget: string, required: false }
           - name: social
             label: רשתות חברתיות (קישור מלא, ריק = לא יוצג)
             widget: object
             fields:
-              - { name: facebook, label: פייסבוק, widget: string, required: false }
-              - { name: instagram, label: אינסטגרם, widget: string, required: false }
-              - { name: linkedin, label: לינקדאין, widget: string, required: false }
-              - { name: youtube, label: יוטיוב, widget: string, required: false }
-          - { name: remoteSupportUrl, label: "קישור להשתלטות מרחוק (ריק = הפריט לא יוצג בתפריט)", widget: string, required: false }
+              - { name: facebook, label: פייסבוק, widget: string, required: false, pattern: ['^$|^https://\S+$', 'כתובת מלאה שמתחילה ב-https://'] }
+              - { name: instagram, label: אינסטגרם, widget: string, required: false, pattern: ['^$|^https://\S+$', 'כתובת מלאה שמתחילה ב-https://'] }
+              - { name: linkedin, label: לינקדאין, widget: string, required: false, pattern: ['^$|^https://\S+$', 'כתובת מלאה שמתחילה ב-https://'] }
+              - { name: youtube, label: יוטיוב, widget: string, required: false, pattern: ['^$|^https://\S+$', 'כתובת מלאה שמתחילה ב-https://'] }
+          - { name: remoteSupportUrl, label: "קישור להשתלטות מרחוק (ריק = הפריט לא יוצג בתפריט)", widget: string, required: false, pattern: ['^$|^https://\S+$', 'כתובת מלאה שמתחילה ב-https://'] }
           - { name: footerAbout, label: משפט על החברה בתחתית האתר, widget: text, required: false }
           - { name: seoDescription, label: "תיאור האתר לגוגל (ברירת מחדל, עד כ-155 תווים)", widget: text }
 
@@ -191,8 +191,6 @@ collections:
       - { name: body, label: תוכן העמוד, widget: markdown, required: false }
       - { name: seoTitle, label: "כותרת לגוגל (לא חובה)", widget: string, required: false }
       - { name: seoDescription, label: "תיאור לגוגל (עד כ-155 תווים)", widget: text, required: false }
-      - { name: layout, widget: hidden }
-      - { name: permalink, widget: hidden }
       - { name: menu, widget: hidden }
       - { name: sitemap, widget: hidden }
 

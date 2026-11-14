@@ -5,9 +5,8 @@ seoDescription: פתיחת קריאת שירות לצוות התמיכה של ט
 intro: נתקלתם בתקלה? מלאו את הפרטים ונחזור אליכם בהקדם.
 image: ""
 imageAlt: ""
-layout: layouts/service-call.njk
-permalink: /support/service-call/
 menu:
+  title: "טופס קריאת שירות"
   parent: support
   order: 3
 ---

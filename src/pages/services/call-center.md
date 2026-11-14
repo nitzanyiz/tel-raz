@@ -7,6 +7,7 @@ image: ""
 imageAlt: ""
 models: []
 menu:
+  title: "מוקד קול סנטר"
   parent: services
   order: 4
 ---

@@ -7,6 +7,7 @@ image: ""
 imageAlt: ""
 models: []
 menu:
+  title: "טלפוני IP מסדרה 1000i"
   parent: cloud-pbx
   order: 2
 ---

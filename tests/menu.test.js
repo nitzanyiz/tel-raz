@@ -52,3 +52,15 @@ test("drops empty groups recursively", () => {
   const noServices = noCloud.filter((p) => p.menu.parent !== "pbx");
   assert.strictEqual(find(buildMenu(groups, noServices, site), "services"), undefined);
 });
+
+test("menu label comes from menu.title, not the editable page title", () => {
+  const tree = buildMenu(groups, [{ url: "/about/", title: "אודות טלרז תקשורת מתקדמת בע\"מ", menu: { title: "עלינו", order: 2 } }], site);
+  assert.strictEqual(find(tree, "/about/").title, "עלינו");
+});
+
+test("drops a settings link that is blank or still a placeholder", () => {
+  for (const v of ["  ", "[למילוי]"]) {
+    const support = find(buildMenu(groups, pages, { remoteSupportUrl: v }), "support");
+    assert.strictEqual(find(support.children, "remote"), undefined, JSON.stringify(v));
+  }
+});

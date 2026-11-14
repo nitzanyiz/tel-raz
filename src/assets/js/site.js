@@ -8,6 +8,7 @@
   const mobile = window.matchMedia("(max-width: 900px)");
   const canHover = window.matchMedia("(hover: hover)");
   let closeTimer;
+  let hoverOpenedAt = 0;
 
   const panelOf = (trigger) => document.getElementById(trigger.getAttribute("aria-controls"));
 
@@ -30,6 +31,8 @@
   triggers.forEach((trigger) => {
     const item = trigger.parentElement;
     trigger.addEventListener("click", () => {
+      // A click right after hover opened the panel means "open", not "toggle".
+      if (Date.now() - hoverOpenedAt < 400) return;
       if (trigger.getAttribute("aria-expanded") === "true") {
         setOpen(trigger, false);
         if (!mobile.matches) closeAll();
@@ -40,18 +43,27 @@
       }
     });
     item.addEventListener("mouseenter", () => {
-      if (!mobile.matches && canHover.matches) open(trigger);
+      if (!mobile.matches && canHover.matches && trigger.getAttribute("aria-expanded") !== "true") {
+        open(trigger);
+        hoverOpenedAt = Date.now();
+      }
     });
     item.addEventListener("mouseleave", () => {
       if (!mobile.matches && canHover.matches) closeTimer = setTimeout(() => closeAll(), 180);
     });
   });
 
+  // While the mobile menu covers the page, everything behind it is inert so
+  // keyboard focus and screen readers stay inside the menu.
+  const behind = document.querySelectorAll("main, .site-footer, .whatsapp-fab, .skip-link");
+
   function setMenu(open) {
     header.classList.toggle("menu-open", open);
     toggle.setAttribute("aria-expanded", String(open));
     toggle.setAttribute("aria-label", open ? "סגירת תפריט" : "פתיחת תפריט");
-    document.body.style.overflow = open ? "hidden" : "";
+    behind.forEach((el) => (el.inert = open));
+    document.documentElement.style.overflow = open ? "hidden" : "";
+    if (open) header.querySelector("#site-nav a, #site-nav button").focus();
   }
 
   toggle.addEventListener("click", () => setMenu(!header.classList.contains("menu-open")));
