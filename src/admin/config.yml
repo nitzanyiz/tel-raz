@@ -1,0 +1,212 @@
+# Sveltia CMS configuration – what the editor can change at /admin.
+# Every editable file is listed here. Fields marked `widget: hidden` are
+# developer-only: they are kept as-is when the editor saves.
+# tests/cms.test.js checks this file against the content files.
+
+backend:
+  name: github
+  repo: nitzanyiz/tel-raz
+  branch: master
+  base_url: https://api.netlify.com
+  site_domain: tel-raz.com
+  commit_messages:
+    create: "תוכן: יצירת {{collection}} \"{{slug}}\""
+    update: "תוכן: עדכון {{collection}} \"{{slug}}\""
+    delete: "תוכן: מחיקת {{collection}} \"{{slug}}\""
+    uploadMedia: "תוכן: העלאת \"{{path}}\""
+    deleteMedia: "תוכן: מחיקת \"{{path}}\""
+
+site_url: https://tel-raz.com
+display_url: https://tel-raz.com
+logo_url: /assets/img/favicon.png
+
+media_folder: src/assets/uploads
+public_folder: /assets/uploads
+
+media_libraries:
+  default:
+    config:
+      max_file_size: 10000000
+      transformations:
+        raster_image:
+          format: webp
+          quality: 85
+          width: 1600
+          height: 1600
+
+collections:
+  # ---------------------------------------------------------------- settings
+  - name: settings
+    label: פרטי האתר
+    files:
+      - name: site
+        label: פרטי האתר ויצירת קשר
+        file: src/content/site.json
+        fields:
+          - { name: name, label: שם החברה, widget: string }
+          - { name: url, widget: hidden }
+          - { name: phoneDisplay, label: "טלפון (כפי שמוצג באתר, למשל 09-7601760)", widget: string }
+          - { name: phoneDial, label: "טלפון לחיוג (בפורמט בינלאומי, למשל ‎+97297601760)", widget: string }
+          - { name: whatsapp, label: "מספר וואטסאפ (ספרות בלבד, עם 972 ובלי 0 בהתחלה, למשל 97297601760). ריק = הכפתור לא יוצג", widget: string, required: false }
+          - { name: email, label: "דוא\"ל", widget: string, required: false }
+          - { name: address, label: "כתובת (מוצגת באתר וגם במפה). ריק = לא תוצג", widget: string, required: false }
+          - { name: hours, label: "שעות פעילות. ריק = לא יוצגו", widget: string, required: false }
+          - name: social
+            label: רשתות חברתיות (קישור מלא, ריק = לא יוצג)
+            widget: object
+            fields:
+              - { name: facebook, label: פייסבוק, widget: string, required: false }
+              - { name: instagram, label: אינסטגרם, widget: string, required: false }
+              - { name: linkedin, label: לינקדאין, widget: string, required: false }
+              - { name: youtube, label: יוטיוב, widget: string, required: false }
+          - { name: remoteSupportUrl, label: "קישור להשתלטות מרחוק (ריק = הפריט לא יוצג בתפריט)", widget: string, required: false }
+          - { name: footerAbout, label: משפט על החברה בתחתית האתר, widget: text, required: false }
+          - { name: seoDescription, label: "תיאור האתר לגוגל (ברירת מחדל, עד כ-155 תווים)", widget: text }
+
+  # -------------------------------------------------------------- downloads
+  - name: downloads
+    label: קבצים להורדה
+    files:
+      - name: downloads
+        label: רשימת המדריכים והקבצים להורדה
+        file: src/content/downloads.json
+        fields:
+          - name: items
+            label: קבצים (אפשר לגרור כדי לשנות סדר)
+            label_singular: קובץ
+            widget: list
+            summary: "{{fields.title}}"
+            fields:
+              - { name: title, label: כותרת, widget: string }
+              - { name: desc, label: תיאור קצר, widget: string, required: false }
+              - name: file
+                label: קובץ
+                widget: file
+                media_folder: /src/files
+                public_folder: /files
+
+  # ------------------------------------------------------------------- home
+  - name: home
+    label: דף הבית
+    files:
+      - name: home
+        label: דף הבית
+        file: src/content/home.json
+        fields:
+          - { name: heroTitle, label: כותרת ראשית, widget: string }
+          - { name: heroSubtitle, label: משפט משנה, widget: text }
+          - { name: heroCtaContact, label: "טקסט כפתור 'צור קשר'", widget: string }
+          - { name: heroCtaCall, label: "טקסט כפתור 'התקשרו'", widget: string }
+          - { name: tilesTitle, label: כותרת אזור השירותים, widget: string }
+          - name: tiles
+            label: כרטיסי שירותים
+            label_singular: כרטיס
+            widget: list
+            allow_add: false
+            allow_remove: false
+            allow_reorder: true
+            summary: "{{fields.title}}"
+            fields:
+              - { name: title, label: כותרת, widget: string }
+              - { name: text, label: טקסט קצר, widget: text }
+              - { name: image, label: תמונה (לא חובה), widget: image, required: false }
+              - { name: url, widget: hidden }
+          - { name: whyTitle, label: "כותרת אזור 'למה אנחנו'", widget: string }
+          - name: why
+            label: "נקודות 'למה אנחנו'"
+            label_singular: נקודה
+            widget: list
+            summary: "{{fields.title}}"
+            fields:
+              - { name: title, label: כותרת, widget: string }
+              - { name: text, label: טקסט, widget: text }
+              - name: icon
+                label: אייקון
+                widget: select
+                options:
+                  - { label: ענן, value: cloud }
+                  - { label: תמיכה, value: support }
+                  - { label: מגן, value: shield }
+                  - { label: אוזניות, value: headset }
+          - { name: customersTitle, label: כותרת אזור הלקוחות, widget: string }
+          - name: customers
+            label: "לוגואים של לקוחות (האזור מוסתר כשהרשימה ריקה)"
+            label_singular: לקוח
+            widget: list
+            required: false
+            summary: "{{fields.name}}"
+            fields:
+              - { name: name, label: שם הלקוח, widget: string }
+              - { name: logo, label: לוגו, widget: image }
+          - { name: contactTitle, label: כותרת אזור יצירת הקשר, widget: string }
+          - { name: contactText, label: טקסט אזור יצירת הקשר, widget: string }
+
+  # --------------------------------------------------------------- services
+  - name: services
+    label: שירותים ומוצרים
+    label_singular: עמוד שירות
+    folder: src/pages/services
+    extension: md
+    format: frontmatter
+    create: false
+    delete: false
+    identifier_field: title
+    summary: "{{title}}"
+    fields:
+      - { name: title, label: כותרת העמוד, widget: string }
+      - { name: intro, label: משפט פתיחה, widget: text, required: false }
+      - { name: image, label: תמונה ראשית, widget: image, required: false }
+      - { name: imageAlt, label: "תיאור התמונה (לנגישות – חובה אם יש תמונה)", widget: string, required: false }
+      - { name: body, label: תוכן העמוד, widget: markdown }
+      - name: models
+        label: דגמים
+        label_singular: דגם
+        widget: list
+        required: false
+        summary: "{{fields.name}}"
+        fields:
+          - { name: name, label: שם הדגם, widget: string }
+          - { name: image, label: תמונה, widget: image, required: false }
+          - { name: text, label: תיאור קצר, widget: text, required: false }
+      - { name: seoTitle, label: "כותרת לגוגל (לא חובה)", widget: string, required: false }
+      - { name: seoDescription, label: "תיאור לגוגל (עד כ-155 תווים)", widget: text, required: false }
+      - { name: menu, widget: hidden }
+
+  # ------------------------------------------------------------------ pages
+  - name: pages
+    label: עמודים
+    label_singular: עמוד
+    folder: src/pages
+    extension: md
+    format: frontmatter
+    create: false
+    delete: false
+    identifier_field: title
+    summary: "{{title}}"
+    fields:
+      - { name: title, label: כותרת העמוד, widget: string }
+      - { name: intro, label: משפט פתיחה, widget: text, required: false }
+      - { name: image, label: תמונה, widget: image, required: false }
+      - { name: imageAlt, label: "תיאור התמונה (לנגישות – חובה אם יש תמונה)", widget: string, required: false }
+      - { name: body, label: תוכן העמוד, widget: markdown, required: false }
+      - { name: seoTitle, label: "כותרת לגוגל (לא חובה)", widget: string, required: false }
+      - { name: seoDescription, label: "תיאור לגוגל (עד כ-155 תווים)", widget: text, required: false }
+      - { name: layout, widget: hidden }
+      - { name: permalink, widget: hidden }
+      - { name: menu, widget: hidden }
+      - { name: sitemap, widget: hidden }
+
+  # ------------------------------------------------------------------ legal
+  - name: legal
+    label: מסמכים משפטיים
+    label_singular: מסמך
+    folder: src/pages/legal
+    extension: md
+    format: frontmatter
+    create: false
+    delete: false
+    identifier_field: title
+    summary: "{{title}}"
+    fields:
+      - { name: title, label: כותרת, widget: string }
+      - { name: body, label: תוכן, widget: markdown }

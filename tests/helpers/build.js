@@ -1,4 +1,5 @@
-// Builds the site into .tmp-builds/<name> (once per name per test process)
+// Builds the site into .tmp-builds/<pid>/<name> (once per name per test process;
+// test files run in parallel processes, so each gets its own folder)
 // and loads built pages with cheerio.
 const { execFileSync } = require("node:child_process");
 const fs = require("node:fs");
@@ -7,6 +8,9 @@ const cheerio = require("cheerio");
 
 const ROOT = path.resolve(__dirname, "../..");
 const built = new Map();
+process.on("exit", () =>
+  fs.rmSync(path.join(ROOT, ".tmp-builds", String(process.pid)), { recursive: true, force: true })
+);
 
 const BUILDS = {
   preview: {},
@@ -16,7 +20,7 @@ const BUILDS = {
 
 function buildSite(name, env = BUILDS[name] || {}) {
   if (built.has(name)) return built.get(name);
-  const out = path.join(ROOT, ".tmp-builds", name);
+  const out = path.join(ROOT, ".tmp-builds", String(process.pid), name);
   fs.rmSync(out, { recursive: true, force: true });
   const childEnv = { ...process.env, ...env };
   if (!("CONTEXT" in env)) delete childEnv.CONTEXT;
