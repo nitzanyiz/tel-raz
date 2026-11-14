@@ -1,0 +1,5 @@
+# Production branch – currently the temporary "האתר בבנייה" page, served as-is
+# (no build). It's replaced by the real site when "פרסום האתר" fast-forwards
+# this branch to master; master has its own netlify.toml that builds Eleventy.
+[build]
+  publish = "."

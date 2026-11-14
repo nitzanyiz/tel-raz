@@ -1,0 +1,177 @@
+<!doctype html>
+<html lang="he" dir="rtl">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>טלרז תקשורת מתקדמת | האתר בבנייה</title>
+  <link rel="icon" href="favicon.ico" sizes="any">
+  <link rel="icon" type="image/png" href="assets/favicon.png">
+  <link rel="apple-touch-icon" href="assets/apple-touch-icon.png">
+  <meta name="description" content="האתר של טלרז תקשורת מתקדמת בבנייה. ליצירת קשר: 09-7601760 או info@tel-raz.com">
+  <style>
+    :root {
+      --navy: #33394f;
+      --navy-dark: #272c3f;
+      --blue: #446ba4;
+      --bg: #f3f5f9;
+      --card: #ffffff;
+      --text: #1c2433;
+      --muted: #5d6779;
+      --border: #dde3ee;
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      font-family: "Segoe UI", Arial, "Noto Sans Hebrew", sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.6;
+    }
+
+    .hero {
+      background: linear-gradient(rgba(10, 14, 24, .55), rgba(10, 14, 24, .75)), url("assets/hero.png") center / cover;
+      color: #fff;
+      text-align: center;
+      padding: 56px 16px 72px;
+    }
+    .logo-card {
+      display: inline-block;
+      background: #fff;
+      border-radius: 14px;
+      padding: 14px 28px;
+      box-shadow: 0 8px 28px rgba(0, 0, 0, .35);
+    }
+    .logo-card img { display: block; width: min(360px, 70vw); height: auto; }
+    .hero h1 { font-size: clamp(2rem, 7vw, 3.6rem); margin: 32px 0 8px; }
+    .hero p { margin: 0; font-size: clamp(1rem, 3vw, 1.25rem); opacity: .9; }
+
+    main { max-width: 860px; margin: -36px auto 48px; padding: 0 16px; }
+    section {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 24px;
+      margin-bottom: 20px;
+      box-shadow: 0 2px 10px rgba(20, 39, 74, .06);
+    }
+    h2 { margin: 0 0 16px; font-size: 1.4rem; color: var(--navy); }
+    h3 { margin: 0 0 12px; font-size: 1.1rem; color: var(--navy-dark); }
+
+    .contact { display: grid; gap: 12px; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); }
+    .contact a {
+      display: flex; flex-direction: column;
+      padding: 16px; border: 1px solid var(--border); border-radius: 10px;
+      color: var(--navy); text-decoration: none; background: var(--bg);
+    }
+    .contact a:hover, .contact a:focus-visible { border-color: var(--blue); background: #e9eff8; }
+    .contact .label { font-size: .9rem; color: var(--muted); }
+    .contact .value { font-size: 1.25rem; font-weight: 600; direction: ltr; text-align: right; }
+
+    .files ul { list-style: none; margin: 0; padding: 0; }
+    .files li + li { margin-top: 8px; }
+    .files a {
+      display: flex; align-items: center; gap: 12px;
+      padding: 12px 14px; border: 1px solid var(--border); border-radius: 10px;
+      color: var(--text); text-decoration: none;
+    }
+    .files a:hover, .files a:focus-visible { border-color: var(--blue); background: #e9eff8; }
+    .badge {
+      flex: none; min-width: 46px; text-align: center;
+      font-size: .75rem; font-weight: 700; letter-spacing: .03em;
+      color: #fff; background: var(--blue); border-radius: 6px; padding: 4px 6px;
+    }
+    .badge.word { background: #2b579a; }
+    .badge.excel { background: #217346; }
+    .file-title { font-weight: 600; }
+    .file-desc { display: block; font-size: .85rem; color: var(--muted); }
+    .empty { color: var(--muted); margin: 0; }
+
+    footer { text-align: center; color: var(--muted); font-size: .85rem; padding: 0 16px 32px; }
+  </style>
+</head>
+<body>
+  <header class="hero">
+    <div class="logo-card">
+      <img src="assets/logo.png" alt="טלרז תקשורת מתקדמת">
+    </div>
+    <h1>האתר בבנייה</h1>
+    <p>אנחנו עובדים על אתר חדש. בינתיים אפשר ליצור איתנו קשר ולהוריד מסמכים.</p>
+  </header>
+
+  <main>
+    <section id="contact">
+      <h2>ליצירת קשר</h2>
+      <div class="contact">
+        <a href="tel:097601760">
+          <span class="label">טלפון</span>
+          <span class="value">09-7601760</span>
+        </a>
+        <a href="mailto:info@tel-raz.com">
+          <span class="label">מייל</span>
+          <span class="value">info@tel-raz.com</span>
+        </a>
+      </div>
+    </section>
+
+    <section id="support">
+      <h2>שירות ותמיכה</h2>
+      <h3>קבצים להורדה</h3>
+      <div class="files">
+        <ul id="files-list"></ul>
+      </div>
+    </section>
+  </main>
+
+  <footer>© טלרז תקשורת מתקדמת</footer>
+
+  <script>
+    const BADGES = { pdf: ["PDF", ""], doc: ["DOC", "word"], docx: ["DOC", "word"], xls: ["XLS", "excel"], xlsx: ["XLS", "excel"] };
+
+    function renderFiles(listId, items) {
+      const list = document.getElementById(listId);
+      if (!items.length) {
+        const p = document.createElement("p");
+        p.className = "empty";
+        p.textContent = "בקרוב";
+        list.replaceWith(p);
+        return;
+      }
+      for (const item of items) {
+        const ext = item.file.split(".").pop().toLowerCase();
+        const [label, cls] = BADGES[ext] || [ext.toUpperCase(), ""];
+
+        const badge = document.createElement("span");
+        badge.className = "badge " + cls;
+        badge.textContent = label;
+
+        const title = document.createElement("span");
+        title.className = "file-title";
+        title.textContent = item.title;
+
+        const text = document.createElement("span");
+        text.append(title);
+        if (item.desc) {
+          const desc = document.createElement("span");
+          desc.className = "file-desc";
+          desc.textContent = item.desc;
+          text.append(desc);
+        }
+
+        const a = document.createElement("a");
+        a.href = item.file;
+        a.setAttribute("download", "");
+        a.append(badge, text);
+
+        const li = document.createElement("li");
+        li.append(a);
+        list.append(li);
+      }
+    }
+
+    fetch("files.json")
+      .then(r => r.json())
+      .then(files => renderFiles("files-list", files))
+      .catch(() => renderFiles("files-list", []));
+  </script>
+</body>
+</html>

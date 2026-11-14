@@ -1,0 +1,10 @@
+[
+  { "title": "מדריך מקוצר למשתמש למרכזיות Panasonic", "desc": "עבור מרכזיות מסדרה TDA, TDE, NS1000, NS500", "file": "files/הוראות הפעלה למרכזיות דיגיטליות.pdf" },
+  { "title": "מדריך לשינוי שם שלוחה במרכזית Panasonic", "desc": "עבור מרכזיות מסדרה TDA, TDE, NS500", "file": "files/מדריך לשינוי שם שלוחה.pdf" },
+  { "title": "מדריך לחיבור עמדת ראש (מדונה) במרכזיות Panasonic", "desc": "עבור מרכזיות מסדרה TDA, TDE, NS1000, NS500", "file": "files/מדריך לחיבור עמדת ראש (אוזניה).pdf" },
+  { "title": "קובץ אקסל הכנת פתקית שלוחות", "desc": "עבור טלפוני Panasonic", "file": "files/שבלונה ללחיצים.xls" },
+  { "title": "מדריך מקוצר למשתמש למרכזיות אנלוגיות Panasonic", "desc": "עבור מרכזיות מסדרה TE308, TEA308, TES824", "file": "files/מדריך הפעלה TES824, TEA308.pdf" },
+  { "title": "מדריך מקוצר למשתמש iPECS Cloud", "desc": "מדריך לטלפוני LG מסדרה 1000i", "file": "files/מדריך מקוצר למשתמש ענן.pdf" },
+  { "title": "התקנת אפליקציה iPECS ONE בנייד באמצעות QR Code", "desc": "עבור iPECS Cloud", "file": "files/התקנת אפליקציה iPECS ONE בנייד באמצעות QR Code.pdf" },
+  { "title": "מדריך להגדרת 2FA בהתחברות לממשק למשתמש", "desc": "עבור iPECS Cloud", "file": "files/התחברות באמצעות אימות דו שלבי.pdf" }
+]
