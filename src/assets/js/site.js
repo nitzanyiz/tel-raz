@@ -43,13 +43,17 @@
       }
     });
     item.addEventListener("mouseenter", () => {
-      if (!mobile.matches && canHover.matches && trigger.getAttribute("aria-expanded") !== "true") {
+      if (mobile.matches || !canHover.matches) return;
+      // Re-entering (e.g. moving down from the trigger into the panel) always
+      // cancels a pending close.
+      clearTimeout(closeTimer);
+      if (trigger.getAttribute("aria-expanded") !== "true") {
         open(trigger);
         hoverOpenedAt = Date.now();
       }
     });
     item.addEventListener("mouseleave", () => {
-      if (!mobile.matches && canHover.matches) closeTimer = setTimeout(() => closeAll(), 180);
+      if (!mobile.matches && canHover.matches) closeTimer = setTimeout(() => closeAll(), 300);
     });
   });
 

@@ -83,8 +83,11 @@ p { margin: 0 0 1em; }
 .brand { display: flex; align-items: center; flex: none; }
 .brand img { height: 40px; width: auto; display: block; }
 
-.site-nav { flex: 1; display: flex; justify-content: center; }
-.nav-top { display: flex; align-items: center; gap: 4px; list-style: none; margin: 0; padding: 0; }
+.site-nav { flex: 1; display: flex; justify-content: center; align-self: stretch; }
+.nav-top { display: flex; align-items: stretch; align-self: stretch; gap: 4px; list-style: none; margin: 0; padding: 0; }
+/* Items fill the bar's full height so there's no dead strip between a trigger
+   and its panel: the pointer can move straight down into the panel. */
+.nav-item { display: flex; align-items: center; }
 .nav-link, .nav-trigger {
   display: inline-flex; align-items: center; gap: 6px;
   font: inherit; font-size: 1rem; font-weight: 500; color: var(--navy);
@@ -154,7 +157,7 @@ p { margin: 0 0 1em; }
   .site-header.menu-open .site-nav { display: flex; }
   .site-header.menu-open .bar::before { background: #fff; }
   .nav-top { flex-direction: column; align-items: stretch; gap: 0; }
-  .nav-item { border-bottom: 1px solid var(--border); }
+  .nav-item { display: block; border-bottom: 1px solid var(--border); }
   .nav-link, .nav-trigger { width: 100%; justify-content: space-between; padding: 16px 4px; font-size: 1.15rem; border-radius: 0; }
   .nav-trigger[aria-expanded="true"] { background: none; color: var(--blue); }
   .mega-panel { position: static; border: 0; box-shadow: none; border-radius: 0; }

@@ -22,6 +22,10 @@ const frame = (w) => new Promise((r) => { const f = document.createElement("ifra
   ok("mobile menu: main is inert", d.querySelector("main").inert === true);
   ok("mobile menu: footer is inert", d.querySelector(".site-footer").inert === true);
   ok("mobile menu: focus moves into the menu", d.querySelector("#site-nav").contains(d.activeElement));
+  const mt = d.querySelector("[aria-controls=panel-support]");
+  mt.click();
+  ok("mobile menu: an opened section appears below its button",
+    d.getElementById("panel-support").getBoundingClientRect().top >= mt.getBoundingClientRect().bottom - 1);
   d.dispatchEvent(new KeyboardEvent("keydown", { key: "Escape" }));
   ok("mobile menu: Esc releases inert", d.querySelector("main").inert === false);
   ok("mobile menu: Esc returns focus to toggle", d.activeElement === d.querySelector(".menu-toggle"));
@@ -31,9 +35,29 @@ const frame = (w) => new Promise((r) => { const f = document.createElement("ifra
   t.parentElement.dispatchEvent(new MouseEvent("mouseenter"));
   t.click();
   ok("desktop: hover then click keeps the panel open", t.getAttribute("aria-expanded") === "true");
+  // (Timing-based "a later click closes it" isn't checked here: headless
+  // virtual time makes it flaky. Verified in a real browser instead.)
+
+  // Moving from the trigger down into the panel: the pointer leaves the item
+  // (through the gap) and re-enters it via the panel. The panel must stay open.
+  const item = t.parentElement;
+  item.dispatchEvent(new MouseEvent("mouseenter"));
   await new Promise((r) => setTimeout(r, 450));
-  t.click();
-  ok("desktop: a second click closes it", t.getAttribute("aria-expanded") === "false");
+  item.dispatchEvent(new MouseEvent("mouseleave"));
+  await new Promise((r) => setTimeout(r, 60));
+  item.dispatchEvent(new MouseEvent("mouseenter"));
+  await new Promise((r) => setTimeout(r, 400));
+  ok("desktop: moving from the trigger into the panel keeps it open", t.getAttribute("aria-expanded") === "true");
+  item.dispatchEvent(new MouseEvent("mouseleave"));
+  await new Promise((r) => setTimeout(r, 450));
+  ok("desktop: leaving the item closes the panel", t.getAttribute("aria-expanded") === "false");
+  // No dead gap: the menu item must reach down to where the panel starts.
+  const g = (await frame(1280)).document;
+  const gt = g.querySelector("[aria-controls=panel-services]");
+  gt.click();
+  const itemBottom = gt.parentElement.getBoundingClientRect().bottom;
+  const panelTop = g.getElementById("panel-services").getBoundingClientRect().top;
+  ok(`desktop: no gap between menu item and panel (${Math.round(itemBottom)} vs ${Math.round(panelTop)})`, itemBottom >= panelTop - 1);
   document.getElementById("o").textContent = "RESULT\n" + out.join("\n") + "\nEND";
 })();
 </script>
