@@ -11,7 +11,7 @@ models:
     image: /assets/uploads/NS500.webp
     text: מרכזיה גמישה לעסקים קטנים ובינוניים.
   - name: HTS32
-    image: ''
+    image: /assets/uploads/HTS32.webp
     text: '[למילוי: תיאור הדגם]'
   - name: טלפונים
     image: ''
