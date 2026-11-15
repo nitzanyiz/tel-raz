@@ -12,7 +12,7 @@ items:
   - name: KX-DT343 / KX-DT346
     image: /assets/uploads/KX-DT346.webp
     text: ''
-    link: ''
+    link: panasonic-phones-dt346
     linkText: ''
 contactForm: true
 menu:
