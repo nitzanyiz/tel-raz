@@ -7,10 +7,14 @@ Design: [`superpowers/specs/2026-11-14-tel-raz-site-design.md`](./superpowers/sp
 
 - **Eleventy 3** builds `src/` → `_site/`. Nunjucks layouts in `src/_includes/`, Markdown pages in `src/pages/`.
 - **Editor content** lives in `src/content/*.json` (settings, home, downloads) and the Markdown front matter/body of `src/pages/**/*.md`. It's loaded as global data in `.eleventy.js` (`site`, `home`, `downloads`).
-- **Routing is developer-owned:** `src/pages/pages.11tydata.js` (default `/<file-name>/`, plain layout) plus `<name>.11tydata.json` overrides; `services/` and `legal/` have their own data files. No `layout` or `permalink` in front matter, so a CMS save can't move a page.
+- **Pages are flat:** every page is `src/pages/<name>.md` at `/<name>/` (file name = address). `src/pages/pages.11tydata.js` gives the default (`layouts/content.njk`); system pages that differ have a `<name>.11tydata.json` (layout and/or fixed permalink, e.g. guides → `/support/guides/`). No `layout` or `permalink` in front matter, so a CMS save can't move a page.
+- **Content vs system pages:** every page has `system: true|false` and `sitemap: true|false` in front matter. The CMS shows one folder as two filtered views: **עמודים** (`system: false`, the editor can add/delete; the address is typed only on create, via `slug: {editable: [create]}`) and **עמודי מערכת** (`system: true`, text + menu only). A hidden third view (`all_pages`) feeds the "קישור לעמוד" dropdowns.
+- **Page links:** items and home tiles store the target's **file name** (`link: ns1000`); templates call `{{ item.link | pageUrl(collections.all) }}` (`lib/pages.js`), which **throws** if the page is gone, so a deleted page fails the build instead of shipping a dead card. Pages with `sitemap: false` (404, thanks) are excluded from the dropdowns.
+- **Address guard:** the build refuses page file names that aren't `^[a-z0-9]+(-[a-z0-9]+)*$` or are reserved (`admin`, `assets`, `files`, `support`); duplicate addresses fail in Eleventy itself.
+- **Content layout:** `layouts/content.njk` = text + `partials/gallery.njk` (position `imagePosition`: side/top/bottom) + item cards (`partials/item-card.njk`, placeholder `assets/img/placeholder.webp`) + the contact form when `contactForm` is on. Gallery and full-screen behavior are in `site.js` (`[data-gallery]`).
 - **The build fails on dead internal links** (`lib/check-links.js`, run on `eleventy.after`). A broken preview never reaches the publish button.
 - **Markdown is not run through Nunjucks** (`markdownTemplateEngine: false`), so editor text can never break the build.
-- **Menu** = `lib/menu.js` → `buildMenu(menuGroups, pages, site)`. Pages opt in with front matter `menu: { title, parent, order }` (the label is `menu.title`, so editing the page title can't break the bar), and `src/_data/menuGroups.json` defines the non-page entries (headers and the external remote-support link). Empty groups and links with empty URLs are dropped.
+- **Menu** = `lib/menu.js` → `buildMenu(menuGroups, pages, site)`. Pages opt in with front matter `menu: { inMenu, title, parent, order }`, editable in the CMS (`parent: ""` = top level; the label is `menu.title`, falling back to the page title). Pages in the menu must say `inMenu: true` explicitly: the CMS writes the switch's default (false) on save, and `src/_data/menuGroups.json` defines the non-page entries (headers and the external remote-support link). Empty groups and links with empty URLs are dropped.
 - **Preview vs production:** `lib/env.js`. Only `CONTEXT=production` (Netlify's production branch) is production. Every other build gets `noindex`, `robots.txt: Disallow: /` and form subjects prefixed `[בדיקה] `.
 - **Admin:** Sveltia CMS at `/admin` (`src/admin/index.html` pins the version; `src/admin/config.yml` defines the forms). `tests/cms.test.js` keeps the config in sync with the content files.
 - **Forms:** Netlify Forms (`contact`, `service-call`), with a honeypot. They redirect to `/thanks/`.
@@ -104,21 +108,21 @@ git checkout -- src   # revert
 
 If hidden front-matter keys get dropped, the route and menu tests fail. Fix `config.yml` before launch.
 
+## Renaming a page's address
+
+The editor can't (on purpose). To move `/old/` to `/new/`: `git mv src/pages/old.md src/pages/new.md`, update any `link: old` in other pages and `src/content/home.json` (the build tells you which, since it fails on dangling links), and add a line to `src/_redirects`:
+
+```
+/old/   /new/   301
+```
+
 ## Adding pages
 
 Use the repo skill `.claude/skills/add-page/SKILL.md` (ask Claude: "add a page …"), or follow it by hand.
 
 ## Enabling page creation for the editor (later)
 
-Not enabled now; the editor edits only. To let them add and remove pages from `/admin`:
+**Done** (2026-11-15): the editor can add and delete content pages, place them in the menu, link item cards and home tiles to any page, and manage page images. What's still developer-only, and how to open it up later:
 
-1. In `src/admin/config.yml`, on the `services` and/or `pages` collections:
-   - set `create: true` and `delete: true`;
-   - add `slug: "{{fields.slug}}"` and a required `slug` string field (English letters, digits and dashes; add a `pattern`);
-   - replace `menu`'s hidden widget with an object widget whose fields are `parent` (a `select` widget with options = the keys in `src/_data/menuGroups.json`) and `order` (number);
-   - for `pages`, the default routing in `pages.11tydata.js` already gives new pages `/<slug>/` with the plain layout.
-   - expose `menu.title` too (the label shown in the bar), with a short max length.
-2. Let them rename and reorder menu headers: add `src/_data/menuGroups.json` as a file collection with `title` and `order` editable, and `key`/`parent`/`urlFromSite`/`external` hidden. Adding or deleting headers stays with the developer (an empty header would vanish from the menu anyway, since `buildMenu` drops empty groups).
-3. Duplicate permalinks already fail the Eleventy build, and dead links fail the link check. Add a slug `pattern` in the CMS so an invalid slug is rejected while the editor is typing it.
-4. Add a section "הוספת עמוד חדש" to the editor guide (section 4) and remove rule 6 in section 5.
-5. Update `tests/cms.test.js` (it asserts `create: false`) to the new policy.
+- **Menu headers** (`src/_data/menuGroups.json`: שירותים, שירותי מרכזיה בענן, מרכזיה, שירות ותמיכה). To let the editor manage them: add the file as a CMS file collection (list with `title`, `order`, a `parent` select over the same list, and a stable hidden `key` generated with the `uuid` widget); turn the `menu.parent` select in both page views into a `relation` to that list; extend `orphanMenuPages` into a build failure if you want stale keys to block the preview; limit nesting to two levels (the panel layout can't show more).
+- **System pages** stay non-deletable; their addresses are fixed in their `.11tydata.json`.

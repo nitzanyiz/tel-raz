@@ -1,74 +1,78 @@
 ---
 name: add-page
-description: Use when adding, removing or moving a page or menu item on the tel-raz.com site (a new service/product page, a new info page, a new menu header, or an external menu link).
+description: Use when adding, removing, renaming or moving a page or menu item on the tel-raz.com site (a content page, a system page, a menu header, or an external menu link).
 ---
 
-# Add a page to tel-raz.com
+# Pages and menu on tel-raz.com
 
-The menu builds itself from page front matter plus `src/_data/menuGroups.json` (see `lib/menu.js`). Adding a page is: one Markdown file, an optional menu group, and keeping the CMS config and tests in sync.
+**Most of this is the editor's job now.** In the CMS (`/admin`), **עמודים** lets them add and delete content pages, set images, item cards with page links, and menu placement. Do it yourself only when they ask, when you're scripting content, or for the developer-only parts below. In every case, edit the files the same way the CMS would, so the CMS can keep editing them.
 
-## 1. Decide the kind of page
+## Structure (one folder)
 
-| Kind | Folder | Layout / URL |
-|---|---|---|
-| Service or product (has a "models" list and a contact form at the bottom) | `src/pages/services/` | Set by `services.11tydata.js`: `layouts/product.njk`, URL `/services/<file-name>/` |
-| General page (text, optional image) | `src/pages/` | Set by `pages.11tydata.js`: `layouts/page.njk`, URL `/<file-name>/`. A different layout or URL goes in a `<file-name>.11tydata.json` next to it (see `guides.11tydata.json`) |
-| Legal | `src/pages/legal/` | Set by `legal.11tydata.js`: URL `/<file-name>/` |
+- Every page is `src/pages/<address>.md` and lives at `/<address>/`. The address is `^[a-z0-9]+(-[a-z0-9]+)*$`, and `admin`, `assets`, `files` and `support` are reserved (the build enforces this).
+- **Content pages** have `system: false` and use `layouts/content.njk` (the default from `pages.11tydata.js`).
+- **System pages** have `system: true`: guides, service-call, contact, thanks, 404, accessibility, privacy. Their layout or URL comes from `<name>.11tydata.json`. The CMS can't delete them.
+- Every page has `sitemap: true|false`. `false` hides it from the sitemap, from search engines and from the "קישור לעמוד" dropdowns (as with 404 and thanks).
 
-File names and slugs are English, lowercase, with dashes (`cloud-backup.md`). Never Hebrew: Hebrew URLs get percent-encoded when shared.
+## Add a content page
 
-## 2. Create the Markdown file
-
-Copy the closest existing page and keep **all** its front-matter keys (the CMS expects them):
+Create `src/pages/<address>.md`. Keep the front-matter keys the CMS writes:
 
 ```yaml
 ---
-title: גיבוי בענן
+system: false
+sitemap: true
+title: מרכזיית NS1000
+intro: משפט פתיחה קצר.
+images:                      # first = main image; [] for none
+  - { src: /assets/uploads/ns1000.webp, alt: מרכזיית NS1000 }
+imagePosition: side          # side | top | bottom
+items: []                    # cards: { name, image?, text?, link?: <page file name>, linkText? }
+contactForm: true
+menu:
+  inMenu: false              # true to show it; ALWAYS explicit (the CMS writes false by default)
+  parent: ""                 # "" = top level, or a header key from src/_data/menuGroups.json
+  order: 1
+  title: ""                  # short menu label; empty = page title
 seoTitle: ""
 seoDescription: "One sentence, up to ~155 chars, in Hebrew."
-intro: משפט פתיחה קצר.
-image: ""
-imageAlt: ""
-models: []                 # services only
-menu:
-  title: גיבוי בענן        # the menu label (developer-owned; the editor can't change it)
-  parent: cloud-pbx        # a key from src/_data/menuGroups.json; omit `parent` for the top bar
-  order: 3                 # position among its siblings
 ---
-Body in Markdown. Use `##` for section headings (the page already has the h1).
-Mark unknown content with [למילוי: ...] so scripts/placeholders.sh lists it.
+Body in Markdown. Use ## for headings (the page already has the h1).
 ```
 
-- Never put `layout` or `permalink` in front matter. The CMS doesn't know those keys, and routing lives in the `.11tydata` files.
-- Keep menu labels short (1–3 words): the bar doesn't wrap them.
-- No `menu` key = the page exists but isn't in the menu (like `/thanks/`).
-- Don't put `{{ }}` or `{% %}` in Markdown; templating is off for Markdown.
-- Pages that shouldn't be in the sitemap get `sitemap: false`.
+- Don't put `layout` or `permalink` in front matter, and no `{{ }}` or `{% %}` in Markdown (templating is off for Markdown).
+- Mark unknown content with `[למילוי: ...]` so `scripts/placeholders.sh` lists it.
+- **Link to it** from an item card or home tile with `link: <address>`. The build fails if the target doesn't exist.
 
-## 3. Menu groups (only if needed)
+## Add or change a system page (developer only)
+
+1. Create the `.md` with `system: true`.
+2. Add `<name>.11tydata.json` with its `layout` (and `permalink` if it isn't `/<name>/`).
+3. Add its name to `SYSTEM_PAGES` in `tests/cms.test.js`.
+4. Add the route to `ROUTES` in `tests/pages.test.js`.
+
+## Menu headers and external links (developer only)
 
 Edit `src/_data/menuGroups.json`:
-- **New header** (a dropdown with no page of its own): `{ "key": "backup", "title": "גיבוי", "parent": "services", "order": 3 }`. Top-level headers have no `parent` and open a full-width panel. Second-level headers become a titled column in the panel.
-- **External link:** `{ "key": "x", "title": "...", "parent": "support", "order": 4, "url": "https://..." , "external": true }`. Use `urlFromSite: "<site.json key>"` instead of `url` when the editor should control the link, and add that key to `src/content/site.json`, `tests/fixtures/site-empty.json`, `tests/fixtures/site-address.json` and the `settings` collection in `src/admin/config.yml`.
-- Headers with no children and links with empty URLs disappear automatically.
+- **Header:** `{ "key": "backup", "title": "גיבוי", "parent": "services", "order": 3 }`.
+- **External link:** `{ ..., "url": "https://...", "external": true }`, or `urlFromSite: "<site.json key>"` when the editor should control it. In that case also add the key to `src/content/site.json`, the `tests/fixtures/site-*.json` files, and the settings collection in `src/admin/config.yml`.
 
-## 4. Keep the CMS and tests in sync
+**A new or removed header must also be updated in the `menu.parent` select options** in **both** page views of `src/admin/config.yml` (`tests/cms.test.js` checks they match). Empty headers and empty links disappear from the menu automatically.
 
-- `src/admin/config.yml`: the page's folder collection must have a field for **every** front-matter key (`tests/cms.test.js` enforces this). Developer-only keys (`menu`, `sitemap`) are `widget: hidden`. A new subfolder needs its own collection (`create: false`, `delete: false`).
-- `tests/pages.test.js`: add the new URL to `ROUTES`. If it's a service page, the home tiles test expects one tile per service URL. Add a tile to `src/content/home.json` (with its `url`), or adjust the test.
-- If the page changes the menu's top level, update `tests/layout.test.js` "menu order".
+## Remove or rename a page
 
-## 5. Verify
+- **Remove:** delete the `.md`. If anything links to it (`link: <name>` in pages or `src/content/home.json`), the build fails and names it: remove or repoint those links. If it was public, add a redirect to `src/_redirects`.
+- **Rename the address:**
+  1. `git mv src/pages/old.md src/pages/new.md`.
+  2. Fix the `link: old` references (the build lists them).
+  3. Add `/old/  /new/  301` to `src/_redirects`.
+
+## Verify
 
 ```bash
 npm test
-scripts/behavior-check.sh   # menu keyboard/hover behavior
-scripts/screens.sh      # look at the open-menu screenshots in .tmp-builds/screens/
-npm start               # click through the menu at desktop and phone widths
+scripts/behavior-check.sh   # menu, item cards, gallery behavior
+scripts/screens.sh          # screenshots in .tmp-builds/screens/
 ```
 
-Commit to `master`, push, check the preview (`https://master--tel-raz.netlify.app`), then publish (Actions → פרסום האתר, or `git push origin master:production`).
-
-## Removing a page
-
-Delete the `.md` file and remove its URL from `tests/pages.test.js` (and its home tile, if it's a service). The menu entry disappears on its own, and so does its header if it was the last child. If the URL was public, consider adding a redirect to `src/_redirects` (`/old/  /new/  301`).
+Commit to `master`, push, check the preview at `https://master--tel-raz.netlify.app`, then publish (Actions → פרסום האתר).
