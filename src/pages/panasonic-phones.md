@@ -14,11 +14,6 @@ items:
     text: ''
     link: panasonic-phones-dt346
     linkText: ''
-  - name: KX-DT321
-    image: /assets/uploads/NT321.webp
-    text: ''
-    link: ''
-    linkText: ''
   - name: KX-T7665
     image: /assets/uploads/t7665.webp
     text: ''
