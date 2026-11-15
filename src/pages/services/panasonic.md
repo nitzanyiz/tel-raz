@@ -5,7 +5,7 @@ image: ''
 imageAlt: ''
 models:
   - name: NS1000
-    image: ''
+    image: /assets/uploads/NS1000.webp
     text: מרכזיה מתקדמת לעסקים בינוניים וגדולים.
   - name: NS500
     image: ''
