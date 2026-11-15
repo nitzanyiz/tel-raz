@@ -4,62 +4,50 @@ const fs = require("node:fs");
 const path = require("node:path");
 const { buildSite, load, fileFor } = require("./helpers/build");
 
-const ROUTES = [
-  "/", "/ipecs-cloud/", "/ip-phones-1000i/", "/panasonic/",
-  "/grandstream/", "/call-transcription/", "/call-center/",
-  "/about/", "/support/guides/", "/support/service-call/", "/contact/",
-  "/accessibility/", "/privacy/", "/thanks/", "/404.html",
-];
-const SERVICE_URLS = ["/ipecs-cloud/", "/ip-phones-1000i/", "/panasonic/", "/grandstream/", "/call-transcription/", "/call-center/"];
+// Home + system pages (the editor can't delete these); content pages are
+// checked dynamically from src/pages so editor changes don't break tests.
+const ROUTES = ["/", "/about/", "/support/guides/", "/support/service-call/", "/contact/", "/accessibility/", "/privacy/", "/thanks/", "/404.html"].filter(
+  (r) => r !== "/about/" || fs.existsSync(path.join(__dirname, "../src/pages/about.md"))
+);
+const CONTENT_URLS = fs.readdirSync(path.join(__dirname, "../src/pages"))
+  .filter((f) => f.endsWith(".md"))
+  .filter((f) => /^system: false$/m.test(fs.readFileSync(path.join(__dirname, "../src/pages", f), "utf8")))
+  .map((f) => `/${f.slice(0, -3)}/`);
 const read = (out, f) => fs.readFileSync(path.join(out, f), "utf8");
 
 test("every route exists", () => {
   const out = buildSite("preview");
-  for (const r of ROUTES) assert.ok(fs.existsSync(fileFor(out, r)), `missing ${r}`);
-});
-
-test("old /services/ addresses are gone", () => {
-  assert.ok(!fs.existsSync(fileFor(buildSite("preview"), "/services/panasonic/")));
+  for (const r of [...ROUTES, ...CONTENT_URLS]) assert.ok(fs.existsSync(fileFor(out, r)), `missing ${r}`);
 });
 
 test("one h1 per page", () => {
   const out = buildSite("preview");
-  for (const r of ROUTES) assert.strictEqual(load(out, r)("h1").length, 1, r);
+  for (const r of [...ROUTES, ...CONTENT_URLS]) assert.strictEqual(load(out, r)("h1").length, 1, r);
 });
 
-test("services panel columns", () => {
+test("dropdown panels: titled columns for sub-headers, an untitled column for direct pages", () => {
+  const { expectedMenu } = require("./helpers/menu-data");
+  const site = JSON.parse(fs.readFileSync(path.join(__dirname, "../src/content/site.json"), "utf8"));
   const $ = load(buildSite("preview"), "/");
-  const titles = $("#panel-services .mega-col-title").map((_, el) => $(el).text().trim()).get();
-  assert.deepStrictEqual(titles, ["שירותי מרכזיה בענן", "מרכזיה"]);
-  const last = $("#panel-services .mega-col").last().find("a").map((_, el) => $(el).text().trim()).get();
-  assert.deepStrictEqual(last, ["תמלול שיחות", "מוקד קול סנטר"]);
+  for (const top of expectedMenu(site).filter((n) => n.children.length)) {
+    const panel = $(`#panel-${top.key}`);
+    const subGroups = top.children.filter((c) => c.children.length);
+    const direct = top.children.filter((c) => !c.children.length);
+    assert.deepStrictEqual(panel.find(".mega-col-title").map((_, e) => $(e).text().trim()).get(), subGroups.map((g) => g.title), top.key);
+    if (direct.length) {
+      const visible = (e) => { const c = $(e).clone(); c.find(".visually-hidden").remove(); return c.text().trim(); };
+      assert.deepStrictEqual(panel.find(".mega-col-untitled a").map((_, e) => visible(e)).get(), direct.map((d) => d.title), top.key);
+    }
+  }
 });
-
 test("support panel hides remote link while its url is empty", () => {
   const $ = load(buildSite("empty", { SITE_DATA_FILE: "tests/fixtures/site-empty.json" }), "/");
   const links = $("#panel-support a").map((_, el) => $(el).text().trim()).get();
   assert.deepStrictEqual(links, ["מדריכים", "טופס קריאת שירות"]);
 });
 
-test("product models", () => {
-  const $ = load(buildSite("preview"), "/panasonic/");
-  const names = $(".item-card h3").map((_, el) => $(el).text().trim()).get();
-  assert.strictEqual(names.length, 4);
-  assert.ok(names.includes("NS1000"));
-  assert.strictEqual(load(buildSite("preview"), "/call-center/")(".items").length, 0);
-});
-
-test("service pages end with the contact form", () => {
-  for (const url of SERVICE_URLS) {
-    const $ = load(buildSite("preview"), url);
-    assert.strictEqual($('form[name="contact"] input[name="page"]').val(), url);
-  }
-});
-
 test("home sections", () => {
   const $ = load(buildSite("preview"), "/");
-  const tiles = $(".tile").map((_, el) => $(el).attr("href")).get();
-  assert.deepStrictEqual(tiles, SERVICE_URLS);
   assert.strictEqual($(".customers").length, 0);
   assert.strictEqual($('form[name="contact"]').length, 1);
   assert.strictEqual($(".why-grid > *").length, 4);
@@ -72,7 +60,7 @@ test("robots", () => {
 
 test("sitemap", () => {
   const xml = read(buildSite("prod"), "sitemap.xml");
-  assert.ok(xml.includes("<loc>https://tel-raz.com/panasonic/</loc>"));
+  for (const u of CONTENT_URLS) assert.ok(xml.includes(`<loc>https://tel-raz.com${u}</loc>`), u);
   assert.ok(xml.includes("<loc>https://tel-raz.com/</loc>"));
   assert.ok(!xml.includes("/thanks/"));
   assert.ok(!xml.includes("404"));

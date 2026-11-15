@@ -27,3 +27,13 @@ test("no manual preview deploy script (master's branch deploy is the preview)", 
   const { scripts } = JSON.parse(fs.readFileSync(path.join(ROOT, "package.json"), "utf8"));
   assert.strictEqual(scripts.preview, undefined);
 });
+
+test("publishing builds the site first, so a broken preview can't be published", () => {
+  const wf = YAML.parse(fs.readFileSync(path.join(ROOT, ".github/workflows/publish.yml"), "utf8"));
+  const steps = Object.values(wf.jobs)[0].steps.map((s) => s.run || "");
+  const build = steps.findIndex((r) => /npm ci/.test(r) && /npm run build/.test(r));
+  const push = steps.findIndex((r) => r.includes("refs/heads/production"));
+  assert.ok(build !== -1, "no build step");
+  assert.ok(build < push, "build must run before the push");
+});
+

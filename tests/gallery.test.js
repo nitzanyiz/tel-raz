@@ -2,7 +2,6 @@ const test = require("node:test");
 const assert = require("node:assert");
 const fs = require("node:fs");
 const path = require("node:path");
-const YAML = require("yaml");
 const cheerio = require("cheerio");
 const { buildCopy } = require("./helpers/build-copy");
 
@@ -13,14 +12,13 @@ const IMGS = [
 ];
 
 function aboutWith(images) {
+  // A fixture page in a throwaway copy (doesn't depend on the editor's pages).
   let $;
-  const r = buildCopy((dir) => {
-    const file = path.join(dir, "src/pages/about.md");
-    const [, fm, body] = fs.readFileSync(file, "utf8").match(/^---\n([\s\S]*?)\n---\n?([\s\S]*)$/);
-    const d = YAML.parse(fm);
-    d.images = images;
-    fs.writeFileSync(file, `---\n${YAML.stringify(d)}---\n${body}`);
-  }, (out) => { $ = cheerio.load(fs.readFileSync(path.join(out, "about/index.html"), "utf8")); });
+  const md = `---\nsystem: false\nsitemap: true\ntitle: גלריה\nimages: ${JSON.stringify(images)}\nimagePosition: side\nitems: []\ncontactForm: false\n---\nטקסט\n`;
+  const r = buildCopy(
+    (dir) => fs.writeFileSync(path.join(dir, "src/pages/fixture-gallery.md"), md),
+    (out) => { $ = cheerio.load(fs.readFileSync(path.join(out, "fixture-gallery/index.html"), "utf8")); }
+  );
   assert.ok(r.ok, r.output);
   return $;
 }
@@ -39,7 +37,7 @@ test("three images: three thumbnails, the first one current", () => {
   assert.strictEqual(thumbs.length, 3);
   assert.strictEqual(thumbs.first().attr("aria-current"), "true");
   assert.strictEqual(thumbs.eq(1).attr("aria-current"), undefined);
-  assert.strictEqual(thumbs.eq(2).attr("aria-label"), "תמונה 3 מתוך 3");
+  assert.strictEqual(thumbs.eq(2).attr("aria-label"), "תמונה 3 מתוך 3: תמונה שלישית");
   assert.strictEqual(thumbs.eq(1).attr("data-src"), "/assets/img/hero.png");
   assert.strictEqual(thumbs.eq(1).attr("data-alt"), "תמונה שנייה");
   assert.strictEqual($("dialog.lightbox .lightbox-next").length, 1);
@@ -49,4 +47,13 @@ test("every main and full-screen image has alt text; thumbnails are labelled but
   const $ = aboutWith(IMGS);
   assert.ok($(".gallery-main img").attr("alt"));
   $(".gallery-thumb").each((_, b) => assert.ok($(b).attr("aria-label")));
+});
+
+test("screen readers hear each image's description on the page", () => {
+  const $ = aboutWith(IMGS);
+  const main = $("button.gallery-main");
+  assert.strictEqual(main.attr("aria-label"), undefined, "an aria-label would hide the image's alt");
+  assert.strictEqual(main.find("img").attr("alt"), "תמונה ראשונה");
+  assert.match(main.find(".visually-hidden").text(), /מסך מלא/);
+  assert.strictEqual($(".gallery-thumb").eq(1).attr("aria-label"), "תמונה 2 מתוך 3: תמונה שנייה");
 });

@@ -16,7 +16,8 @@
       <h2>קישורים מהירים</h2>
       <ul>
         <li><a href="/">דף הבית</a></li>
-        <li><a href="/about/">עלינו</a></li>
+        {%- set aboutUrl = "about" | pageUrlIfExists(collections.all) %}
+        {%- if aboutUrl %}<li><a href="{{ aboutUrl }}">עלינו</a></li>{% endif %}
         <li><a href="/support/guides/">מדריכים</a></li>
         <li><a href="/support/service-call/">טופס קריאת שירות</a></li>
         <li><a href="/contact/">צור קשר</a></li>

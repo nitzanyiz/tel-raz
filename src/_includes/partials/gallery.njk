@@ -3,14 +3,15 @@
 {%- import "partials/icons.njk" as icons -%}
 {%- set count = images.length -%}
 <div class="gallery" data-gallery>
-  <button type="button" class="gallery-main" aria-label="הגדלת התמונה למסך מלא">
+  <button type="button" class="gallery-main">
     <img src="{{ images[0].src }}" alt="{{ images[0].alt }}">
+    <span class="visually-hidden">(הגדלה למסך מלא)</span>
   </button>
   {%- if count > 1 %}
   <div class="gallery-thumbs" role="group" aria-label="תמונות נוספות">
     {%- for img in images %}
     <button type="button" class="gallery-thumb" data-src="{{ img.src }}" data-alt="{{ img.alt }}"
-      aria-label="תמונה {{ loop.index }} מתוך {{ count }}"{% if loop.first %} aria-current="true"{% endif %}>
+      aria-label="תמונה {{ loop.index }} מתוך {{ count }}: {{ img.alt }}"{% if loop.first %} aria-current="true"{% endif %}>
       <img src="{{ img.src }}" alt="" loading="lazy">
     </button>
     {%- endfor %}

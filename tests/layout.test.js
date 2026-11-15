@@ -4,14 +4,16 @@ const { buildSite, load } = require("./helpers/build");
 
 const home = (name) => load(buildSite(name), "/");
 
-test("menu order", () => {
+test("menu order follows the pages' menu settings", () => {
+  const { expectedMenu } = require("./helpers/menu-data");
+  const site = JSON.parse(require("node:fs").readFileSync(require("node:path").join(__dirname, "../src/content/site.json"), "utf8"));
   const $ = home("preview");
   const labels = $(".site-header nav .nav-top > li > .nav-link, .site-header nav .nav-top > li > .nav-trigger")
     .map((_, el) => $(el).text().trim())
     .get();
-  assert.deepStrictEqual(labels, ["שירותים", "שירות ותמיכה", "עלינו", "צור קשר"]);
+  assert.deepStrictEqual(labels, expectedMenu(site).map((n) => n.title));
+  assert.ok(labels.length >= 2);
 });
-
 test("phone button", () => {
   const $ = home("preview");
   const btn = $(".phone-btn").first();

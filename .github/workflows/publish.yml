@@ -16,6 +16,15 @@ jobs:
     steps:
       - uses: actions/checkout@v4
         with:
+          ref: master
           fetch-depth: 0
+      # Build master first: if the preview is broken (e.g. a card links to a
+      # deleted page), the run fails with a red X instead of publishing it.
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - name: Build the site (fails if the preview is broken)
+        run: npm ci && npm run build
       - name: Fast-forward production to master
         run: git push origin origin/master:refs/heads/production

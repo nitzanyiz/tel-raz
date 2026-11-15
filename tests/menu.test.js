@@ -80,3 +80,12 @@ test("a page under a header that doesn't exist is reported, not shown", () => {
   assert.deepStrictEqual(orphanMenuPages(groups, extra), ["/x/"]);
   assert.strictEqual(JSON.stringify(buildMenu(groups, extra, site)).includes("/x/"), false);
 });
+
+test("a menu page without a position goes last, not first", () => {
+  for (const order of [null, undefined]) {
+    const extra = [...pages, { url: "/sale/", title: "מבצע", menu: { inMenu: true, parent: "", order } }];
+    const titles = buildMenu(groups, extra, site).map((n) => n.title);
+    assert.strictEqual(titles[titles.length - 1], "מבצע", String(order));
+    assert.strictEqual(titles[0], "שירותים");
+  }
+});

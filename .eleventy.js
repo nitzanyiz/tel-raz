@@ -34,6 +34,13 @@ module.exports = function (eleventyConfig) {
     resolvePageLink(slug, all.map((p) => ({ fileSlug: p.page.fileSlug, url: p.url, inputPath: p.inputPath })))
   );
 
+  // Fixed links to content pages the editor may delete (e.g. the footer's עלינו):
+  // {% set u = "about" | pageUrlIfExists(collections.all) %} renders nothing if it's gone.
+  eleventyConfig.addFilter("pageUrlIfExists", (slug, all) => {
+    const p = all.find((x) => x.page.fileSlug === slug && x.inputPath.includes("/src/pages/"));
+    return p ? p.url : null;
+  });
+
   // Every page's file name is its address: refuse invalid or reserved ones
   // (e.g. a page called "admin" would shadow the CMS).
   eleventyConfig.on("eleventy.before", ({ directories }) => {
