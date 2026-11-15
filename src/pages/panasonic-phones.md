@@ -7,7 +7,7 @@ items:
   - name: KX-DT333
     image: /assets/uploads/KX-DT333.webp
     text: ''
-    link: ''
+    link: panasonic-phones-dt333
     linkText: ''
   - name: KX-DT343 / KX-DT346
     image: /assets/uploads/KX-DT346.webp
