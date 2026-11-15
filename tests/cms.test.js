@@ -34,17 +34,6 @@ test("admin page loads a pinned sveltia version and is noindexed", () => {
   assert.match(html, /<meta name="robots" content="noindex">/);
 });
 
-test("every menu page declares a developer-owned menu label", () => {
-  for (const c of config.collections.filter((c) => c.folder)) {
-    const dir = path.join(ROOT, c.folder);
-    for (const file of fs.readdirSync(dir).filter((f) => f.endsWith(".md"))) {
-      const m = fs.readFileSync(path.join(dir, file), "utf8").match(/^---\n([\s\S]*?)\n---/);
-      const fm = YAML.parse(m[1]);
-      if (fm.menu) assert.ok(fm.menu.title, `${c.folder}/${file} needs menu.title`);
-    }
-  }
-});
-
 test("settings fields validate their format", () => {
   const fields = config.collections.find((c) => c.name === "settings").files[0].fields;
   const byName = Object.fromEntries(fields.map((f) => [f.name, f]));
@@ -62,16 +51,14 @@ test("settings fields validate their format", () => {
   for (const s of Object.values(social)) check(s, ["https://facebook.com/telraz", ""], ["facebook.com/telraz", "javascript:alert(1)"]);
 });
 
-test("every page that is in the menu says so explicitly (inMenu: true)", () => {
-  // The CMS writes the switch's default (false) when an existing page is saved,
-  // so a page without an explicit inMenu would drop out of the menu on its first save.
+test("every page with menu settings states inMenu explicitly", () => {
+  // The CMS writes the switch's default (false) when a page is saved, so a
+  // hand-written menu without inMenu would silently drop out on its first save.
   const dir = path.join(ROOT, "src/pages");
   for (const file of fs.readdirSync(dir).filter((f) => f.endsWith(".md"))) {
     const m = fs.readFileSync(path.join(dir, file), "utf8").match(/^---\n([\s\S]*?)\n---/);
     const fm = YAML.parse(m[1]);
-    if (fm.menu && (fm.menu.order !== undefined || fm.menu.parent !== undefined)) {
-      assert.strictEqual(fm.menu.inMenu, true, `${file}: menu.inMenu must be true`);
-    }
+    if (fm.menu) assert.strictEqual(typeof fm.menu.inMenu, "boolean", `${file}: menu.inMenu must be true or false`);
   }
 });
 

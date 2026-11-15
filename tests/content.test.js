@@ -125,3 +125,15 @@ test("home tiles link to the pages chosen in home.json", () => {
   assert.ok(home.tiles.every((t) => !("url" in t)), "tiles use link, not url");
 });
 
+
+test("item cards are white cards at rest; only linked cards float on hover", () => {
+  const css = fs.readFileSync(path.join(__dirname, "../src/assets/css/site.css"), "utf8");
+  const rule = (sel) => (css.match(new RegExp(`(^|\\n)${sel.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")} \\{([^}]*)\\}`)) || [])[2] || "";
+  const rest = rule(".item-card");
+  assert.match(rest, /background: var\(--card\)/);
+  assert.match(rest, /border: 1px solid var\(--border\)/);
+  assert.match(rest, /box-shadow: var\(--shadow\)/);
+  const hover = rule(".item-card--link:hover, .item-card--link:focus-visible");
+  assert.match(hover, /transform: translateY\(-4px\)/);
+  assert.doesNotMatch(hover, /background/, "the background doesn't change on hover any more");
+});
