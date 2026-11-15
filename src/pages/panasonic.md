@@ -19,6 +19,7 @@ models:
 seoTitle: ''
 seoDescription: 'מרכזיות Panasonic לעסקים: NS1000, NS500 וטלפונים. התקנה, תחזוקה ושירות.'
 menu:
+  inMenu: true
   title: מרכזיית Panasonic
   parent: pbx
   order: 1

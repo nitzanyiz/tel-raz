@@ -7,6 +7,7 @@ image: ""
 imageAlt: ""
 models: []
 menu:
+  inMenu: true
   title: "תמלול שיחות"
   parent: services
   order: 3

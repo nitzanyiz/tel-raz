@@ -6,6 +6,7 @@ imageAlt: ''
 seoTitle: טופס לפתיחת קריאת שירות
 seoDescription: פתיחת קריאת שירות לצוות התמיכה של טל רז.
 menu:
+  inMenu: true
   title: טופס קריאת שירות
   parent: support
   order: 3

@@ -10,6 +10,7 @@ models:
 seoTitle: ''
 seoDescription: מרכזיות וטלפונים של Grandstream לעסקים – פתרון משתלם ואמין.
 menu:
+  inMenu: true
   title: מרכזיית Grandstream
   parent: pbx
   order: 2

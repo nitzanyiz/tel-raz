@@ -1,6 +1,6 @@
 const test = require("node:test");
 const assert = require("node:assert");
-const { buildMenu } = require("../lib/menu");
+const { buildMenu, orphanMenuPages } = require("../lib/menu");
 
 const groups = [
   { key: "services", title: "שירותים", order: 1 },
@@ -63,4 +63,20 @@ test("drops a settings link that is blank or still a placeholder", () => {
     const support = find(buildMenu(groups, pages, { remoteSupportUrl: v }), "support");
     assert.strictEqual(find(support.children, "remote"), undefined, JSON.stringify(v));
   }
+});
+
+test("a page with inMenu: false is left out of the menu", () => {
+  const hidden = pages.map((p) => (p.url === "/about/" ? { ...p, menu: { ...p.menu, inMenu: false } } : p));
+  assert.strictEqual(find(buildMenu(groups, hidden, site), "/about/"), undefined);
+});
+
+test('parent "" puts a page at the top level', () => {
+  const extra = [...pages, { url: "/sale/", title: "מבצע", menu: { inMenu: true, parent: "", order: 5 } }];
+  assert.ok(find(buildMenu(groups, extra, site), "/sale/"));
+});
+
+test("a page under a header that doesn't exist is reported, not shown", () => {
+  const extra = [...pages, { url: "/x/", title: "x", menu: { inMenu: true, parent: "no-such-header", order: 1 } }];
+  assert.deepStrictEqual(orphanMenuPages(groups, extra), ["/x/"]);
+  assert.strictEqual(JSON.stringify(buildMenu(groups, extra, site)).includes("/x/"), false);
 });

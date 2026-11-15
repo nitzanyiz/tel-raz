@@ -6,6 +6,7 @@ imageAlt: ''
 seoTitle: צור קשר
 seoDescription: יצירת קשר עם טלרז תקשורת מתקדמת – טלפון, דוא"ל וטופס פנייה.
 menu:
+  inMenu: true
   title: צור קשר
   order: 4
 ---

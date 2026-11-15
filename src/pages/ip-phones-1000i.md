@@ -7,6 +7,7 @@ models: []
 seoTitle: ''
 seoDescription: טלפוני IP מסדרה 1000i לעבודה עם מרכזיית ענן – איכות שמע גבוהה ותפעול פשוט.
 menu:
+  inMenu: true
   title: טלפוני IP מסדרה 1000i
   parent: cloud-pbx
   order: 2

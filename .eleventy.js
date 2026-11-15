@@ -1,6 +1,6 @@
 const fs = require("node:fs");
 const { isProduction, subjectPrefix } = require("./lib/env");
-const { buildMenu } = require("./lib/menu");
+const { buildMenu, orphanMenuPages } = require("./lib/menu");
 const { localBusiness, filled } = require("./lib/seo");
 const { findBrokenLinks } = require("./lib/check-links");
 const { encodeFilePath } = require("./lib/urls");
@@ -44,13 +44,12 @@ module.exports = function (eleventyConfig) {
   });
 
   eleventyConfig.addCollection("menuPages", (api) => api.getAll().filter((item) => item.data.menu));
-  eleventyConfig.addFilter("buildMenu", (items, groups, site) =>
-    buildMenu(
-      groups,
-      items.map((item) => ({ url: item.url, title: item.data.title, menu: item.data.menu })),
-      site
-    )
-  );
+  eleventyConfig.addFilter("buildMenu", (items, groups, site) => {
+    const pages = items.map((item) => ({ url: item.url, title: item.data.title, menu: item.data.menu }));
+    const orphans = orphanMenuPages(groups, pages);
+    if (orphans.length) console.warn(`[menu] pages under a missing header (left out of the menu): ${orphans.join(", ")}`);
+    return buildMenu(groups, pages, site);
+  });
 
   // Fail the build on dead internal links (e.g. a CMS save that moved a page),
   // so a broken preview never reaches the publish button.

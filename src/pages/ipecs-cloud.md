@@ -7,6 +7,7 @@ models: []
 seoTitle: iPECS Cloud - מרכזיית ענן
 seoDescription: 'מרכזיית ענן iPECS Cloud לעסקים: שלוחות, ניתוב שיחות, אפליקציה לנייד ועבודה מכל מקום.'
 menu:
+  inMenu: true
   title: iPECS Cloud
   parent: cloud-pbx
   order: 1

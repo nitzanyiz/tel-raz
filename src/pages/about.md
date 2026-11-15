@@ -9,6 +9,7 @@ imageAlt: ''
 seoTitle: ''
 seoDescription: טלרז תקשורת מתקדמת – מי אנחנו ומה אנחנו עושים.
 menu:
+  inMenu: true
   title: עלינו
   order: 3
 ---

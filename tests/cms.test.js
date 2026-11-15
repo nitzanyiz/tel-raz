@@ -102,3 +102,16 @@ test("settings fields validate their format", () => {
   check(byName.remoteSupportUrl, ["https://anydesk.com/he/downloads", ""], ["anydesk.com", "javascript:alert(1)", "http://x.com"]);
   for (const s of Object.values(social)) check(s, ["https://facebook.com/telraz", ""], ["facebook.com/telraz", "javascript:alert(1)"]);
 });
+
+test("every page that is in the menu says so explicitly (inMenu: true)", () => {
+  // The CMS writes the switch's default (false) when an existing page is saved,
+  // so a page without an explicit inMenu would drop out of the menu on its first save.
+  const dir = path.join(ROOT, "src/pages");
+  for (const file of fs.readdirSync(dir).filter((f) => f.endsWith(".md"))) {
+    const m = fs.readFileSync(path.join(dir, file), "utf8").match(/^---\n([\s\S]*?)\n---/);
+    const fm = YAML.parse(m[1]);
+    if (fm.menu && (fm.menu.order !== undefined || fm.menu.parent !== undefined)) {
+      assert.strictEqual(fm.menu.inMenu, true, `${file}: menu.inMenu must be true`);
+    }
+  }
+});
