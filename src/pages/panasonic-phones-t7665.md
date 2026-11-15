@@ -17,3 +17,7 @@ seoDescription: ''
 system: false
 sitemap: true
 ---
+
+- תצוגה שורה אחת
+- 8 לחצני תכנות
+- דיבורית
