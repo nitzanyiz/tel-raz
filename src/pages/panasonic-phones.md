@@ -1,6 +1,6 @@
 ---
 title: טלפוני Panasonic
-intro: ''
+intro: טלפונים חכמים מסוג דיגיטלי / IP
 images: []
 imagePosition: side
 items:
