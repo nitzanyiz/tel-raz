@@ -1,5 +1,5 @@
 ---
-title: DT333
+title: KX-DT333
 intro: ''
 images:
   - src: /assets/uploads/KX-DT333.webp
