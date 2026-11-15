@@ -7,7 +7,7 @@ items:
   - name: NS1000
     image: /assets/uploads/NS1000.webp
     text: מרכזיה מתקדמת לעסקים בינוניים וגדולים.
-    link: ''
+    link: panasonic-ns1000
     linkText: ''
   - name: NS500
     image: /assets/uploads/ns500-1.webp
