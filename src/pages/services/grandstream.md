@@ -5,7 +5,7 @@ image: ''
 imageAlt: ''
 models:
   - name: טלפונים
-    image: ''
+    image: /assets/uploads/grandstream-ucm-.webp
     text: מגוון טלפוני IP של Grandstream.
 seoTitle: ''
 seoDescription: מרכזיות וטלפונים של Grandstream לעסקים – פתרון משתלם ואמין.
