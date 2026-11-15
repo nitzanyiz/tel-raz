@@ -30,7 +30,7 @@ f.onload=()=>{const d=f.contentDocument;
   .forEach(sel=>d.querySelector(sel).click());};</script>
 HTML
 
-for page in / /services/panasonic/ /contact/ /support/guides/; do
+for page in / /panasonic/ /contact/ /support/guides/; do
   name=$(echo "$page" | tr '/' '_' | sed 's/^_$/home/; s/^_//; s/_$//')
   for size in 1280,900 1000,800 390,844; do
     w=${size%,*}; h=${size#*,}
@@ -42,7 +42,7 @@ done
 # Open states: desktop mega panel and the mobile menu with an open section.
 shot() { "$CHROME" --headless --disable-gpu --hide-scrollbars --virtual-time-budget=4000 \
   --window-size="$(( $1 > 500 ? $1 : 500 )),$2" --screenshot="$OUT/$3.png" \
-  "http://localhost:$PORT/__frame.html?w=$1&h=$2&p=/services/panasonic/&click=$4" >/dev/null 2>&1; }
+  "http://localhost:$PORT/__frame.html?w=$1&h=$2&p=/panasonic/&click=$4" >/dev/null 2>&1; }
 shot 1280 600 open-services-1280 '[aria-controls=panel-services]'
 shot 1000 600 open-support-1000 '[aria-controls=panel-support]'
 shot 390 844 open-mobile-390 '.menu-toggle,[aria-controls=panel-services]'

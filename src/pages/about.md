@@ -6,14 +6,15 @@ title: עלינו
 intro: |-
   טל רז תקשורת – פתרונות תקשורת וטלפוניה לעסקים.
   מעל 25 שנות ניסיון. מעטפת טכנולוגית אחת. שירות אישי לאורך כל הדרך.
-image: ''
-imageAlt: ''
-seoTitle: ''
+images: []
+imagePosition: side
+seoTitle: ""
 seoDescription: טלרז תקשורת מתקדמת – מי אנחנו ומה אנחנו עושים.
 menu:
   inMenu: true
   title: עלינו
   order: 3
+items: []
 ---
 
 ## מי אנחנו

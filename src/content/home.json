@@ -9,37 +9,37 @@
       "title": "iPECS Cloud",
       "text": "מרכזיה בענן – גמישה, מאובטחת ונגישה מכל מקום.",
       "image": "",
-      "url": "/ipecs-cloud/"
+      "link": "ipecs-cloud"
     },
     {
       "title": "טלפוני IP מסדרה 1000i",
       "text": "מכשירי קצה מתקדמים לעבודה עם מרכזיה בענן.",
       "image": "",
-      "url": "/ip-phones-1000i/"
+      "link": "ip-phones-1000i"
     },
     {
       "title": "מרכזיית Panasonic",
       "text": "מרכזיות אמינות לעסקים, התקנה ותחזוקה.",
       "image": "",
-      "url": "/panasonic/"
+      "link": "panasonic"
     },
     {
       "title": "מרכזיית Grandstream",
       "text": "פתרונות מרכזיה וטלפונים במחיר משתלם.",
       "image": "",
-      "url": "/grandstream/"
+      "link": "grandstream"
     },
     {
       "title": "תמלול שיחות",
       "text": "הפיכת שיחות לטקסט לצורך תיעוד, בקרה ושיפור השירות.",
       "image": "",
-      "url": "/call-transcription/"
+      "link": "call-transcription"
     },
     {
       "title": "מוקד קול סנטר",
       "text": "פתרון מוקד שירות ומכירות מותאם לצרכי העסק.",
       "image": "",
-      "url": "/call-center/"
+      "link": "call-center"
     }
   ],
   "whyTitle": "למה טלרז",

@@ -3,16 +3,17 @@ system: false
 sitemap: true
 title: iPECS Cloud
 intro: מרכזיה בענן לעסקים – בלי ציוד בשרתים, עם כל היכולות של מרכזיה מתקדמת.
-image: ''
-imageAlt: ''
-models: []
+images: []
+imagePosition: side
 seoTitle: iPECS Cloud - מרכזיית ענן
-seoDescription: 'מרכזיית ענן iPECS Cloud לעסקים: שלוחות, ניתוב שיחות, אפליקציה לנייד ועבודה מכל מקום.'
+seoDescription: "מרכזיית ענן iPECS Cloud לעסקים: שלוחות, ניתוב שיחות, אפליקציה לנייד ועבודה מכל מקום."
 menu:
   inMenu: true
   title: iPECS Cloud
   parent: cloud-pbx
   order: 1
+items: []
+contactForm: true
 ---
 
 ## מה זה iPECS Cloud?

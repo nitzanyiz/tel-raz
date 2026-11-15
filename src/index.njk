@@ -19,12 +19,13 @@ bodyClass: page-home
     <h2 class="section-title">{{ home.tilesTitle }}</h2>
     <div class="tiles">
       {%- for tile in home.tiles %}
-      <a class="tile" href="{{ tile.url }}">
+      {%- set tileUrl = tile.link | pageUrl(collections.all) %}
+      {% if tileUrl %}<a class="tile" href="{{ tileUrl }}">{% else %}<div class="tile">{% endif %}
         {%- if tile.image %}<img src="{{ tile.image }}" alt="" loading="lazy">{% endif %}
         <h3>{{ tile.title }}</h3>
         <p>{{ tile.text }}</p>
-        <span class="more" aria-hidden="true">לפרטים ←</span>
-      </a>
+        {%- if tileUrl %}<span class="more" aria-hidden="true">לפרטים נוספים ←</span>{% endif %}
+      {% if tileUrl %}</a>{% else %}</div>{% endif %}
       {%- endfor %}
     </div>
   </div>

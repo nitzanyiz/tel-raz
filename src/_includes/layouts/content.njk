@@ -2,19 +2,20 @@
 layout: layouts/page.njk
 wide: true
 ---
-<article class="prose">
-  {%- if image %}<img class="page-image" src="{{ image }}" alt="{{ imageAlt }}">{% endif %}
-  {{ content | safe }}
-</article>
-{%- if models and models.length %}
-<div class="models">
-  {%- for model in models %}
-  <div class="model">
-    {%- if model.image %}<img src="{{ model.image }}" alt="{{ model.name }}" loading="lazy">{% endif %}
-    <h3>{{ model.name }}</h3>
-    {%- if model.text %}<p>{{ model.text }}</p>{% endif %}
-  </div>
-  {%- endfor %}
+{#- Content page: text + images (position chosen per page), item cards, and
+    an optional contact form. -#}
+{%- set pos = imagePosition or "side" -%}
+{%- set hasImages = images and images.length -%}
+<div class="content-layout content-layout--{{ pos if hasImages else 'none' }}">
+  {%- if hasImages and pos != "bottom" %}{% include "partials/gallery.njk" %}{% endif %}
+  <article class="prose content-text">
+    {{ content | safe }}
+  </article>
+  {%- if hasImages and pos == "bottom" %}{% include "partials/gallery.njk" %}{% endif %}
+</div>
+{%- if items and items.length %}
+<div class="items">
+  {%- for item in items %}{% include "partials/item-card.njk" %}{% endfor %}
 </div>
 {%- endif %}
 {%- if contactForm !== false %}

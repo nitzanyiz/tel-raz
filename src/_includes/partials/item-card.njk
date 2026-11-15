@@ -1,0 +1,15 @@
+{#- One item card. A linked item is a floating link card; an unlinked one is
+    plain. `item.link` is a page file name from the CMS dropdown. -#}
+{%- set itemUrl = item.link | pageUrl(collections.all) -%}
+{%- if itemUrl %}<a class="item-card item-card--link" href="{{ itemUrl }}">{% else %}<div class="item-card">{% endif %}
+  <div class="item-card__media">
+    {%- if item.image %}
+    <img src="{{ item.image }}" alt="{{ item.name }}" loading="lazy">
+    {%- else %}
+    <img class="item-card__placeholder" src="/assets/img/placeholder.webp" alt="" loading="lazy">
+    {%- endif %}
+  </div>
+  <h3 class="item-card__name">{{ item.name }}</h3>
+  {%- if item.text %}<p class="item-card__text">{{ item.text }}</p>{% endif %}
+  {%- if itemUrl %}<span class="item-card__more">{{ item.linkText or "לפרטים נוספים" }} <span aria-hidden="true">←</span></span>{% endif %}
+{% if itemUrl %}</a>{% else %}</div>{% endif %}

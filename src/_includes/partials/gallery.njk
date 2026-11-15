@@ -1,0 +1,7 @@
+{#- Page images. One image: just the main image. (Thumbnails + full-screen view: Task 6.) -#}
+{%- set first = images[0] %}
+<div class="gallery">
+  <div class="gallery-main">
+    <img src="{{ first.src }}" alt="{{ first.alt }}">
+  </div>
+</div>

@@ -285,11 +285,41 @@ textarea { min-height: 180px; resize: vertical; }
 .file-desc { color: var(--muted); font-size: .95rem; }
 .downloads .icon { color: var(--blue); }
 
-/* ---------- Product models ---------- */
-.models { display: grid; gap: 20px; grid-template-columns: repeat(auto-fit, minmax(min(100%, 240px), 1fr)); margin-top: 32px; }
-.model { background: var(--card); border: 1px solid var(--border); border-radius: var(--radius); padding: 24px; box-shadow: var(--shadow); }
-.model img { border-radius: 10px; margin-bottom: 12px; }
-.model p { color: var(--muted); margin: 0; }
+/* ---------- Content pages: text + images ---------- */
+.content-layout { display: grid; gap: 24px; }
+.content-layout--side { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); align-items: start; }
+/* RTL: the text reads first on the right, the gallery sits on the left */
+.content-layout--side > .gallery { order: 2; position: sticky; top: calc(var(--header-h) + 16px); }
+@media (max-width: 900px) {
+  .content-layout--side { grid-template-columns: 1fr; }
+  .content-layout--side > .gallery { order: 0; position: static; }
+}
+.gallery-main {
+  aspect-ratio: 4 / 3; border-radius: var(--radius); overflow: hidden;
+  background: #eef1f6; border: 1px solid var(--border);
+}
+.gallery-main img { width: 100%; height: 100%; object-fit: contain; display: block; }
+
+/* ---------- Item cards (float on hover when linked) ---------- */
+.items { display: grid; gap: 20px; grid-template-columns: repeat(auto-fill, minmax(min(100%, 250px), 1fr)); margin-top: 32px; }
+.item-card {
+  display: flex; flex-direction: column; align-items: center; text-align: center; gap: 6px;
+  background: #f4f6f9; border-radius: var(--radius); padding: 20px 20px 24px;
+  color: var(--text); text-decoration: none;
+  transition: background-color .25s ease, transform .25s ease, box-shadow .25s ease;
+}
+.item-card__media { width: 100%; aspect-ratio: 4 / 3; display: grid; place-items: center; margin-bottom: 10px; }
+/* product photos usually have a white background: multiply blends it into the card */
+.item-card__media img { width: 100%; height: 100%; object-fit: contain; mix-blend-mode: multiply; }
+.item-card__name { margin: 0; font-size: 1.15rem; color: var(--navy); }
+.item-card__text { margin: 0; color: var(--muted); }
+.item-card__more { margin-top: auto; padding-top: 12px; color: var(--navy); font-weight: 500; text-decoration: underline; text-underline-offset: 4px; }
+.item-card--link:hover, .item-card--link:focus-visible {
+  background: #fff; color: var(--text);
+  transform: translateY(-4px);
+  box-shadow: 0 14px 30px rgb(20 39 74 / .16), 0 2px 6px rgb(20 39 74 / .08);
+}
+.item-card--link:hover .item-card__more { color: var(--blue); }
 
 /* ---------- Contact page ---------- */
 .contact-layout { display: grid; gap: 24px; grid-template-columns: 1fr 1.2fr; align-items: start; }

@@ -110,7 +110,7 @@ collections:
               - { name: title, label: כותרת, widget: string }
               - { name: text, label: טקסט קצר, widget: text }
               - { name: image, label: תמונה (לא חובה), widget: image, required: false }
-              - { name: url, widget: hidden }
+              - { name: link, label: קישור לעמוד, widget: relation, collection: all_pages, value_field: "{{slug}}", search_fields: [title], display_fields: [title], required: false, filters: [{ field: sitemap, values: [true] }] }
           - { name: whyTitle, label: "כותרת אזור 'למה אנחנו'", widget: string }
           - name: why
             label: "נקודות 'למה אנחנו'"
@@ -219,10 +219,6 @@ collections:
       - { name: seoDescription, label: "תיאור לגוגל (עד כ-155 תווים)", widget: text, required: false }
       - { name: system, widget: hidden, default: false }
       - { name: sitemap, widget: hidden, default: true }
-      # legacy keys, migrated away in the next step (kept so saves don't drop them)
-      - { name: image, widget: hidden }
-      - { name: imageAlt, widget: hidden }
-      - { name: models, widget: hidden }
 
   - name: system_pages
     label: עמודי מערכת

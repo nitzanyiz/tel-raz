@@ -43,10 +43,10 @@ test("support panel hides remote link while its url is empty", () => {
 
 test("product models", () => {
   const $ = load(buildSite("preview"), "/panasonic/");
-  const names = $(".model h3").map((_, el) => $(el).text().trim()).get();
+  const names = $(".item-card h3").map((_, el) => $(el).text().trim()).get();
   assert.strictEqual(names.length, 4);
   assert.ok(names.includes("NS1000"));
-  assert.strictEqual(load(buildSite("preview"), "/call-center/")(".models").length, 0);
+  assert.strictEqual(load(buildSite("preview"), "/call-center/")(".items").length, 0);
 });
 
 test("service pages end with the contact form", () => {

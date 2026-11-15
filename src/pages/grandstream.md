@@ -3,19 +3,20 @@ system: false
 sitemap: true
 title: מרכזיית Grandstream
 intro: פתרונות תקשורת IP מתקדמים המשלבים אמינות, גמישות, ניהול מרכזי וטכנולוגיה מתקדמת.
-image: ''
-imageAlt: ''
-models:
-  - name: טלפונים
-    image: /assets/uploads/grandstream-ucm-.webp
-    text: מגוון טלפוני IP של Grandstream.
-seoTitle: ''
+images: []
+imagePosition: side
+seoTitle: ""
 seoDescription: מרכזיות וטלפונים של Grandstream לעסקים – פתרון משתלם ואמין.
 menu:
   inMenu: true
   title: מרכזיית Grandstream
   parent: pbx
   order: 2
+items:
+  - name: טלפונים
+    image: /assets/uploads/grandstream-ucm-.webp
+    text: מגוון טלפוני IP של Grandstream.
+contactForm: true
 ---
 
 ## מרכזיות Grandstream
