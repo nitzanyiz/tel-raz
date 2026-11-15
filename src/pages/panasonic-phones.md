@@ -50,3 +50,5 @@ seoDescription: ''
 system: false
 sitemap: true
 ---
+
+טלפונים חכמים מסוג דיגיטלי / IP
