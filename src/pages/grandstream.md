@@ -7,7 +7,7 @@ items:
   - name: טלפונים
     image: /assets/uploads/grandstream-ucm-.webp
     text: מגוון טלפוני IP של Grandstream.
-    link: about
+    link: ''
     linkText: ''
 contactForm: true
 menu:
