@@ -32,7 +32,7 @@ test("services panel columns", () => {
 });
 
 test("support panel hides remote link while its url is empty", () => {
-  const $ = load(buildSite("preview"), "/");
+  const $ = load(buildSite("empty", { SITE_DATA_FILE: "tests/fixtures/site-empty.json" }), "/");
   const links = $("#panel-support a").map((_, el) => $(el).text().trim()).get();
   assert.deepStrictEqual(links, ["מדריכים", "טופס קריאת שירות"]);
 });
@@ -73,6 +73,12 @@ test("sitemap", () => {
   assert.ok(!xml.includes("/thanks/"));
   assert.ok(!xml.includes("404"));
   assert.ok(!xml.includes("/admin/"), "admin panel must not be in the sitemap");
+});
+
+test("support panel shows the remote link when its url is set", () => {
+  const $ = load(buildSite("placeholder", { SITE_DATA_FILE: "tests/fixtures/site-placeholder.json" }), "/");
+  const remote = $('#panel-support a[href="https://example.com/remote"]');
+  assert.strictEqual(remote.attr("target"), "_blank");
 });
 
 test("redirects", () => {

@@ -50,7 +50,8 @@ test("contact page hides map and email when settings are empty", () => {
 });
 
 test("contact page hides map while address is a placeholder", () => {
-  assert.strictEqual(load(buildSite("preview"), "/contact/")("iframe").length, 0);
+  const out = buildSite("placeholder", { SITE_DATA_FILE: "tests/fixtures/site-placeholder.json" });
+  assert.strictEqual(load(out, "/contact/")("iframe").length, 0);
 });
 
 test("contact page shows map for a real address", () => {
