@@ -9,10 +9,10 @@ models:
     text: מרכזיה מתקדמת לעסקים בינוניים וגדולים.
   - name: NS500
     image: /assets/uploads/NS500_1.webp
-    text: מרכזיה גמישה לעסקים קטנים ובינוניים.
+    text: מרכזיה Hybrid גמישה לעסקים קטנים ובינוניים.
   - name: HTS32
     image: /assets/uploads/HTS32.webp
-    text: '[למילוי: תיאור הדגם]'
+    text: מערכת תקשורת "הכל כלול" לחברות וארגונים קטנים
   - name: טלפונים
     image: ''
     text: מגוון טלפונים תואמים למרכזיות Panasonic.
