@@ -141,38 +141,9 @@ collections:
           - { name: contactTitle, label: כותרת אזור יצירת הקשר, widget: string }
           - { name: contactText, label: טקסט אזור יצירת הקשר, widget: string }
 
-  # --------------------------------------------------------------- services
-  - name: services
-    label: שירותים ומוצרים
-    label_singular: עמוד שירות
-    folder: src/pages/services
-    extension: md
-    format: frontmatter
-    create: false
-    delete: false
-    identifier_field: title
-    summary: "{{title}}"
-    fields:
-      - { name: title, label: כותרת העמוד, widget: string }
-      - { name: intro, label: משפט פתיחה, widget: text, required: false }
-      - { name: image, label: תמונה ראשית, widget: image, required: false }
-      - { name: imageAlt, label: "תיאור התמונה (לנגישות – חובה אם יש תמונה)", widget: string, required: false }
-      - { name: body, label: תוכן העמוד, widget: markdown }
-      - name: models
-        label: דגמים
-        label_singular: דגם
-        widget: list
-        required: false
-        summary: "{{fields.name}}"
-        fields:
-          - { name: name, label: שם הדגם, widget: string }
-          - { name: image, label: תמונה, widget: image, required: false }
-          - { name: text, label: תיאור קצר, widget: text, required: false }
-      - { name: seoTitle, label: "כותרת לגוגל (לא חובה)", widget: string, required: false }
-      - { name: seoDescription, label: "תיאור לגוגל (עד כ-155 תווים)", widget: text, required: false }
-      - { name: menu, widget: hidden }
-
   # ------------------------------------------------------------------ pages
+  # Interim (Task 2 of the pages/items/gallery plan): one section over the flat
+  # src/pages/ folder. Task 4 splits it into עמודים / עמודי מערכת.
   - name: pages
     label: עמודים
     label_singular: עמוד
@@ -186,25 +157,21 @@ collections:
     fields:
       - { name: title, label: כותרת העמוד, widget: string }
       - { name: intro, label: משפט פתיחה, widget: text, required: false }
-      - { name: image, label: תמונה, widget: image, required: false }
+      - { name: image, label: תמונה ראשית, widget: image, required: false }
       - { name: imageAlt, label: "תיאור התמונה (לנגישות – חובה אם יש תמונה)", widget: string, required: false }
       - { name: body, label: תוכן העמוד, widget: markdown, required: false }
+      - name: models
+        label: דגמים
+        label_singular: דגם
+        widget: list
+        required: false
+        summary: "{{fields.name}}"
+        fields:
+          - { name: name, label: שם הדגם, widget: string }
+          - { name: image, label: תמונה, widget: image, required: false }
+          - { name: text, label: תיאור קצר, widget: text, required: false }
+      - { name: contactForm, label: הצגת טופס יצירת קשר בתחתית העמוד, widget: boolean, required: false, default: true }
       - { name: seoTitle, label: "כותרת לגוגל (לא חובה)", widget: string, required: false }
       - { name: seoDescription, label: "תיאור לגוגל (עד כ-155 תווים)", widget: text, required: false }
       - { name: menu, widget: hidden }
       - { name: sitemap, widget: hidden }
-
-  # ------------------------------------------------------------------ legal
-  - name: legal
-    label: מסמכים משפטיים
-    label_singular: מסמך
-    folder: src/pages/legal
-    extension: md
-    format: frontmatter
-    create: false
-    delete: false
-    identifier_field: title
-    summary: "{{title}}"
-    fields:
-      - { name: title, label: כותרת, widget: string }
-      - { name: body, label: תוכן, widget: markdown }

@@ -1,1 +1,1 @@
-{ "permalink": "/404.html" }
+{ "layout": "layouts/page.njk", "permalink": "/404.html" }

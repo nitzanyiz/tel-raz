@@ -17,8 +17,10 @@ wide: true
   {%- endfor %}
 </div>
 {%- endif %}
+{%- if contactForm !== false %}
 <section class="prose" style="margin-top:32px">
   <h2>רוצים לשמוע עוד?</h2>
   <p>השאירו פרטים ונחזור אליכם בהקדם.</p>
   {% include "partials/contact-form.njk" %}
 </section>
+{%- endif %}

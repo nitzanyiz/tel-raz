@@ -30,7 +30,7 @@ test("file collections match their JSON keys exactly", () => {
 
 test("folder collections cannot create or delete pages", () => {
   const folders = config.collections.filter((c) => c.folder);
-  assert.ok(folders.length >= 3);
+  assert.ok(folders.length >= 1);
   for (const c of folders) {
     assert.strictEqual(c.create, false, c.name);
     assert.strictEqual(c.delete, false, c.name);

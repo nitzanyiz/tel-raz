@@ -5,17 +5,21 @@ const path = require("node:path");
 const { buildSite, load, fileFor } = require("./helpers/build");
 
 const ROUTES = [
-  "/", "/services/ipecs-cloud/", "/services/ip-phones-1000i/", "/services/panasonic/",
-  "/services/grandstream/", "/services/call-transcription/", "/services/call-center/",
+  "/", "/ipecs-cloud/", "/ip-phones-1000i/", "/panasonic/",
+  "/grandstream/", "/call-transcription/", "/call-center/",
   "/about/", "/support/guides/", "/support/service-call/", "/contact/",
   "/accessibility/", "/privacy/", "/thanks/", "/404.html",
 ];
-const SERVICE_URLS = ROUTES.filter((r) => r.startsWith("/services/"));
+const SERVICE_URLS = ["/ipecs-cloud/", "/ip-phones-1000i/", "/panasonic/", "/grandstream/", "/call-transcription/", "/call-center/"];
 const read = (out, f) => fs.readFileSync(path.join(out, f), "utf8");
 
 test("every route exists", () => {
   const out = buildSite("preview");
   for (const r of ROUTES) assert.ok(fs.existsSync(fileFor(out, r)), `missing ${r}`);
+});
+
+test("old /services/ addresses are gone", () => {
+  assert.ok(!fs.existsSync(fileFor(buildSite("preview"), "/services/panasonic/")));
 });
 
 test("one h1 per page", () => {
@@ -38,11 +42,11 @@ test("support panel hides remote link while its url is empty", () => {
 });
 
 test("product models", () => {
-  const $ = load(buildSite("preview"), "/services/panasonic/");
+  const $ = load(buildSite("preview"), "/panasonic/");
   const names = $(".model h3").map((_, el) => $(el).text().trim()).get();
   assert.strictEqual(names.length, 4);
   assert.ok(names.includes("NS1000"));
-  assert.strictEqual(load(buildSite("preview"), "/services/call-center/")(".models").length, 0);
+  assert.strictEqual(load(buildSite("preview"), "/call-center/")(".models").length, 0);
 });
 
 test("service pages end with the contact form", () => {
@@ -68,7 +72,7 @@ test("robots", () => {
 
 test("sitemap", () => {
   const xml = read(buildSite("prod"), "sitemap.xml");
-  assert.ok(xml.includes("<loc>https://tel-raz.com/services/panasonic/</loc>"));
+  assert.ok(xml.includes("<loc>https://tel-raz.com/panasonic/</loc>"));
   assert.ok(xml.includes("<loc>https://tel-raz.com/</loc>"));
   assert.ok(!xml.includes("/thanks/"));
   assert.ok(!xml.includes("404"));
