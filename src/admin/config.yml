@@ -142,14 +142,96 @@ collections:
           - { name: contactText, label: טקסט אזור יצירת הקשר, widget: string }
 
   # ------------------------------------------------------------------ pages
-  # Interim (Task 2 of the pages/items/gallery plan): one section over the flat
-  # src/pages/ folder. Task 4 splits it into עמודים / עמודי מערכת.
+  # All pages live in src/pages/ (file name = address). Two filtered views:
+  # עמודים (content, add/delete) and עמודי מערכת (system, text + menu only).
+  # A hidden third view feeds the "קישור לעמוד" dropdowns with every page.
   - name: pages
     label: עמודים
     label_singular: עמוד
     folder: src/pages
     extension: md
     format: frontmatter
+    filter: { field: system, value: false }
+    create: true
+    delete: true
+    slug:
+      editable: [create]
+      pattern: ['^(?!(admin|assets|files|support)$)[a-z0-9]+(-[a-z0-9]+)*$', 'כתובת: אותיות באנגלית קטנות, ספרות ומקפים בלבד (למשל ns1000 או winter-sale)']
+      hint: 'הכתובת של העמוד באתר (tel-raz.com/הכתובת). נקבעת ביצירת העמוד ולא ניתן לשנות אותה אחר כך.'
+    identifier_field: title
+    summary: "{{title}}"
+    fields:
+      - { name: title, label: כותרת העמוד, widget: string }
+      - { name: intro, label: משפט פתיחה, widget: text, required: false }
+      - name: images
+        label: תמונות
+        label_singular: תמונה
+        widget: list
+        required: false
+        summary: "{{fields.alt}}"
+        fields:
+          - { name: src, label: תמונה, widget: image }
+          - { name: alt, label: "תיאור התמונה (לנגישות)", widget: string }
+      - name: imagePosition
+        label: מיקום התמונות
+        widget: select
+        default: side
+        required: false
+        options:
+          - { label: "בצד הטקסט", value: side }
+          - { label: "מעל הטקסט", value: top }
+          - { label: "מתחת לטקסט", value: bottom }
+      - { name: body, label: תוכן העמוד, widget: markdown, required: false }
+      - name: items
+        label: פריטים (כרטיסים)
+        label_singular: פריט
+        widget: list
+        required: false
+        summary: "{{fields.name}}"
+        fields:
+          - { name: name, label: שם, widget: string }
+          - { name: image, label: תמונה, widget: image, required: false }
+          - { name: text, label: תיאור קצר, widget: text, required: false }
+          - { name: link, label: קישור לעמוד, widget: relation, collection: all_pages, value_field: "{{slug}}", search_fields: [title], display_fields: [title], required: false, filters: [{ field: sitemap, values: [true] }] }
+          - { name: linkText, label: "טקסט הקישור (ריק = לפרטים נוספים)", widget: string, required: false }
+      - { name: contactForm, label: הצגת טופס יצירת קשר בתחתית העמוד, widget: boolean, required: false, default: true }
+      - name: menu
+        label: תפריט
+        widget: object
+        collapsed: true
+        hint: "האם העמוד מופיע בתפריט העליון, ואיפה"
+        fields:
+          - { name: inMenu, label: להציג בתפריט, widget: boolean, default: false, required: false }
+          - name: parent
+            label: מתחת לכותרת
+            widget: select
+            required: false
+            default: ""
+            options:
+              - { label: "שורת התפריט הראשית", value: "" }
+              - { label: "שירותים", value: services }
+              - { label: "שירותים › שירותי מרכזיה בענן", value: cloud-pbx }
+              - { label: "שירותים › מרכזיה", value: pbx }
+              - { label: "שירות ותמיכה", value: support }
+          - { name: order, label: "מיקום (מספר קטן = ראשון)", widget: number, value_type: int, required: false }
+          - { name: title, label: "שם קצר בתפריט (ריק = כותרת העמוד)", widget: string, required: false }
+      - { name: seoTitle, label: "כותרת לגוגל (לא חובה)", widget: string, required: false }
+      - { name: seoDescription, label: "תיאור לגוגל (עד כ-155 תווים)", widget: text, required: false }
+      - { name: system, widget: hidden, default: false }
+      - { name: sitemap, widget: hidden, default: true }
+      # legacy keys, migrated away in the next step (kept so saves don't drop them)
+      - { name: image, widget: hidden }
+      - { name: imageAlt, widget: hidden }
+      - { name: models, widget: hidden }
+
+  - name: system_pages
+    label: עמודי מערכת
+    label_singular: עמוד מערכת
+    description: "עמודים שהאתר תלוי בהם: אפשר לערוך את הטקסט ואת המיקום בתפריט, אבל לא למחוק אותם או לשנות את הכתובת."
+    folder: src/pages
+    extension: md
+    format: frontmatter
+    filter: { field: system, value: true }
     create: false
     delete: false
     identifier_field: title
@@ -157,21 +239,43 @@ collections:
     fields:
       - { name: title, label: כותרת העמוד, widget: string }
       - { name: intro, label: משפט פתיחה, widget: text, required: false }
-      - { name: image, label: תמונה ראשית, widget: image, required: false }
-      - { name: imageAlt, label: "תיאור התמונה (לנגישות – חובה אם יש תמונה)", widget: string, required: false }
       - { name: body, label: תוכן העמוד, widget: markdown, required: false }
-      - name: models
-        label: דגמים
-        label_singular: דגם
-        widget: list
-        required: false
-        summary: "{{fields.name}}"
+      - name: menu
+        label: תפריט
+        widget: object
+        collapsed: true
+        hint: "האם העמוד מופיע בתפריט העליון, ואיפה"
         fields:
-          - { name: name, label: שם הדגם, widget: string }
-          - { name: image, label: תמונה, widget: image, required: false }
-          - { name: text, label: תיאור קצר, widget: text, required: false }
-      - { name: contactForm, label: הצגת טופס יצירת קשר בתחתית העמוד, widget: boolean, required: false, default: true }
+          - { name: inMenu, label: להציג בתפריט, widget: boolean, default: false, required: false }
+          - name: parent
+            label: מתחת לכותרת
+            widget: select
+            required: false
+            default: ""
+            options:
+              - { label: "שורת התפריט הראשית", value: "" }
+              - { label: "שירותים", value: services }
+              - { label: "שירותים › שירותי מרכזיה בענן", value: cloud-pbx }
+              - { label: "שירותים › מרכזיה", value: pbx }
+              - { label: "שירות ותמיכה", value: support }
+          - { name: order, label: "מיקום (מספר קטן = ראשון)", widget: number, value_type: int, required: false }
+          - { name: title, label: "שם קצר בתפריט (ריק = כותרת העמוד)", widget: string, required: false }
       - { name: seoTitle, label: "כותרת לגוגל (לא חובה)", widget: string, required: false }
       - { name: seoDescription, label: "תיאור לגוגל (עד כ-155 תווים)", widget: text, required: false }
-      - { name: menu, widget: hidden }
+      - { name: system, widget: hidden, default: true }
+      - { name: sitemap, widget: hidden }
+      - { name: image, widget: hidden }
+      - { name: imageAlt, widget: hidden }
+
+  - name: all_pages
+    label: כל העמודים
+    folder: src/pages
+    extension: md
+    format: frontmatter
+    hide: true
+    create: false
+    delete: false
+    identifier_field: title
+    fields:
+      - { name: title, widget: string }
       - { name: sitemap, widget: hidden }

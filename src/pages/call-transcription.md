@@ -1,4 +1,6 @@
 ---
+system: false
+sitemap: true
 title: תמלול שיחות
 seoTitle: ""
 seoDescription: שירות תמלול שיחות לעסקים – תיעוד שיחות, חיפוש ובקרת איכות.

@@ -1,4 +1,6 @@
 ---
+system: false
+sitemap: true
 title: מוקד קול סנטר
 seoTitle: ""
 seoDescription: פתרונות מוקד קול סנטר לעסקים – ניהול תורים, דוחות ושירות לקוחות.

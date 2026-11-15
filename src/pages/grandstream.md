@@ -1,4 +1,6 @@
 ---
+system: false
+sitemap: true
 title: מרכזיית Grandstream
 intro: פתרונות תקשורת IP מתקדמים המשלבים אמינות, גמישות, ניהול מרכזי וטכנולוגיה מתקדמת.
 image: ''

@@ -1,4 +1,6 @@
 ---
+system: true
+sitemap: true
 title: טופס קריאת שירות
 intro: נתקלתם בתקלה? מלאו את הפרטים ונחזור אליכם בהקדם.
 image: ''

@@ -1,4 +1,6 @@
 ---
+system: false
+sitemap: true
 contactForm: false
 title: עלינו
 intro: |-

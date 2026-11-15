@@ -1,4 +1,6 @@
 ---
+system: true
+sitemap: true
 title: מדריכים
 seoTitle: ""
 seoDescription: מדריכים להורדה למרכזיות Panasonic ול-iPECS Cloud.

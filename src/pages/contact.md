@@ -1,4 +1,6 @@
 ---
+system: true
+sitemap: true
 title: צור קשר
 intro: נשמח לשמוע מכם.
 image: ''
