@@ -8,7 +8,7 @@ models:
     image: /assets/uploads/NS1000.webp
     text: מרכזיה מתקדמת לעסקים בינוניים וגדולים.
   - name: NS500
-    image: /assets/uploads/NS500.webp
+    image: /assets/uploads/NS500_1.webp
     text: מרכזיה גמישה לעסקים קטנים ובינוניים.
   - name: HTS32
     image: /assets/uploads/HTS32.webp
