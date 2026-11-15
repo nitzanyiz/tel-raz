@@ -1,6 +1,6 @@
 ---
 title: KX-DT343 / KX-DT346
-intro: ''
+intro: טלפון דיגיטלי
 images:
   - src: /assets/uploads/KX-DT346.webp
     alt: טלפון DT346
