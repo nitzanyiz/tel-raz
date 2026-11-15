@@ -1,5 +1,5 @@
 ---
-title: מרכזיית Panasonic
+title: מרכזיות Panasonic
 intro: מרכזיות Panasonic אמינות לעסקים – התקנה, הרחבה ותחזוקה.
 images: []
 imagePosition: side
