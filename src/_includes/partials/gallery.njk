@@ -1,7 +1,28 @@
-{#- Page images. One image: just the main image. (Thumbnails + full-screen view: Task 6.) -#}
-{%- set first = images[0] %}
-<div class="gallery">
-  <div class="gallery-main">
-    <img src="{{ first.src }}" alt="{{ first.alt }}">
+{#- Page images: main image (click = full screen) + thumbnails when there are
+    several. Behavior lives in site.js ([data-gallery]). -#}
+{%- import "partials/icons.njk" as icons -%}
+{%- set count = images.length -%}
+<div class="gallery" data-gallery>
+  <button type="button" class="gallery-main" aria-label="הגדלת התמונה למסך מלא">
+    <img src="{{ images[0].src }}" alt="{{ images[0].alt }}">
+  </button>
+  {%- if count > 1 %}
+  <div class="gallery-thumbs" role="group" aria-label="תמונות נוספות">
+    {%- for img in images %}
+    <button type="button" class="gallery-thumb" data-src="{{ img.src }}" data-alt="{{ img.alt }}"
+      aria-label="תמונה {{ loop.index }} מתוך {{ count }}"{% if loop.first %} aria-current="true"{% endif %}>
+      <img src="{{ img.src }}" alt="" loading="lazy">
+    </button>
+    {%- endfor %}
   </div>
+  {%- endif %}
+  <dialog class="lightbox" aria-label="תמונה במסך מלא">
+    <button type="button" class="lightbox-close" aria-label="סגירה">{{ icons.icon("close") }}</button>
+    {%- if count > 1 %}
+    <button type="button" class="lightbox-prev" aria-label="התמונה הקודמת">{{ icons.icon("chevron", "icon lightbox-arrow") }}</button>
+    <button type="button" class="lightbox-next" aria-label="התמונה הבאה">{{ icons.icon("chevron", "icon lightbox-arrow") }}</button>
+    {%- endif %}
+    <img class="lightbox-img" src="{{ images[0].src }}" alt="{{ images[0].alt }}">
+    {%- if count > 1 %}<p class="lightbox-count" dir="ltr" aria-live="polite">1 / {{ count }}</p>{% endif %}
+  </dialog>
 </div>

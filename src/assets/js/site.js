@@ -97,3 +97,71 @@
     setMenu(false);
   });
 })();
+
+// Page galleries: thumbnails swap the main image, swipe moves between images,
+// clicking the main image opens a full-screen <dialog> (arrows, swipe, Esc).
+// RTL: the next image is to the left (ArrowLeft / swipe right).
+(function () {
+  document.querySelectorAll("[data-gallery]").forEach((gallery) => {
+    const mainBtn = gallery.querySelector(".gallery-main");
+    const mainImg = mainBtn.querySelector("img");
+    const thumbs = [...gallery.querySelectorAll(".gallery-thumb")];
+    const images = thumbs.length
+      ? thumbs.map((t) => ({ src: t.dataset.src, alt: t.dataset.alt }))
+      : [{ src: mainImg.getAttribute("src"), alt: mainImg.alt }];
+    const dialog = gallery.querySelector(".lightbox");
+    const big = dialog.querySelector(".lightbox-img");
+    const count = dialog.querySelector(".lightbox-count");
+    let current = 0;
+
+    function show(i) {
+      current = (i + images.length) % images.length;
+      const { src, alt } = images[current];
+      mainImg.src = src;
+      mainImg.alt = alt;
+      big.src = src;
+      big.alt = alt;
+      thumbs.forEach((t, n) => (n === current ? t.setAttribute("aria-current", "true") : t.removeAttribute("aria-current")));
+      if (count) count.textContent = `${current + 1} / ${images.length}`;
+    }
+
+    // Horizontal swipe on an element: calls onSwipe(+1 next / -1 previous);
+    // returns a function telling whether the last pointer gesture was a swipe.
+    function swipeable(el, onSwipe) {
+      let startX = null, swiped = false;
+      el.addEventListener("pointerdown", (e) => { startX = e.clientX; swiped = false; });
+      el.addEventListener("pointerup", (e) => {
+        if (startX === null) return;
+        const dx = e.clientX - startX;
+        startX = null;
+        if (Math.abs(dx) > 40 && images.length > 1) { swiped = true; onSwipe(dx > 0 ? 1 : -1); }
+      });
+      return () => swiped;
+    }
+
+    thumbs.forEach((t, n) => t.addEventListener("click", () => show(n)));
+    const mainSwiped = swipeable(mainBtn, (d) => show(current + d));
+    swipeable(big, (d) => show(current + d));
+
+    mainBtn.addEventListener("click", () => {
+      if (mainSwiped()) return;
+      show(current);
+      document.documentElement.style.overflow = "hidden"; // no page scroll (or scrollbar) behind it
+      dialog.showModal();
+    });
+    dialog.querySelector(".lightbox-close").addEventListener("click", () => dialog.close());
+    dialog.querySelector(".lightbox-next")?.addEventListener("click", () => show(current + 1));
+    dialog.querySelector(".lightbox-prev")?.addEventListener("click", () => show(current - 1));
+    // Click on the dark backdrop (outside the image and buttons) closes.
+    dialog.addEventListener("click", (e) => { if (e.target === dialog) dialog.close(); });
+    dialog.addEventListener("close", () => {
+      document.documentElement.style.overflow = "";
+      mainBtn.focus();
+    });
+    document.addEventListener("keydown", (e) => {
+      if (!dialog.open || images.length < 2) return;
+      if (e.key === "ArrowLeft") show(current + 1);
+      if (e.key === "ArrowRight") show(current - 1);
+    });
+  });
+})();
