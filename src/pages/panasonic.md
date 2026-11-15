@@ -1,31 +1,44 @@
 ---
-system: false
-sitemap: true
 title: מרכזיית Panasonic
 intro: מרכזיות Panasonic אמינות לעסקים – התקנה, הרחבה ותחזוקה.
 images: []
 imagePosition: side
-seoTitle: ""
-seoDescription: "מרכזיות Panasonic לעסקים: NS1000, NS500 וטלפונים. התקנה, תחזוקה ושירות."
-menu:
-  inMenu: true
-  title: מרכזיית Panasonic
-  parent: pbx
-  order: 1
 items:
   - name: NS1000
     image: /assets/uploads/NS1000.webp
     text: מרכזיה מתקדמת לעסקים בינוניים וגדולים.
+    link: ''
+    linkText: ''
   - name: NS500
     image: /assets/uploads/ns500-1.webp
     text: מרכזיה Hybrid גמישה לעסקים קטנים ובינוניים.
+    link: ''
+    linkText: ''
   - name: HTS32
     image: /assets/uploads/HTS32.webp
     text: מערכת תקשורת "הכל כלול" לחברות וארגונים קטנים
+    link: ''
+    linkText: ''
   - name: טלפונים
-    image: ""
+    image: ''
     text: מגוון טלפונים תואמים למרכזיות Panasonic.
+    link: ''
+    linkText: ''
+  - name: עמוד בדיקה
+    image: ''
+    text: ''
+    link: test-page
+    linkText: ''
 contactForm: true
+menu:
+  inMenu: true
+  parent: pbx
+  order: 1
+  title: מרכזיית Panasonic
+seoTitle: ''
+seoDescription: 'מרכזיות Panasonic לעסקים: NS1000, NS500 וטלפונים. התקנה, תחזוקה ושירות.'
+system: false
+sitemap: true
 ---
 
 ## מרכזיות Panasonic
