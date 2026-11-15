@@ -17,17 +17,17 @@ items:
   - name: KX-T7665
     image: /assets/uploads/t7665.webp
     text: ''
-    link: ''
+    link: panasonic-phones-t7665
     linkText: ''
   - name: KX-DT546 / KX-DT543
     image: /assets/uploads/KX-DT546.webp
     text: ''
-    link: ''
+    link: panasonic-phones-dt546
     linkText: ''
   - name: KX-DT521
     image: /assets/uploads/DT521.webp
     text: ''
-    link: ''
+    link: panasonic-phones-dt521
     linkText: ''
 contactForm: true
 menu:
