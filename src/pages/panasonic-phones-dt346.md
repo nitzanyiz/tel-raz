@@ -4,8 +4,6 @@ intro: ''
 images:
   - src: /assets/uploads/KX-DT346.webp
     alt: טלפון DT346
-  - src: /assets/uploads/KX-DT346.webp
-    alt: טלפון DT346
 imagePosition: side
 items: []
 contactForm: true
