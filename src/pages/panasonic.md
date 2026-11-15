@@ -22,7 +22,7 @@ items:
   - name: טלפונים
     image: ''
     text: מגוון טלפונים תואמים למרכזיות Panasonic.
-    link: ''
+    link: panasonic-phones
     linkText: ''
 contactForm: true
 menu:
