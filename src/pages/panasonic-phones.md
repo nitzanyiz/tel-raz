@@ -29,6 +29,16 @@ items:
     text: ''
     link: panasonic-phones-dt521
     linkText: ''
+  - name: KX-NT321
+    image: /assets/uploads/NT321.webp
+    text: ''
+    link: panasonic-phones-nt321
+    linkText: ''
+  - name: KX-NT343 / KX-NT346
+    image: /assets/uploads/KX-NT346.webp
+    text: ''
+    link: panasonic-phones-nt343
+    linkText: ''
 contactForm: true
 menu:
   inMenu: false
