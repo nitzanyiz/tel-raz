@@ -17,3 +17,9 @@ seoDescription: ''
 system: false
 sitemap: true
 ---
+
+- תצוגה מוארת 3/6 שורות
+- 24 לחצני תכנות
+- איכות שמע HD
+- דיבורית Full Duplex
+- יציאה למערכת ראש
