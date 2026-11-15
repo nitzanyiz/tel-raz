@@ -24,11 +24,6 @@ items:
     text: מגוון טלפונים תואמים למרכזיות Panasonic.
     link: ''
     linkText: ''
-  - name: עמוד בדיקה
-    image: ''
-    text: ''
-    link: test-page
-    linkText: ''
 contactForm: true
 menu:
   inMenu: true
