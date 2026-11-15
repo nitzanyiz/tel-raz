@@ -4,7 +4,7 @@ intro: מרכזיה בענן לעסקים – בלי ציוד בשרתים, עם
 image: ''
 imageAlt: ''
 models: []
-seoTitle: ''
+seoTitle: iPECS Cloud - מרכזיית ענן
 seoDescription: 'מרכזיית ענן iPECS Cloud לעסקים: שלוחות, ניתוב שיחות, אפליקציה לנייד ועבודה מכל מקום.'
 menu:
   title: iPECS Cloud
