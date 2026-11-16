@@ -24,7 +24,7 @@ sitemap: true
 - Full Duplex Speakerphone
 - הטמעת קובץ Logo
 - שני ממשקי רשת GIGA
-- WiFi  מובנה
-- Bluetooth  מובנה
+- WiFi מובנה
+- Bluetooth מובנה
 - שני יציאות USB
-- יציאה של HDMI
+- יציאת HDMI
