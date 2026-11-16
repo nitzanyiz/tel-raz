@@ -1,6 +1,6 @@
 ---
 title: LIP-1050i
-intro: ''
+intro: טלפון IP - ברמת Advanced
 images: []
 imagePosition: side
 items: []
