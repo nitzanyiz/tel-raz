@@ -49,6 +49,16 @@ items:
     text: ''
     link: panasonic-phones-nt630
     linkText: ''
+  - name: KX-NT511 / KX-NT511P
+    image: /assets/uploads/KX-NT511.webp
+    text: ''
+    link: panasonic-phones-nt511
+    linkText: ''
+  - name: KX-NT551
+    image: /assets/uploads/KX-NT551.webp
+    text: ''
+    link: panasonic-phones-nt551
+    linkText: ''
 contactForm: true
 menu:
   inMenu: false
