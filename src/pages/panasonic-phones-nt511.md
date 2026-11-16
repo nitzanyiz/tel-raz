@@ -12,7 +12,7 @@ menu:
   parent: ''
   order: null
   title: ''
-seoTitle: ''
+seoTitle: KX-NT511
 seoDescription: ''
 system: false
 sitemap: true
