@@ -12,7 +12,7 @@ menu:
   parent: ''
   order: null
   title: ''
-seoTitle: ''
+seoTitle: KX-DT543
 seoDescription: ''
 system: false
 sitemap: true
