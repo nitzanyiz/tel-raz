@@ -1,6 +1,6 @@
 ---
 title: LIP-1010i
-intro: טלפון IP רגיל
+intro: טלפון IP ברמת Entry
 images: []
 imagePosition: side
 items: []
