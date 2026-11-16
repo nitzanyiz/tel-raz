@@ -1,6 +1,6 @@
 ---
 title: LIP-1030i
-intro: ''
+intro: טלפון IP - ברמת Essential
 images: []
 imagePosition: side
 items: []
