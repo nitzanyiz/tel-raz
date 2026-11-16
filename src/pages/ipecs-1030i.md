@@ -21,5 +21,5 @@ sitemap: true
 - איכות שמע HD
 - Full Duplex Speakerphone
 - יציאה למערכת ראש
-- ניתן להטמיע קובץ Logo
+- הטמעת קובץ Logo
 - שני ממשקי רשת GIGA
