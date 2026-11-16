@@ -18,12 +18,13 @@ system: false
 sitemap: true
 ---
 
-- מסך LCD צבעוני, ניתן להטמיע קובץ Logo
+- מסך LCD צבעוני
 - 48 לחצני תכנות (12 לחצנים X 4 עמודים)
 - Bluetooth מובנה
 - איכות שמע HD
-- Full Duplex
+- דיבורית Full Duplex
 - יציאה למערכת ראש
+- הטמעת קובץ Logo
 - שני ממשקי רשת GIGA
 - תמיכה ב SRTP תקשורת מאובטחת
 - מתחבר ללא VPN
