@@ -12,12 +12,12 @@ items:
   - name: NS500
     image: /assets/uploads/ns500-1.webp
     text: מרכזיה Hybrid גמישה לעסקים קטנים ובינוניים.
-    link: ''
+    link: panasonic-ns500
     linkText: ''
   - name: HTS32
     image: /assets/uploads/HTS32.webp
     text: מערכת תקשורת "הכל כלול" לחברות וארגונים קטנים
-    link: ''
+    link: panasonic-hts32
     linkText: ''
   - name: טלפונים
     image: ''
