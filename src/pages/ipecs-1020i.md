@@ -16,7 +16,7 @@ system: false
 sitemap: true
 ---
 
-- מסך 2.8" מואר
+- מסך מואר 2.8" 
 - 16 לחצני תכנות במסך 4 לחצנים 3X עמודים ו- 4 לחצנים מובנים
 - איכות שמע HD
 - Full Duplex Speakerphone
