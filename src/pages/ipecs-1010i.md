@@ -19,6 +19,6 @@ sitemap: true
 - מסך 2.4"
 - 4 לחצני תכנות
 - איכות קול HD
-- דיבורית Full Duplex 
+- Full Duplex Speakerphone
 - יציאה למערכת ראש
 - שני ממשקי רשת 10/100
