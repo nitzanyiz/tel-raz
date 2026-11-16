@@ -19,6 +19,7 @@ sitemap: true
 - מסך צבעוני 7" (1024x600)
 - 48 לחצני תכנות – במסך 12 לחצנים 4X עמודים
 - מערכת הפעלה Android
+- מצלמה מובנת - 8M pixel
 - איכות שמע HD
 - Full Duplex Speakerphone
 - הטמעת קובץ Logo
