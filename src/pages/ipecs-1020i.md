@@ -1,6 +1,6 @@
 ---
 title: LIP-1020
-intro: ''
+intro: טלפון IP - ברמת Basic
 images: []
 imagePosition: side
 items: []
