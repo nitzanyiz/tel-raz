@@ -1,6 +1,6 @@
 ---
 title: LIP-1040i
-intro: ''
+intro: טלפון IP - ברמת Standard
 images: []
 imagePosition: side
 items: []
