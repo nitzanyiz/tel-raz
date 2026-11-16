@@ -12,7 +12,7 @@ menu:
   parent: ''
   order: null
   title: ''
-seoTitle: ''
+seoTitle: KX-NT551
 seoDescription: ''
 system: false
 sitemap: true
