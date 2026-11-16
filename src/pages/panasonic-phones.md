@@ -39,6 +39,16 @@ items:
     text: ''
     link: panasonic-phones-nt343
     linkText: ''
+  - name: KX-NT680
+    image: /assets/uploads/KX-NT680.webp
+    text: ''
+    link: panasonic-phones-nt680
+    linkText: ''
+  - name: KX-NT630
+    image: /assets/uploads/KX-NT630.webp
+    text: ''
+    link: panasonic-phones-nt630
+    linkText: ''
 contactForm: true
 menu:
   inMenu: false
