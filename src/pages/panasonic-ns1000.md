@@ -6,7 +6,7 @@ imagePosition: side
 items: []
 contactForm: true
 menu:
-  inMenu: false
+  inMenu: true
   parent: ''
   order: null
   title: ''
