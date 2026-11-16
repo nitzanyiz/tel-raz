@@ -22,4 +22,4 @@ sitemap: true
 - Full Duplex Speakerphone
 - שני ממשקי רשת GIGA
 - הטמעת קובץ Logo
-- יציאת USB – לטובת חיבור מתאם WiFi, Bluetooth
+- יציאת USB – לטובת חיבור מתאם WiFi או Bluetooth
