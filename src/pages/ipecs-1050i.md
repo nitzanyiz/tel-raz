@@ -23,4 +23,4 @@ sitemap: true
 - יציאה למערכת ראש
 - הטמעת קובץ Logo
 - שני ממשקי רשת GIGA
-- יציאת USB – לטובת לחיבור מתאם WiFi, Bluetooth
+- יציאת USB – לטובת לחיבור מתאם WiFi או Bluetooth
