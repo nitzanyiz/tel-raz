@@ -1,9 +1,7 @@
 ---
 title: NS1000
 intro: שירותי מרכזיה Panasonic NS1000
-images:
-  - src: /assets/uploads/kx-ns1000.webp
-    alt: מרכזיית NS1000
+images: []
 imagePosition: side
 items: []
 contactForm: true
