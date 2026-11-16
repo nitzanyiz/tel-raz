@@ -1,6 +1,6 @@
 ---
 title: LIP-1080i
-intro: ''
+intro: טלפון IP - ברמת Primium
 images: []
 imagePosition: side
 items: []
