@@ -59,6 +59,21 @@ items:
     text: ''
     link: panasonic-phones-nt551
     linkText: ''
+  - name: KX-NT543 / KX-NT546
+    image: /assets/uploads/kx-nt543.webp
+    text: ''
+    link: panasonic-phones-nt543
+    linkText: ''
+  - name: KX-NT553 / KX-NT556
+    image: /assets/uploads/KX-NT553.webp
+    text: ''
+    link: panasonic-phones-nt553
+    linkText: ''
+  - name: KX-NT560
+    image: /assets/uploads/KX-NT560.webp
+    text: ''
+    link: panasonic-phones-nt560
+    linkText: ''
 contactForm: true
 menu:
   inMenu: false
