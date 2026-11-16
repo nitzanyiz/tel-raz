@@ -20,7 +20,7 @@ items:
     link: panasonic-hts32
     linkText: ''
   - name: טלפונים
-    image: ''
+    image: /assets/uploads/23w2gtpf55rafc80eo8y31au54ctj33c.webp
     text: מגוון טלפונים תואמים למרכזיות Panasonic.
     link: panasonic-phones
     linkText: ''
