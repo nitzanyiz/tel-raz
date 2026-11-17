@@ -1,0 +1,14 @@
+{#- Trail above the page title. Menu headers have no page, so they're plain text;
+    the current page is the last crumb and isn't a link. -#}
+{%- set crumbs = page.fileSlug | breadcrumbs(collections.all, menuGroups) -%}
+<nav class="breadcrumbs" aria-label="פירורי לחם">
+  <ol>
+    {%- for crumb in crumbs %}
+    <li>
+      {%- if loop.last %}<span aria-current="page">{{ crumb.title }}</span>
+      {%- elif crumb.url %}<a href="{{ crumb.url }}">{{ crumb.title }}</a>
+      {%- else %}<span>{{ crumb.title }}</span>{% endif -%}
+    </li>
+    {%- endfor %}
+  </ol>
+</nav>

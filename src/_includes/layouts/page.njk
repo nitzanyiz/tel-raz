@@ -5,6 +5,7 @@ layout: layouts/base.njk
     Layouts that chain into this one set `wide: true` and lay out their own cards. -#}
 <section class="page-hero">
   <div class="container">
+    {%- if not noBreadcrumbs %}{% include "partials/breadcrumbs.njk" %}{% endif %}
     <h1>{{ title }}</h1>
     {%- if intro %}<p class="lead">{{ intro }}</p>{% endif %}
   </div>

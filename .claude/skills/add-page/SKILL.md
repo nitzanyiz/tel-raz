@@ -14,6 +14,11 @@ description: Use when adding, removing, renaming or moving a page or menu item o
 - **System pages** have `system: true`: guides, service-call, contact, thanks, 404, accessibility, privacy. Their layout or URL comes from `<name>.11tydata.json`. The CMS can't delete them.
 - Every page has `sitemap: true|false`. `false` hides it from the sitemap, from search engines and from the "קישור לעמוד" dropdowns (as with 404 and thanks).
 
+## Breadcrumbs
+
+Every page except home, 404 and thanks shows a trail (`lib/breadcrumbs.js`), built from existing data, with nothing to fill in:
+a page in the menu hangs under its `menu.parent` header(s); any other page hangs under the page whose item card links to it (if two pages link to it, the longer trail wins, then the first file name alphabetically); a page nobody links to shows only "ראשי › page". Headers are plain text, pages are links. To hide it on a system page, add `"noBreadcrumbs": true` to its `.11tydata.json`.
+
 ## Add a content page
 
 Create `src/pages/<address>.md`. Keep the front-matter keys the CMS writes:

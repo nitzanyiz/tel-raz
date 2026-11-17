@@ -109,6 +109,15 @@ const key = (doc, k) => doc.dispatchEvent(new KeyboardEvent("keydown", { key: k,
   ok("item card: a linked item is a link to its page", card && card.getAttribute("href") === "/contact/");
   ok("item card: has a hover transition", getComputedStyle(card).transitionProperty.includes("transform"));
 
+  // Breadcrumbs: a crumb link goes to its page; the current page is plain text.
+  const bw = await frame(1280, "/ipecs-cloud/"), bd = bw.document;
+  const crumbLinks = [...bd.querySelectorAll(".breadcrumbs a")];
+  ok("breadcrumbs: the first crumb links home", crumbLinks.length && crumbLinks[0].getAttribute("href") === "/");
+  ok("breadcrumbs: the current page is the last crumb and not a link", bd.querySelector('.breadcrumbs [aria-current="page"]') && !bd.querySelector(".breadcrumbs li:last-child a"));
+  crumbLinks[0].click();
+  await new Promise((r) => setTimeout(r, 300));
+  ok("breadcrumbs: clicking a crumb opens that page", bw.location.pathname === "/");
+
   document.getElementById("o").textContent = "RESULT\n" + out.join("\n") + "\nEND";
 })();
 </script>

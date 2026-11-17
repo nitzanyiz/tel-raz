@@ -21,3 +21,6 @@
 <meta property="og:image:height" content="630">
 <meta name="twitter:card" content="summary_large_image">
 <script type="application/ld+json">{{ site | localBusiness | safe }}</script>
+{%- if page.url != "/" and not noBreadcrumbs %}
+<script type="application/ld+json">{{ page.fileSlug | breadcrumbs(collections.all, menuGroups) | breadcrumbList(site.url) | safe }}</script>
+{%- endif %}

@@ -5,6 +5,7 @@ const { localBusiness, filled } = require("./lib/seo");
 const { findBrokenLinks } = require("./lib/check-links");
 const { encodeFilePath } = require("./lib/urls");
 const { resolvePageLink, invalidPageNames } = require("./lib/pages");
+const { breadcrumbs, breadcrumbList } = require("./lib/breadcrumbs");
 
 function readJson(file, fallback = {}) {
   return fs.existsSync(file) ? JSON.parse(fs.readFileSync(file, "utf8")) : fallback;
@@ -57,6 +58,24 @@ module.exports = function (eleventyConfig) {
     if (orphans.length) console.warn(`[menu] pages under a missing header (left out of the menu): ${orphans.join(", ")}`);
     return buildMenu(groups, pages, site);
   });
+
+  // Breadcrumb trail for a page: {% set crumbs = page.fileSlug | breadcrumbs(collections.all, menuGroups) %}
+  eleventyConfig.addFilter("breadcrumbs", (slug, all, groups) =>
+    breadcrumbs(
+      slug,
+      all
+        .filter((item) => item.inputPath.includes("/src/pages/"))
+        .map((item) => ({
+          slug: item.page.fileSlug,
+          url: item.url,
+          title: item.data.title,
+          menu: item.data.menu,
+          links: (item.data.items || []).map((i) => i.link).filter(Boolean),
+        })),
+      groups
+    )
+  );
+  eleventyConfig.addFilter("breadcrumbList", breadcrumbList);
 
   // Fail the build on dead internal links (e.g. a CMS save that moved a page),
   // so a broken preview never reaches the publish button.

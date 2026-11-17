@@ -403,3 +403,12 @@ textarea { min-height: 180px; resize: vertical; }
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after { transition: none !important; animation: none !important; scroll-behavior: auto !important; }
 }
+
+/* ---------- Breadcrumbs ---------- */
+.breadcrumbs { margin-bottom: 14px; font-size: .95rem; }
+.breadcrumbs ol { display: flex; flex-wrap: wrap; align-items: center; gap: 2px 8px; list-style: none; margin: 0; padding: 0; }
+.breadcrumbs li { display: flex; align-items: center; gap: 8px; color: rgb(255 255 255 / .8); }
+.breadcrumbs li:not(:last-child)::after { content: "‹"; opacity: .6; }
+.breadcrumbs a { color: #fff; text-decoration: none; }
+.breadcrumbs a:hover, .breadcrumbs a:focus-visible { text-decoration: underline; }
+.breadcrumbs [aria-current="page"] { color: #fff; font-weight: 500; }
