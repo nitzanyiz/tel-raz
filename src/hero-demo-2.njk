@@ -47,18 +47,18 @@
 
   <main class="panel">
     <h2>הדגמה 2: חמישה לוגואים</h2>
-    <p class="lead">שני לוגואים בכל צד, גדול וקטן: משמאל הגדול חד והקטן מטושטש, מימין להפך. למעלה באמצע לוגו גדול מטושטש. העבירו את העכבר מעל לוגו והוא יתנדנד בעדינות סביב עצמו.</p>
+    <p class="lead">שני לוגואים בכל צד, גדול וקטן: משמאל הגדול חד והקטן מטושטש, מימין להפך. למעלה באמצע לוגו גדול מטושטש. העבירו את העכבר מעל לוגו והוא יסתובב מעט לכיוון מרכז האזור, ויחזור בעדינות למקומו כשהעכבר יוצא.</p>
 
     <div class="group-title">הגדרות</div>
     <div class="sliders">
       <label>רוחב לוגו גדול (פיקסלים) <output id="o-big"></output><input type="range" id="c-big" min="140" max="380" value="220"></label>
       <label>רוחב לוגו קטן (פיקסלים) <output id="o-small"></output><input type="range" id="c-small" min="50" max="160" value="90"></label>
       <label>עוצמת טשטוש <output id="o-blur"></output><input type="range" id="c-blur" min="0" max="20" value="7"></label>
-      <label>גודל התנועה <output id="o-amp"></output><input type="range" id="c-amp" min="2" max="30" value="10"></label>
-      <label>מהירות התנועה <output id="o-speed"></output><input type="range" id="c-speed" min="1" max="10" value="4"></label>
+      <label>זווית הסיבוב (מעלות) <output id="o-amp"></output><input type="range" id="c-amp" min="5" max="60" value="25"></label>
+      <label>מהירות הסיבוב <output id="o-speed"></output><input type="range" id="c-speed" min="1" max="10" value="4"></label>
     </div>
 
-    <p class="note">זוהי הדגמה בלבד ואינה חלק מהאתר. בטלפון אפשר לגעת בלוגו או לגרור אצבע מעליו כדי לראות את התנועה.</p>
+    <p class="note">זוהי הדגמה בלבד ואינה חלק מהאתר. בטלפון אפשר לגעת בלוגו או לגרור אצבע מעליו כדי לראות את הסיבוב.</p>
   </main>
 
   <script>
@@ -81,7 +81,7 @@
       el.setAttribute('class', 'logo'); el.setAttribute('viewBox', '0 0 2004 1110');
       el.innerHTML = '<use href="#r-silver-blue"/>';
       hero.insertBefore(el, hero.firstChild);
-      return { ...s, el, act: 0, ph: i * 1.7, t: 0 };
+      return { ...s, el, act: 0 };
     });
 
     function applyLook() {
@@ -94,18 +94,17 @@
       }
     }
 
-    let last = performance.now();
-    function tick(now) {
-      const dt = Math.min(0.05, (now - last) / 1000); last = now;
-      const W = hero.clientWidth, H = hero.clientHeight, amp = +ctl('amp').value, speed = +ctl('speed').value * 0.35;
+    function tick() {
+      const W = hero.clientWidth, H = hero.clientHeight, angle = +ctl('amp').value, rate = 0.02 + +ctl('speed').value * 0.012;
       for (const l of logos) {
         const cx = l.x * W, cy = l.y * H;
         // hovered = pointer inside the logo's ellipse (plus a small margin)
         const over = mouse && (((mouse.x - cx) / (l.w / 2 + 16)) ** 2 + ((mouse.y - cy) / (l.w * 0.277 + 16)) ** 2) <= 1;
-        l.act += ((over ? 1 : 0) - l.act) * 0.05;          // eases in on hover, eases out after
-        l.t += dt * speed * l.act;                          // the sway only advances while hovered
-        const r = Math.sin(l.t * 1.3 + l.ph) * amp * 0.8 * l.act, oy = Math.sin(l.t * 0.9 + l.ph) * amp * 0.3 * l.act;
-        l.el.style.transform = `translate(${cx - l.w / 2}px, ${cy - l.w * 0.277 + oy}px) rotate(${l.rot + r}deg)`;
+        l.act += ((over ? 1 : 0) - l.act) * rate;          // eases toward the middle on hover, back after
+        // turn in 3D to face the middle of the hero
+        const dx = W / 2 - cx, dy = H / 2 - cy, n = Math.hypot(dx, dy) || 1;
+        const ry = dx / n * angle * l.act, rx = -dy / n * angle * l.act;
+        l.el.style.transform = `translate(${cx - l.w / 2}px, ${cy - l.w * 0.277}px) perspective(${l.w * 3}px) rotateY(${ry}deg) rotateX(${rx}deg) rotate(${l.rot}deg)`;
       }
       requestAnimationFrame(tick);
     }
