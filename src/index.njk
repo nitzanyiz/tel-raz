@@ -3,8 +3,9 @@ layout: layouts/base.njk
 bodyClass: page-home
 ---
 {%- import "partials/icons.njk" as icons -%}
-<section class="hero">
-  <div class="container">
+<section class="hero" data-scene>
+  {% include "partials/hero-scene.njk" %}
+  <div class="container hero-text">
     <h1>{{ home.heroTitle }}</h1>
     <p>{{ home.heroSubtitle }}</p>
     <div class="hero-actions">

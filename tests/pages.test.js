@@ -79,11 +79,18 @@ test("redirects", () => {
   assert.match(r, /^https:\/\/www\.tel-raz\.co\.il\/\*\s+https:\/\/tel-raz\.com\/:splat\s+301!$/m);
 });
 
-test("hero and logo ship as webp", () => {
+test("home hero is the decorative scene", () => {
   const out = buildSite("preview");
-  assert.match(read(out, "assets/css/site.css"), /hero\.webp/);
-  const hero = path.join(out, "assets/img/hero.webp");
-  assert.ok(fs.existsSync(hero), "hero.webp missing");
-  assert.ok(fs.statSync(hero).size < 150 * 1024, "hero.webp too large");
+  const $ = load(out, "/");
+  const scene = $(".hero[data-scene] .hero-scene");
+  assert.strictEqual(scene.length, 1);
+  assert.strictEqual(scene.attr("aria-hidden"), "true");
+  const names = ["cloud", "printer", "logo", "bubble", "server", "chart", "headset", "phone"];
+  assert.deepStrictEqual(scene.find(".obj").map((_, e) => names.find((n) => $(e).hasClass(n))).get().sort(), [...names].sort());
+  assert.strictEqual(scene.find("canvas").length, 1);
+  assert.strictEqual(scene.find("a, button, [tabindex]").length, 0, "nothing focusable in the scene");
+  const home = JSON.parse(fs.readFileSync(path.join(__dirname, "../src/content/home.json"), "utf8"));
+  assert.strictEqual($(".hero .hero-text h1").text().trim(), home.heroTitle);
+  assert.doesNotMatch(read(out, "assets/css/site.css"), /hero\.webp/);
   assert.ok(fs.existsSync(path.join(out, "assets/img/logo.webp")), "logo.webp missing");
 });

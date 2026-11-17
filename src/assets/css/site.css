@@ -197,25 +197,108 @@ main:focus { outline: none; }
 .btn-primary:hover { background: var(--blue-dark); color: #fff; }
 .btn-light { background: #fff; color: var(--navy); }
 .btn-light:hover { background: var(--bg); color: var(--navy); }
-.btn-ghost { border-color: rgb(255 255 255 / .7); color: #fff; }
-.btn-ghost:hover { background: rgb(255 255 255 / .12); color: #fff; }
+.btn-ghost { border-color: var(--blue); color: var(--blue); background: #fff; }
+.btn-ghost:hover { background: var(--bg); color: var(--blue-dark); border-color: var(--blue-dark); }
 
 /* ---------- Home ---------- */
+/* Hero: white, with a decorative animated scene (partials/hero-scene.njk,
+   driven by /assets/js/hero-scene.js, which positions the objects). */
 .hero {
-  position: relative; color: #fff; text-align: center;
+  position: relative; overflow: hidden; text-align: center; background: #fff;
   min-height: min(88vh, 760px); display: flex; align-items: center;
   padding: calc(var(--header-h) + 48px) 0 72px;
-  background:
-    linear-gradient(180deg, rgb(10 14 24 / .55), rgb(10 14 24 / .8)),
-    url("/assets/img/hero.png") center / cover no-repeat;
-  background:
-    linear-gradient(180deg, rgb(10 14 24 / .55), rgb(10 14 24 / .8)),
-    image-set(url("/assets/img/hero.webp") type("image/webp"), url("/assets/img/hero.png") type("image/png")) center / cover no-repeat;
 }
-.hero .container { width: 100%; }
-.hero h1 { color: #fff; max-width: 820px; margin-inline: auto; }
-.hero p { font-size: clamp(1.05rem, 2.4vw, 1.3rem); max-width: 720px; margin: 0 auto 32px; opacity: .92; }
+.hero-text { position: relative; z-index: 5; width: 100%; pointer-events: none; }
+.hero-text .btn { pointer-events: auto; }
+.hero h1 { max-width: 820px; margin-inline: auto; }
+.hero p { color: var(--muted); font-size: clamp(1.05rem, 2.4vw, 1.3rem); max-width: 720px; margin: 0 auto 32px; }
 .hero-actions { display: flex; gap: 12px; justify-content: center; flex-wrap: wrap; }
+@media (max-width: 760px) {
+  /* phone layout: a band of objects above the text and one below */
+  .hero { min-height: 0; padding: calc(var(--header-h) + 150px) 0 170px; }
+}
+
+.hero-scene { position: absolute; inset: 0; }
+.hero-net { position: absolute; inset: 0; width: 100%; height: 100%; }
+.hero-scene .obj { position: absolute; left: 0; top: 0; z-index: 2; visibility: hidden; will-change: transform; }
+.hero-scene.is-ready .obj { visibility: visible; }
+.hero-scene .obj > svg {
+  display: block; width: 100%; height: auto; overflow: visible;
+  filter: drop-shadow(0 10px 14px rgb(68 107 164 / .26)) drop-shadow(0 2px 3px rgb(51 57 79 / .10));
+}
+.hero-scene .obj * { transform-box: fill-box; }
+
+/* phone: rings in bursts, handset lifts, sound arcs */
+.obj.phone .body { transform-origin: 50% 100%; }
+.obj.phone.hot .body { animation: hs-ring 1.6s infinite; }
+.obj.phone .handset { transform-origin: 50% 100%; transition: transform .45s cubic-bezier(.3, 1.4, .5, 1); }
+.obj.phone.hot .handset { transform: translate(-3px, -12px) rotate(-12deg); }
+.obj.phone .arc, .obj.headset .arc { opacity: 0; }
+.obj.phone.hot .arc { animation: hs-arc 1.6s infinite; }
+.obj.phone.hot .arc:nth-of-type(2), .obj.headset.hot .arc:nth-of-type(2) { animation-delay: .15s; }
+.obj.phone.hot .arc:nth-of-type(3), .obj.headset.hot .arc:nth-of-type(3) { animation-delay: .3s; }
+.obj.phone .screen { transition: filter .4s; }
+.obj.phone.hot .screen { filter: brightness(1.35); }
+@keyframes hs-ring {
+  0%, 42%, 100% { transform: rotate(0); }
+  3% { transform: rotate(-4deg); } 6% { transform: rotate(4deg); } 9% { transform: rotate(-4deg); } 12% { transform: rotate(4deg); }
+  15% { transform: rotate(-4deg); } 18% { transform: rotate(4deg); } 21% { transform: rotate(-3deg); } 24% { transform: rotate(3deg); }
+  27% { transform: rotate(-2deg); } 30% { transform: rotate(2deg); } 33% { transform: rotate(-1deg); }
+}
+@keyframes hs-arc { 0% { opacity: 0; } 15% { opacity: .9; } 45%, 100% { opacity: 0; } }
+
+/* headset: mic glows, waves pulse */
+.obj.headset .mic { transition: filter .4s; }
+.obj.headset.hot .mic { filter: brightness(1.4) drop-shadow(0 0 5px #6fa0ec); animation: hs-glow 1.2s ease-in-out infinite; }
+.obj.headset.hot .arc { animation: hs-arc 1.2s infinite; }
+@keyframes hs-glow { 50% { filter: brightness(1.1) drop-shadow(0 0 1px #6fa0ec); } }
+
+/* speech bubble: the sound wave turns into text */
+.obj.bubble .wave rect { transform-origin: 50% 50%; transition: transform .45s ease, opacity .45s; }
+.obj.bubble .wave rect:nth-child(odd) { transition-delay: .05s; }
+.obj.bubble .lines rect { transform-origin: 100% 50%; transform: scaleX(0); transition: transform .5s ease; }
+.obj.bubble.hot .wave rect { transform: scaleY(.08); opacity: 0; }
+.obj.bubble.hot .lines rect { transform: scaleX(1); }
+.obj.bubble.hot .lines rect:nth-child(2) { transition-delay: .15s; }
+.obj.bubble.hot .lines rect:nth-child(3) { transition-delay: .3s; }
+
+/* server: LEDs chase */
+.obj.server .led { fill: #c3cfe2; }
+.obj.server.hot .led { animation: hs-led 1.4s infinite; }
+@keyframes hs-led { 0%, 60%, 100% { fill: #c3cfe2; } 15% { fill: #4f8fe8; } }
+
+/* chart: bars grow from zero */
+.obj.chart .bar { transform-origin: 50% 100%; }
+.obj.chart.hot .bar { animation: hs-grow .9s cubic-bezier(.2, .9, .3, 1.2) both; }
+.obj.chart.hot .bar:nth-child(2) { animation-delay: .12s; }
+.obj.chart.hot .bar:nth-child(3) { animation-delay: .24s; }
+.obj.chart.hot .bar:nth-child(4) { animation-delay: .36s; }
+@keyframes hs-grow { from { transform: scaleY(0); } to { transform: scaleY(1); } }
+
+/* printer: pages slide out */
+.obj.printer .page { opacity: 0; }
+.obj.printer.hot .page { animation: hs-print 2.4s infinite; }
+.obj.printer.hot .page:nth-child(2) { animation-delay: .8s; }
+.obj.printer.hot .page:nth-child(3) { animation-delay: 1.6s; }
+@keyframes hs-print {
+  0% { transform: translateY(-44px); opacity: 1; }
+  55% { transform: translateY(0); opacity: 1; }
+  75% { transform: translateY(14px) rotate(-3deg); opacity: 1; }
+  100% { transform: translateY(30px) rotate(-6deg); opacity: 0; }
+}
+.obj.printer .light { transition: fill .3s; }
+.obj.printer.hot .light { fill: #5fd08a; }
+
+/* logo: signal ripples */
+.obj.logo .ripple { fill: none; stroke: var(--blue); stroke-width: 1.4; opacity: 0; transform-origin: 50% 50%; }
+.obj.logo.ripples .ripple { animation: hs-ripple 3.6s infinite; }
+.obj.logo.ripples .ripple:nth-of-type(2) { animation-delay: 1.2s; }
+.obj.logo.ripples .ripple:nth-of-type(3) { animation-delay: 2.4s; }
+@keyframes hs-ripple { 0% { transform: scale(.55); opacity: .45; } 100% { transform: scale(1.5); opacity: 0; } }
+
+@media (prefers-reduced-motion: reduce) {
+  .hero-scene .obj, .hero-scene .obj * { animation: none !important; transition: none !important; }
+}
 
 .tiles { display: grid; gap: 20px; grid-template-columns: repeat(auto-fit, minmax(min(100%, 300px), 1fr)); }
 .tile {
