@@ -4,7 +4,7 @@ intro: חברו את מערכת הטלפוניה העסקית שלכם אל הע
 images: []
 imagePosition: side
 items:
-  - name: LIP1080i
+  - name: LIP-1080i
     image: ''
     text: ''
     link: ipecs-1080i
@@ -29,7 +29,7 @@ items:
     text: ''
     link: ipecs-1020i
     linkText: ''
-  - name: LIP1010i
+  - name: LIP-1010i
     image: ''
     text: ''
     link: ipecs-1010i
