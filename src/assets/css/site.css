@@ -268,11 +268,11 @@ main:focus { outline: none; }
 @keyframes hs-led { 0%, 60%, 100% { fill: #c3cfe2; } 15% { fill: #4f8fe8; } }
 
 /* chart: bars grow from zero */
-.obj.chart .bar { transform-origin: 50% 100%; }
-.obj.chart.hot .bar { animation: hs-grow .9s cubic-bezier(.2, .9, .3, 1.2) both; }
-.obj.chart.hot .bar:nth-child(2) { animation-delay: .12s; }
-.obj.chart.hot .bar:nth-child(3) { animation-delay: .24s; }
-.obj.chart.hot .bar:nth-child(4) { animation-delay: .36s; }
+.obj.chart .hs-bar { transform-origin: 50% 100%; }
+.obj.chart.hot .hs-bar { animation: hs-grow .9s cubic-bezier(.2, .9, .3, 1.2) both; }
+.obj.chart.hot .hs-bar:nth-child(2) { animation-delay: .12s; }
+.obj.chart.hot .hs-bar:nth-child(3) { animation-delay: .24s; }
+.obj.chart.hot .hs-bar:nth-child(4) { animation-delay: .36s; }
 @keyframes hs-grow { from { transform: scaleY(0); } to { transform: scaleY(1); } }
 
 /* printer: pages slide out */

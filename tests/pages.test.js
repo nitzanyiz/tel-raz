@@ -79,6 +79,13 @@ test("redirects", () => {
   assert.match(r, /^https:\/\/www\.tel-raz\.co\.il\/\*\s+https:\/\/tel-raz\.com\/:splat\s+301!$/m);
 });
 
+test("scene script loads only on the home page", () => {
+  const out = buildSite("preview");
+  const sel = 'script[src="/assets/js/hero-scene.js"][defer]';
+  assert.strictEqual(load(out, "/")(sel).length, 1);
+  for (const r of ["/contact/", "/support/guides/"]) assert.strictEqual(load(out, r)(sel).length, 0, r);
+});
+
 test("home hero is the decorative scene", () => {
   const out = buildSite("preview");
   const $ = load(out, "/");
