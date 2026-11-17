@@ -1,7 +1,7 @@
 # Home hero: animated scene — design
 
 Date: 2026-11-17
-Status: draft, awaiting approval
+Status: approved 2026-11-17
 
 ## 1. Intent
 
