@@ -16,7 +16,7 @@ system: false
 sitemap: true
 ---
 
-- מסך 2.4"
+- תצוגה 4 שורות, מסך 2.4"
 - 4 לחצני תכנות במסך
 - איכות קול HD
 - Full Duplex Speakerphone
