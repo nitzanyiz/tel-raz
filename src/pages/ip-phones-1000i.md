@@ -14,6 +14,26 @@ items:
     text: ''
     link: ipecs-1050i
     linkText: ''
+  - name: LIP-1040i
+    image: ''
+    text: ''
+    link: ipecs-1040i
+    linkText: ''
+  - name: LIP-1030i
+    image: ''
+    text: ''
+    link: ipecs-1030i
+    linkText: ''
+  - name: LIP-1020i
+    image: ''
+    text: ''
+    link: ipecs-1020i
+    linkText: ''
+  - name: LIP1010i
+    image: ''
+    text: ''
+    link: ipecs-1010i
+    linkText: ''
 contactForm: true
 menu:
   inMenu: true
