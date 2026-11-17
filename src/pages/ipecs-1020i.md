@@ -1,5 +1,5 @@
 ---
-title: LIP-1020
+title: LIP-1020i
 intro: טלפון IP - ברמת Basic
 images: []
 imagePosition: side
