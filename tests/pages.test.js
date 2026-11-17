@@ -79,6 +79,17 @@ test("redirects", () => {
   assert.match(r, /^https:\/\/www\.tel-raz\.co\.il\/\*\s+https:\/\/tel-raz\.com\/:splat\s+301!$/m);
 });
 
+test("inner page title band is white with the still network image", () => {
+  const out = buildSite("preview");
+  const css = read(out, "assets/css/site.css");
+  const band = css.match(/\.page-hero \{[^}]*\}/)[0];
+  assert.match(band, /#fff url\("\/assets\/img\/page-net\.svg"\)/);
+  assert.doesNotMatch(band, /navy/);
+  const svg = read(out, "assets/img/page-net.svg");
+  assert.match(svg, /<circle /);
+  assert.ok(svg.length < 40 * 1024, "page-net.svg too large");
+});
+
 test("scene script loads only on the home page", () => {
   const out = buildSite("preview");
   const sel = 'script[src="/assets/js/hero-scene.js"][defer]';
