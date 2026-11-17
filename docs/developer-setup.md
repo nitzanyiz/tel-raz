@@ -19,6 +19,10 @@ Design: [`superpowers/specs/2026-11-14-tel-raz-site-design.md`](./superpowers/sp
 - **Admin:** Sveltia CMS at `/admin` (`src/admin/index.html` pins the version; `src/admin/config.yml` defines the forms). `tests/cms.test.js` keeps the config in sync with the content files.
 - **Forms:** Netlify Forms (`contact`, `service-call`), with a honeypot. They redirect to `/thanks/`.
 
+## Testing
+
+See the project skill **`.claude/skills/test-site/SKILL.md`** (ask Claude to "test" a change, or follow it by hand). It covers `npm test`, the browser checks, the screenshots, and the **CMS lab** (`node .claude/skills/test-site/cms-lab.mjs`), which runs the real admin panel with in-browser demo storage, seeded from `src/`, with no login and no repo changes. Run the CMS lab after any change to `src/admin/config.yml` and after upgrading Sveltia.
+
 ## Local development
 
 ```bash

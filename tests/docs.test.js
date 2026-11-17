@@ -61,3 +61,10 @@ test("developer docs and the add-page skill describe the flat page structure", (
   }
   for (const s of ["system: true", "_redirects", "pageUrl"]) assert.ok(dev.includes(s), `developer-setup: ${s}`);
 });
+
+test("test-site skill exists with its CMS lab", () => {
+  assert.match(read(".claude/skills/test-site/SKILL.md"), /^---\nname: test-site\ndescription: Use when .+\n---/);
+  assert.ok(fs.existsSync(path.join(ROOT, ".claude/skills/test-site/cms-lab.mjs")));
+  assert.ok(read("docs/developer-setup.md").includes(".claude/skills/test-site/SKILL.md"));
+});
+
