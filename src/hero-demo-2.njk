@@ -47,18 +47,18 @@
 
   <main class="panel">
     <h2>הדגמה 2: חמישה לוגואים</h2>
-    <p class="lead">שני לוגואים בכל צד, גדול וקטן: משמאל הגדול חד והקטן מטושטש, מימין להפך. למעלה באמצע לוגו גדול מטושטש. העבירו את העכבר מעל לוגו והוא יסתובב מעט לכיוון מרכז האזור, ויחזור בעדינות למקומו כשהעכבר יוצא.</p>
+    <p class="lead">שני לוגואים בכל צד, גדול וקטן: משמאל הגדול חד והקטן מטושטש, מימין להפך. למעלה באמצע לוגו גדול מטושטש. הזיזו את העכבר על פני האזור: הלוגואים זזים בעומקים שונים ויוצרים תחושת עומק (פרלקסה). הלוגואים הגדולים והמטושטשים קרובים יותר וזזים הכי הרבה, והקטן המטושטש רחוק וזז הכי מעט.</p>
 
     <div class="group-title">הגדרות</div>
     <div class="sliders">
       <label>רוחב לוגו גדול (פיקסלים) <output id="o-big"></output><input type="range" id="c-big" min="140" max="380" value="220"></label>
       <label>רוחב לוגו קטן (פיקסלים) <output id="o-small"></output><input type="range" id="c-small" min="50" max="160" value="90"></label>
       <label>עוצמת טשטוש <output id="o-blur"></output><input type="range" id="c-blur" min="0" max="20" value="7"></label>
-      <label>זווית הסיבוב (מעלות) <output id="o-amp"></output><input type="range" id="c-amp" min="5" max="60" value="25"></label>
-      <label>מהירות הסיבוב <output id="o-speed"></output><input type="range" id="c-speed" min="1" max="10" value="4"></label>
+      <label>עוצמת הפרלקסה (פיקסלים) <output id="o-amp"></output><input type="range" id="c-amp" min="5" max="120" value="40"></label>
+      <label>רכות התנועה <output id="o-speed"></output><input type="range" id="c-speed" min="1" max="10" value="4"></label>
     </div>
 
-    <p class="note">זוהי הדגמה בלבד ואינה חלק מהאתר. בטלפון אפשר לגעת בלוגו או לגרור אצבע מעליו כדי לראות את הסיבוב.</p>
+    <p class="note">זוהי הדגמה בלבד ואינה חלק מהאתר. בטלפון אפשר לגרור אצבע על האזור הלבן כדי לראות את התנועה.</p>
   </main>
 
   <script>
@@ -67,13 +67,14 @@
     const hero = document.getElementById('hero');
     const ctl = id => document.getElementById('c-' + id);
     const ids = ['big', 'small', 'blur', 'amp', 'speed'];
-    // x, y as fractions of the hero; size big/small; blurred or sharp; resting tilt
+    // x, y as fractions of the hero; size big/small; blurred or sharp; resting tilt;
+    // depth = how much it moves (big blurred ones read as out-of-focus foreground)
     const spec = [
-      { x: 0.11, y: 0.74, size: 'big',   blurred: false, rot: -8 },  // left, large, sharp
-      { x: 0.22, y: 0.18, size: 'small', blurred: true,  rot: 10 },  // left, small, blurred
-      { x: 0.89, y: 0.28, size: 'big',   blurred: true,  rot: 8 },   // right, large, blurred
-      { x: 0.80, y: 0.84, size: 'small', blurred: false, rot: -6 },  // right, small, sharp
-      { x: 0.50, y: 0.06, size: 'big',   blurred: true,  rot: 0 },   // top middle, large, blurred
+      { x: 0.11, y: 0.74, size: 'big',   blurred: false, rot: -8, depth: 0.6 },   // left, large, sharp
+      { x: 0.22, y: 0.18, size: 'small', blurred: true,  rot: 10, depth: 0.25 },  // left, small, blurred
+      { x: 0.89, y: 0.28, size: 'big',   blurred: true,  rot: 8, depth: 1 },      // right, large, blurred
+      { x: 0.80, y: 0.84, size: 'small', blurred: false, rot: -6, depth: 0.45 },  // right, small, sharp
+      { x: 0.50, y: 0.06, size: 'big',   blurred: true,  rot: 0, depth: 0.9 },    // top middle, large, blurred
     ];
     let mouse = null;
     const logos = spec.map((s, i) => {
@@ -81,7 +82,7 @@
       el.setAttribute('class', 'logo'); el.setAttribute('viewBox', '0 0 2004 1110');
       el.innerHTML = '<use href="#r-silver-blue"/>';
       hero.insertBefore(el, hero.firstChild);
-      return { ...s, el, act: 0 };
+      return { ...s, el, ox: 0, oy: 0 };
     });
 
     function applyLook() {
@@ -95,16 +96,14 @@
     }
 
     function tick() {
-      const W = hero.clientWidth, H = hero.clientHeight, angle = +ctl('amp').value, rate = 0.02 + +ctl('speed').value * 0.012;
+      const W = hero.clientWidth, H = hero.clientHeight, strength = +ctl('amp').value;
+      const rate = 0.13 - +ctl('speed').value * 0.011;    // softer = slower catch-up
+      // pointer position from the hero's centre, -1..1 (centre when the pointer is away)
+      const px = mouse ? (mouse.x / W - 0.5) * 2 : 0, py = mouse ? (mouse.y / H - 0.5) * 2 : 0;
       for (const l of logos) {
         const cx = l.x * W, cy = l.y * H;
-        // hovered = pointer inside the logo's ellipse (plus a small margin)
-        const over = mouse && (((mouse.x - cx) / (l.w / 2 + 16)) ** 2 + ((mouse.y - cy) / (l.w * 0.277 + 16)) ** 2) <= 1;
-        l.act += ((over ? 1 : 0) - l.act) * rate;          // eases toward the middle on hover, back after
-        // turn in 3D to face the middle of the hero
-        const dx = W / 2 - cx, dy = H / 2 - cy, n = Math.hypot(dx, dy) || 1;
-        const ry = dx / n * angle * l.act, rx = -dy / n * angle * l.act;
-        l.el.style.transform = `translate(${cx - l.w / 2}px, ${cy - l.w * 0.277}px) perspective(${l.w * 3}px) rotateY(${ry}deg) rotateX(${rx}deg) rotate(${l.rot}deg)`;
+        l.ox += (-px * strength * l.depth - l.ox) * rate; l.oy += (-py * strength * 0.6 * l.depth - l.oy) * rate;
+        l.el.style.transform = `translate(${cx - l.w / 2 + l.ox}px, ${cy - l.w * 0.277 + l.oy}px) rotate(${l.rot}deg)`;
       }
       requestAnimationFrame(tick);
     }
