@@ -8,7 +8,7 @@ contactForm: true
 menu:
   inMenu: true
   parent: cloud-pbx
-  order: 3
+  order: 2
   title: iPECS Analytics
 seoTitle: ''
 seoDescription: ''
