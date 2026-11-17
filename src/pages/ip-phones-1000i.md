@@ -9,6 +9,11 @@ items:
     text: ''
     link: ipecs-1080i
     linkText: ''
+  - name: LIP-1050i
+    image: ''
+    text: ''
+    link: ipecs-1050i
+    linkText: ''
 contactForm: true
 menu:
   inMenu: true
