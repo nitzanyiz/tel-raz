@@ -101,7 +101,9 @@
   function layout() {
     const base = hero.getBoundingClientRect();
     W = hero.clientWidth; H = hero.clientHeight;
-    const top = header ? Math.max(0, header.getBoundingClientRect().bottom - base.top) : 0;
+    // the floating header overlaps the top of the hero; use its size, not its
+    // on-screen position (it's sticky, so that depends on the scroll)
+    const top = header ? header.offsetHeight + parseFloat(getComputedStyle(header).marginTop) : 0;
     const T = textBox(base);
     const unit = Math.min(1.15, Math.max(.55, W / 1440)) * SIZE;
 
