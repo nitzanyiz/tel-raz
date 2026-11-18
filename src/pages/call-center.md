@@ -9,7 +9,7 @@ menu:
   inMenu: true
   parent: services
   order: 4
-  title: קול סנטר
+  title: פתרונות קול סנטר
 seoTitle: ''
 seoDescription: פתרונות מוקד קול סנטר לעסקים – ניהול תורים, דוחות ושירות לקוחות.
 system: false
