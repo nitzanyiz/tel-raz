@@ -9,7 +9,7 @@ menu:
   inMenu: true
   parent: cloud-pbx
   order: 1
-  title: iPECS Cloud
+  title: IPECS Cloud
 seoTitle: iPECS Cloud - מרכזיית ענן
 seoDescription: 'מרכזיית ענן iPECS Cloud לעסקים: שלוחות, ניתוב שיחות, אפליקציה לנייד ועבודה מכל מקום.'
 system: false
