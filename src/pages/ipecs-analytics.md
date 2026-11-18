@@ -1,5 +1,5 @@
 ---
-title: iPECS Analytics
+title: IPECS Analytics
 intro: שליטה מלאה בפעילות התקשורת, ניטור בזמן אמת וקבלת החלטות חכמות יותר.
 images: []
 imagePosition: side
@@ -10,7 +10,7 @@ menu:
   parent: cloud-pbx
   order: 2
   title: iPECS Analytics
-seoTitle: ''
+seoTitle: IPECS Analytics
 seoDescription: ''
 system: false
 sitemap: true
