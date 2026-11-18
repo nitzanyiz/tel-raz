@@ -9,7 +9,7 @@ menu:
   inMenu: true
   parent: cloud-pbx
   order: 2
-  title: iPECS Analytics
+  title: IPECS Analytics
 seoTitle: IPECS Analytics
 seoDescription: ''
 system: false
