@@ -2,7 +2,7 @@
 title: GRP2613
 intro: ''
 images:
-  - src: /assets/uploads/GRP2613.webp
+  - src: /assets/uploads/GRP2613-1.webp
     alt: טלפון GRP2613
 imagePosition: side
 items: []
