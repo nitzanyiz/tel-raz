@@ -2,7 +2,7 @@
 title: GXP2170
 intro: ''
 images:
-  - src: /assets/uploads/GXP2170.webp
+  - src: /assets/uploads/GXP2170-1.webp
     alt: טלפון GXP2170
 imagePosition: side
 items: []
