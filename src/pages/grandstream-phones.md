@@ -1,5 +1,5 @@
 ---
-title: טלפוני Grandstream SIP
+title: טלפוני SIP
 intro: ''
 images: []
 imagePosition: side
