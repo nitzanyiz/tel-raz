@@ -5,7 +5,7 @@ images: []
 imagePosition: side
 items:
   - name: טלפונים
-    image: ''
+    image: /assets/uploads/TELE.webp
     text: מגוון טלפוני IP של Grandstream.
     link: grandstream-phones
     linkText: ''
