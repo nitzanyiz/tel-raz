@@ -24,6 +24,11 @@ items:
     text: ''
     link: grandstream-grp2613
     linkText: ''
+  - name: GRP2615
+    image: /assets/uploads/GRP2615.webp
+    text: ''
+    link: grandstream-grp2615
+    linkText: ''
 contactForm: true
 menu:
   inMenu: false
