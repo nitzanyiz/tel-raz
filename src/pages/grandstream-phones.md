@@ -5,22 +5,22 @@ images: []
 imagePosition: side
 items:
   - name: GXP2130
-    image: /assets/uploads/GXP2130.webp
+    image: /assets/uploads/GXP2130-1.webp
     text: ''
     link: grandstream-gxp2130
     linkText: ''
   - name: GXP2160
-    image: /assets/uploads/GXP2160.webp
+    image: /assets/uploads/GXP2160-1.webp
     text: ''
     link: grandstream-gxp2160
     linkText: ''
   - name: GXP2170
-    image: /assets/uploads/GXP2170.webp
+    image: /assets/uploads/GXP2170-1.webp
     text: ''
     link: grandstream-gxp2170
     linkText: ''
   - name: GRP2613
-    image: ''
+    image: /assets/uploads/GRP2613-1.webp
     text: ''
     link: grandstream-grp2613
     linkText: ''
