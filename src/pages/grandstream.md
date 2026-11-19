@@ -7,7 +7,7 @@ items:
   - name: טלפונים
     image: ''
     text: מגוון טלפוני IP של Grandstream.
-    link: ''
+    link: grandstream-phones
     linkText: ''
 contactForm: true
 menu:
