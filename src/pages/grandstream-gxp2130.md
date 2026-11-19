@@ -2,8 +2,8 @@
 title: GXP2130
 intro: ''
 images:
-  - src: /assets/uploads/GXP2130.webp
-    alt: טלפון 2130
+  - src: /assets/uploads/GXP2130-1.webp
+    alt: טלפון GXP2130
 imagePosition: side
 items: []
 contactForm: true
