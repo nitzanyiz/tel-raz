@@ -10,27 +10,27 @@ items:
     link: ipecs-1080i
     linkText: ''
   - name: LIP-1050i
-    image: ''
+    image: /assets/uploads/1050i_right_.webp
     text: ''
     link: ipecs-1050i
     linkText: ''
   - name: LIP-1040i
-    image: ''
+    image: /assets/uploads/1040i_left.webp
     text: ''
     link: ipecs-1040i
     linkText: ''
   - name: LIP-1030i
-    image: ''
+    image: /assets/uploads/1030i_left.webp
     text: ''
     link: ipecs-1030i
     linkText: ''
   - name: LIP-1020i
-    image: ''
+    image: /assets/uploads/1020i_left.webp
     text: ''
     link: ipecs-1020i
     linkText: ''
   - name: LIP-1010i
-    image: ''
+    image: /assets/uploads/1010i_left.webp
     text: ''
     link: ipecs-1010i
     linkText: ''
