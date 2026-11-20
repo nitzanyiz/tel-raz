@@ -5,7 +5,7 @@ images: []
 imagePosition: side
 items:
   - name: LIP-1080i
-    image: ''
+    image: /assets/uploads/1080i_left.webp
     text: ''
     link: ipecs-1080i
     linkText: ''
