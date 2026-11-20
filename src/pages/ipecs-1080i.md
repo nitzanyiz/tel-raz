@@ -1,7 +1,11 @@
 ---
 title: LIP-1080i
 intro: טלפון IP - ברמת Primium
-images: []
+images:
+  - src: /assets/uploads/1080i_left.webp
+    alt: טלפון 1080i
+  - src: /assets/uploads/1080i_front.webp
+    alt: טלפון 1080i
 imagePosition: side
 items: []
 contactForm: true
