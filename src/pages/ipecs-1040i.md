@@ -1,7 +1,11 @@
 ---
 title: LIP-1040i
 intro: טלפון IP - ברמת Standard
-images: []
+images:
+  - src: /assets/uploads/1040i_left.webp
+    alt: טלפון 1040i
+  - src: /assets/uploads/1040i_front.webp
+    alt: טלפון 1040i
 imagePosition: side
 items: []
 contactForm: true
