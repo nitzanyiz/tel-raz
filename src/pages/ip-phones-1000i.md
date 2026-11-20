@@ -15,7 +15,7 @@ items:
     link: ipecs-1050i
     linkText: ''
   - name: LIP-1040i
-    image: /assets/uploads/1040i_left.webp
+    image: /assets/uploads/1040i_left-1.webp
     text: ''
     link: ipecs-1040i
     linkText: ''
@@ -30,7 +30,7 @@ items:
     link: ipecs-1020i
     linkText: ''
   - name: LIP-1010i
-    image: /assets/uploads/1010i_left.webp
+    image: /assets/uploads/1010i_left-1.webp
     text: ''
     link: ipecs-1010i
     linkText: ''
