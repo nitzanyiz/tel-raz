@@ -4,6 +4,8 @@ intro: טלפון IP - ברמת Essential
 images:
   - src: /assets/uploads/1030i_left.webp
     alt: טלפון 1030i
+  - src: /assets/uploads/1030i_front.webp
+    alt: טלפון 1030i
 imagePosition: side
 items: []
 contactForm: true
