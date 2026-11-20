@@ -25,7 +25,7 @@ items:
     link: ipecs-1030i
     linkText: ''
   - name: LIP-1020i
-    image: /assets/uploads/1020i_left.webp
+    image: /assets/uploads/1020i_left-1.webp
     text: ''
     link: ipecs-1020i
     linkText: ''
