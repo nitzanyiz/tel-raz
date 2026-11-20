@@ -1,7 +1,11 @@
 ---
 title: LIP-1020i
 intro: טלפון IP - ברמת Basic
-images: []
+images:
+  - src: /assets/uploads/1020i_left.webp
+    alt: טלפון 1020i
+  - src: /assets/uploads/1020i_front.webp
+    alt: טלפון 1020i
 imagePosition: side
 items: []
 contactForm: true
