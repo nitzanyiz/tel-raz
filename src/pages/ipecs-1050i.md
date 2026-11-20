@@ -1,7 +1,11 @@
 ---
 title: LIP-1050i
 intro: טלפון IP - ברמת Advanced
-images: []
+images:
+  - src: /assets/uploads/1050i_right_.webp
+    alt: טלפון 1050i
+  - src: /assets/uploads/1050i_front.webp
+    alt: טלפון 1050i
 imagePosition: side
 items: []
 contactForm: true
