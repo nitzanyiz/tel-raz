@@ -1,7 +1,9 @@
 ---
 title: LIP-1010i
 intro: טלפון IP ברמת Entry
-images: []
+images:
+  - src: /assets/uploads/1010i_left.webp
+    alt: טלפון 1010i
 imagePosition: side
 items: []
 contactForm: true
