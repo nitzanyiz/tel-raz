@@ -26,18 +26,18 @@
       "file": "/files/מדריך הפעלה TES824, TEA308.pdf"
     },
     {
-      "title": "מדריך מקוצר למשתמש iPECS Cloud",
+      "title": "מדריך מקוצר למשתמש IPECS Cloud",
       "desc": "מדריך לטלפוני LG מסדרה 1000i",
       "file": "/files/מדריך מקוצר למשתמש ענן.pdf"
     },
     {
-      "title": "התקנת אפליקציה iPECS ONE בנייד באמצעות QR Code",
-      "desc": "עבור iPECS Cloud",
+      "title": "התקנת אפליקציה IPECS ONE בנייד באמצעות QR Code",
+      "desc": "עבור IPECS Cloud",
       "file": "/files/התקנת אפליקציה iPECS ONE בנייד באמצעות QR Code.pdf"
     },
     {
       "title": "מדריך להגדרת 2FA בהתחברות לממשק למשתמש",
-      "desc": "עבור iPECS Cloud",
+      "desc": "עבור IPECS Cloud",
       "file": "/files/התחברות באמצעות אימות דו שלבי.pdf"
     }
   ]
