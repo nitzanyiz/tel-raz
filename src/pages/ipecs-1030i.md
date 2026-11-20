@@ -1,7 +1,9 @@
 ---
 title: LIP-1030i
 intro: טלפון IP - ברמת Essential
-images: []
+images:
+  - src: /assets/uploads/1030i_left.webp
+    alt: טלפון 1030i
 imagePosition: side
 items: []
 contactForm: true
