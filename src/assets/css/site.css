@@ -376,14 +376,14 @@ input[aria-invalid="true"], textarea[aria-invalid="true"] { border-color: #b4231
 }
 
 /* Contact form "דברו איתנו" button (assets/js/contact-form.js).
-   The phone rings 3 times each time the form comes into view (.is-live), then rests.
-   Focus in the form (.is-engaged) or a finished send (.is-done) → the plain, still button. */
+   The phone rings 3 times the first time the form comes into view (.is-live), once per page visit.
+   Focus in the form or a send (.is-done) → the plain, still button for the rest of the visit. */
 .cta-btn { position: relative; }
 .cta-ico { display: inline-flex; }
 .cta-ico .icon { width: 20px; height: 20px; }
 .is-live .cta-btn { animation: cta-buzz 3.2s ease-in-out 3; }
 .is-live .cta-ico { animation: cta-ring 3.2s ease-in-out 3; transform-origin: 50% 60%; }
-.is-engaged .cta-btn, .is-engaged .cta-ico, .is-done .cta-btn, .is-done .cta-ico { animation: none; }
+.is-done .cta-btn, .is-done .cta-ico { animation: none; }
 @keyframes cta-ring {
   0%, 4%, 8%, 12%, 16%, 20%, 24%, 28%, 32% { transform: rotate(0); }
   2%, 10%, 18%, 26% { transform: rotate(-18deg); }

@@ -18,11 +18,10 @@ All three apply in the three places the contact form appears: the home page stri
 contact page, and the bottom of content pages. The service-call form is not changed.
 
 ## Rules (from the discussion)
-- The ring runs only while the form is on screen (≥ 40% visible).
-- Focus inside the form → the button returns at once to its plain, still state (no frozen tilt).
-  Leaving the form without typing anything → the ring starts again.
-- The ring rings **3 times** (3 × 3.2 s ≈ 10 s) each time the form comes into view, then rests.
-  Scrolling away and back → 3 new rings. Stops for good after a successful send.
+- The ring rings **3 times** (3 × 3.2 s ≈ 10 s) the first time the form comes into view,
+  **once per page visit** (changed 2026-11-21 after trying it: re-ringing on every return felt naggy).
+- Focus inside the form → the button returns at once to its plain, still state and stays so
+  for the rest of the visit. A successful send also ends it.
 - "Reduce motion" users: no ring, no entrance (content simply shown), no spinner motion.
 - Without JavaScript: no hidden content, the form posts to `/thanks/` as today.
 

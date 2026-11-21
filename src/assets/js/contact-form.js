@@ -25,33 +25,26 @@
   const MSG = { sending: "שולח...", sent: "✓ נשלח!", announce: "הפנייה נשלחה. נחזור אליכם בהקדם." };
   const SENT_MS = 4000;
 
-  // Something the visitor typed (hidden fields and the honeypot don't count).
-  const typed = (form) =>
-    [...form.querySelectorAll("input, textarea")].some(
-      (el) => el.type !== "hidden" && el.name !== "bot-field" && el.value.trim()
-    );
-
   function init(doc) {
     const forms = [...doc.querySelectorAll('form[name="contact"]')];
     if (!forms.length) return;
 
-    // Ring only while on screen; leaving and coming back restarts the 3 rings.
+    // Ring once per page visit: 3 rings the first time the form comes into view.
     if ("IntersectionObserver" in window) {
       const io = new IntersectionObserver(
-        (entries) => entries.forEach((e) => e.target.classList.toggle("is-live", e.isIntersecting)),
+        (entries) =>
+          entries.forEach((e) => {
+            if (!e.isIntersecting) return;
+            e.target.classList.add("is-live");
+            io.unobserve(e.target);
+          }),
         { threshold: 0.4 }
       );
       forms.forEach((f) => io.observe(f));
     }
 
-    forms.forEach((form) => {
-      form.addEventListener("focusin", () => form.classList.add("is-engaged"));
-      form.addEventListener("focusout", () =>
-        setTimeout(() => {
-          if (!form.contains(doc.activeElement) && !typed(form)) form.classList.remove("is-engaged");
-        })
-      );
-    });
+    // Clicking into the form ends the ringing for this visit (plain, still button).
+    forms.forEach((form) => form.addEventListener("focusin", () => form.classList.add("is-done")));
 
     // On the document, so form-validation.js (listening on the form) runs first
     // and cancels the submit when something is wrong.
