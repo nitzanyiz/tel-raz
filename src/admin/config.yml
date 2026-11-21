@@ -265,6 +265,95 @@ collections:
       - { name: image, widget: hidden }
       - { name: imageAlt, widget: hidden }
 
+  # A page with a form of its own (src/pages/ai-solutions.md). Its front matter
+  # has system: special, so neither folder view above shows it (saving it
+  # through their generic forms would drop the sections).
+  - name: special_pages
+    label: עמודים מיוחדים
+    label_singular: עמוד מיוחד
+    description: "עמודים עם מבנה משלהם. אפשר לערוך את הטקסט, אבל לא למחוק אותם או לשנות את הכתובת."
+    files:
+      - name: ai-solutions
+        label: פתרונות שירותי AI
+        file: src/pages/ai-solutions.md
+        format: frontmatter
+        fields:
+          - { name: title, label: כותרת העמוד, widget: string }
+          - { name: intro, label: משפט פתיחה, widget: text, required: false }
+          - name: sections
+            label: אזורים
+            label_singular: אזור
+            hint: "שלושה אזורים קבועים. ההנפשה של כל אזור קבועה לפי המיקום שלו (ניתוח שיחות, בוט קולי, שירות זמין)."
+            widget: list
+            allow_add: false
+            allow_remove: false
+            allow_reorder: false
+            summary: "{{fields.title}}"
+            fields:
+              - { name: title, label: כותרת האזור, widget: string }
+              - { name: tagline, label: "שורה קצרה מתחת לכותרת (לא חובה)", widget: string, required: false, default: "" }
+              - name: groups
+                label: קבוצות כרטיסים
+                label_singular: קבוצה
+                widget: list
+                summary: "{{fields.heading}}"
+                fields:
+                  - { name: heading, label: "כותרת הקבוצה (לא חובה)", widget: string, required: false, default: "" }
+                  - name: cards
+                    label: כרטיסים
+                    label_singular: כרטיס
+                    widget: list
+                    summary: "{{fields.keyword}}"
+                    fields:
+                      - { name: keyword, label: מילת מפתח, widget: string }
+                      - { name: text, label: הסבר, widget: text }
+                      - name: icon
+                        label: אייקון
+                        widget: select
+                        default: sparkle
+                        options:
+                          - { label: "תמלול (שורות טקסט)", value: transcript }
+                          - { label: "סיכום (מסמך)", value: summary }
+                          - { label: "סנטימנט (פרצוף)", value: sentiment }
+                          - { label: "תובנה (נורה)", value: insight }
+                          - { label: "חיפוש (זכוכית מגדלת)", value: search }
+                          - { label: "סקירה מהירה (הרצה קדימה)", value: review }
+                          - { label: "מכל מקום (מכשירים)", value: devices }
+                          - { label: "מיקרופון", value: mic }
+                          - { label: "יומן", value: calendar }
+                          - { label: "תשלום (כרטיס אשראי)", value: payment }
+                          - { label: "אוטומציה (גלגל שיניים)", value: automation }
+                          - { label: "24/7 (שעון)", value: clock24 }
+                          - { label: "ניתוב (חיצים)", value: routing }
+                          - { label: "חוויית שירות (לב)", value: service }
+                          - { label: "AI (ניצוץ)", value: sparkle }
+          - { name: contactForm, label: הצגת טופס יצירת קשר בתחתית העמוד, widget: boolean, required: false, default: true }
+          - name: menu
+            label: תפריט
+            widget: object
+            collapsed: true
+            hint: "האם העמוד מופיע בתפריט העליון, ואיפה"
+            fields:
+              - { name: inMenu, label: להציג בתפריט, widget: boolean, default: false, required: false }
+              - name: parent
+                label: מתחת לכותרת
+                widget: select
+                required: false
+                default: ""
+                options:
+                  - { label: "שורת התפריט הראשית", value: "" }
+                  - { label: "שירותים", value: services }
+                  - { label: "שירותים › שירותי מרכזיה בענן", value: cloud-pbx }
+                  - { label: "שירותים › מרכזיה", value: pbx }
+                  - { label: "שירותים › פתרונות מתקדמים", value: advanced }
+                  - { label: "שירות ותמיכה", value: support }
+              - { name: order, label: "מיקום (מספר קטן = ראשון)", widget: number, value_type: int, required: false }
+              - { name: title, label: "שם קצר בתפריט (ריק = כותרת העמוד)", widget: string, required: false }
+          - { name: seoTitle, label: "כותרת לגוגל (לא חובה)", widget: string, required: false }
+          - { name: seoDescription, label: "תיאור לגוגל (עד כ-155 תווים)", widget: text, required: false }
+          - { name: system, widget: hidden, default: special }
+          - { name: sitemap, widget: hidden, default: true }
+
   - name: all_pages
     label: כל העמודים
     folder: src/pages

@@ -21,7 +21,7 @@ test("backend points at the repo's master branch", () => {
 
 test("file collections match their JSON keys exactly", () => {
   for (const col of config.collections.filter((c) => c.files)) {
-    for (const f of col.files) {
+    for (const f of col.files.filter((f) => f.file.endsWith(".json"))) {
       const data = JSON.parse(fs.readFileSync(path.join(ROOT, f.file), "utf8"));
       assert.deepStrictEqual(fieldNames(f.fields), Object.keys(data).sort(), f.file);
     }
@@ -65,6 +65,9 @@ test("every page with menu settings states inMenu explicitly", () => {
 // ---- pages: one folder, two filtered views + a hidden view for the link dropdowns
 const col = (name) => config.collections.find((c) => c.name === name);
 const SYSTEM_PAGES = ["404", "accessibility", "contact", "guides", "privacy", "service-call", "thanks"];
+// Pages with their own form (a files entry in special_pages), kept out of both folder views.
+const SPECIAL_PAGES = ["ai-solutions"];
+const specialEntry = (slug) => col("special_pages").files.find((f) => f.file === `src/pages/${slug}.md`);
 const pageFiles = () => fs.readdirSync(path.join(ROOT, "src/pages")).filter((f) => f.endsWith(".md"));
 const pageFm = (file) => YAML.parse(fs.readFileSync(path.join(ROOT, "src/pages", file), "utf8").match(/^---\n([\s\S]*?)\n---/)[1]);
 
@@ -93,7 +96,8 @@ test("the link dropdowns read from a hidden all-pages view", () => {
 test("every page carries explicit system and sitemap flags", () => {
   for (const file of pageFiles()) {
     const fm = pageFm(file), slug = file.slice(0, -3);
-    assert.strictEqual(fm.system, SYSTEM_PAGES.includes(slug), `${file}: system`);
+    if (SPECIAL_PAGES.includes(slug)) assert.strictEqual(fm.system, "special", `${file}: system`);
+    else assert.strictEqual(fm.system, SYSTEM_PAGES.includes(slug), `${file}: system`);
     assert.strictEqual(typeof fm.sitemap, "boolean", `${file}: sitemap`);
   }
 });
@@ -101,7 +105,8 @@ test("every page carries explicit system and sitemap flags", () => {
 test("every front-matter key is a field of the view that shows the page", () => {
   for (const file of pageFiles()) {
     const fm = pageFm(file);
-    const names = new Set(col(fm.system ? "system_pages" : "pages").fields.map((f) => f.name));
+    const fields = fm.system === "special" ? specialEntry(file.slice(0, -3)).fields : col(fm.system ? "system_pages" : "pages").fields;
+    const names = new Set(fields.map((f) => f.name));
     for (const key of Object.keys(fm)) assert.ok(names.has(key), `${file}: "${key}" is not a field`);
   }
 });
@@ -140,3 +145,45 @@ test("the address pattern accepts only lowercase English addresses that aren't r
   for (const bad of ["Admin", "contact us", "admin", "files", "support", "assets", "שלום", "a--b", "-x"]) assert.ok(!re.test(bad), bad);
 });
 
+
+// ---- the AI solutions page: its own form
+const ICONS = ["transcript", "summary", "sentiment", "insight", "search", "review", "devices", "mic", "calendar", "payment", "automation", "clock24", "routing", "service", "sparkle"];
+const sub = (fields, name) => fields.find((f) => f.name === name);
+
+test("the AI page has its own form, outside the generic page views", () => {
+  const c = col("special_pages");
+  assert.ok(c, "special_pages collection");
+  assert.strictEqual(c.files.length, 1);
+  const entry = specialEntry("ai-solutions");
+  assert.ok(entry, "entry for src/pages/ai-solutions.md");
+  assert.strictEqual(entry.format, "frontmatter");
+  assert.deepStrictEqual(fieldNames(entry.fields), frontMatterKeys(path.join(ROOT, "src/pages/ai-solutions.md")).sort());
+  for (const name of ["system", "sitemap"]) assert.strictEqual(sub(entry.fields, name).widget, "hidden", name);
+  const sections = sub(entry.fields, "sections");
+  assert.strictEqual(sections.widget, "list");
+  for (const k of ["allow_add", "allow_remove", "allow_reorder"]) assert.strictEqual(sections[k], false, k);
+  const cards = sub(sub(sections.fields, "groups").fields, "cards");
+  const icon = sub(cards.fields, "icon");
+  assert.strictEqual(icon.widget, "select");
+  assert.deepStrictEqual(icon.options.map((o) => o.value), ICONS);
+  assert.strictEqual(icon.default, "sparkle");
+  // neither generic view shows it
+  assert.notStrictEqual(pageFm("ai-solutions.md").system, col("pages").filter.value);
+  assert.notStrictEqual(pageFm("ai-solutions.md").system, col("system_pages").filter.value);
+});
+
+test("AI page content matches the spec", () => {
+  const fm = pageFm("ai-solutions.md");
+  assert.deepStrictEqual(fm.sections.map((s) => s.title), [
+    "ניתוח שיחות באמצעות iPECS Cloud – AI",
+    "בוט קולי חכם – שירות לקוחות אוטומטי מבוסס AI",
+    "שירות זמין וחכם יותר",
+  ]);
+  assert.deepStrictEqual(fm.sections.map((s) => s.tagline), ["", "משיחה לפעולה – באופן אוטומטי", ""]);
+  assert.deepStrictEqual(fm.sections.map((s) => s.groups.map((g) => g.cards.length)), [[4, 3], [4], [3]]);
+  assert.deepStrictEqual(fm.sections[0].groups.map((g) => g.heading), ["", "איתור מידע וייעול תהליכי עבודה"]);
+  for (const s of fm.sections) for (const g of s.groups) for (const c of g.cards) {
+    assert.ok(c.keyword && c.text, `${s.title}: card text`);
+    assert.ok(ICONS.includes(c.icon), `${c.keyword}: icon ${c.icon}`);
+  }
+});
