@@ -1,0 +1,37 @@
+---
+layout: layouts/page.njk
+wide: true
+---
+{#- AI solutions page (src/pages/ai-solutions.md, own CMS form): three sections,
+    cards on the right, a fixed decorative animation on the left. The animation
+    is chosen by the section's position, never by the editor. -#}
+{%- import "partials/icons.njk" as icons -%}
+{%- set anims = ["analysis", "voicebot", "handoff"] -%}
+<div class="ai-sections">
+  {%- for s in sections %}{% if loop.index0 < anims.length %}
+  <section class="ai-section" data-anim="{{ anims[loop.index0] }}" aria-labelledby="ai-s{{ loop.index }}">
+    <div class="ai-section__text">
+      <h2 id="ai-s{{ loop.index }}">{{ s.title }}</h2>
+      {%- if s.tagline | filled %}
+      <p class="ai-section__tagline">{{ s.tagline }}</p>
+      {%- endif %}
+      {%- for g in s.groups %}
+      {%- if g.heading | filled %}
+      <h3 class="ai-group__title">{{ g.heading }}</h3>
+      {%- endif %}
+      {%- if g.cards and g.cards.length %}
+      <ul class="ai-cards">
+        {%- for c in g.cards %}
+        <li class="ai-card"><span class="ai-card__icon">{{ icons.icon(c.icon) }}</span><b class="ai-card__key">{{ c.keyword }}</b><p class="ai-card__text">{{ c.text }}</p></li>
+        {%- endfor %}
+      </ul>
+      {%- endif %}
+      {%- endfor %}
+    </div>
+    <div class="ai-section__anim"></div>
+  </section>
+  {%- endif %}{% endfor %}
+</div>
+{%- if contactForm !== false %}
+{% include "partials/contact-cta.njk" %}
+{%- endif %}

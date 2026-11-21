@@ -19,9 +19,5 @@ wide: true
 </div>
 {%- endif %}
 {%- if contactForm !== false %}
-<section class="prose" style="margin-top:32px" data-reveal>
-  <h2 class="reveal" style="--i:0">רוצים לשמוע עוד?</h2>
-  <p class="reveal" style="--i:1">השאירו פרטים ונחזור אליכם בהקדם.</p>
-  <div class="reveal" style="--i:2">{% include "partials/contact-form.njk" %}</div>
-</section>
+{% include "partials/contact-cta.njk" %}
 {%- endif %}
