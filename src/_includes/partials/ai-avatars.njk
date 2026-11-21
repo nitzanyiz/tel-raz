@@ -1,0 +1,17 @@
+{#- Avatars for the AI page animations: soft "clay" circles. The bot is a white
+    sparkle on the brand blue. Usage: {% import "partials/ai-avatars.njk" as av %}{{ av.customer() }} -#}
+{% macro sparkle() -%}
+<svg class="ai-sparkle" viewBox="0 0 48 48" fill="currentColor"><path class="ai-sparkle__big" d="M22 6c1.6 9.5 4.5 12.4 14 14-9.5 1.6-12.4 4.5-14 14-1.6-9.5-4.5-12.4-14-14 9.5-1.6 12.4-4.5 14-14z"/><path class="ai-sparkle__small" d="M36 28c.7 4 1.9 5.3 6 6-4.1.7-5.3 2-6 6-.7-4-1.9-5.3-6-6 4.1-.7 5.3-2 6-6z"/></svg>
+{%- endmacro %}
+
+{% macro customer() -%}
+<div class="ai-who ai-who--customer"><span class="ai-av"><svg viewBox="0 0 48 48" fill="currentColor"><circle cx="24" cy="18" r="8"/><path d="M10 40c1.5-8 7-12 14-12s12.5 4 14 12z"/></svg></span><span class="ai-who__label">לקוח</span></div>
+{%- endmacro %}
+
+{% macro bot() -%}
+<div class="ai-who ai-who--bot"><span class="ai-av ai-av--ai">{{ sparkle() }}</span><span class="ai-who__label">בוט AI</span></div>
+{%- endmacro %}
+
+{% macro agent() -%}
+<div class="ai-who ai-who--agent"><span class="ai-av"><svg viewBox="0 0 48 48" fill="currentColor"><circle cx="24" cy="19" r="7.5"/><path d="M11 40c1.5-7.5 6.5-11 13-11s11.5 3.5 13 11z"/><path d="M14 20a10 10 0 0 1 20 0" fill="none" stroke="currentColor" stroke-width="2.6"/><rect x="11.5" y="18" width="4" height="7" rx="2"/><rect x="32.5" y="18" width="4" height="7" rx="2"/></svg></span><span class="ai-who__label">נציג</span></div>
+{%- endmacro %}

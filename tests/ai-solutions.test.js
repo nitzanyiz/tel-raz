@@ -69,3 +69,40 @@ test("editor mistakes don't break the page", () => {
 test("contact form at the bottom", () => {
   assert.strictEqual(page()('form[name="contact"]').length, 1);
 });
+
+// ---- the animations (decorative, fixed in code; markup = the finished frame)
+test("each section has one decorative animation", () => {
+  const $ = page();
+  $("section.ai-section").each((_, s) => {
+    const stage = $(s).find(".ai-section__anim .ai-stage");
+    assert.strictEqual(stage.length, 1, $(s).attr("data-anim"));
+    assert.strictEqual(stage.attr("aria-hidden"), "true");
+    assert.strictEqual(stage.attr("data-anim"), $(s).attr("data-anim"));
+  });
+  assert.strictEqual($(".ai-stage").find("a, button, input, select, textarea, [tabindex]").length, 0, "nothing focusable");
+});
+
+test("finished frames carry the spec text", () => {
+  const $ = page();
+  const text = (anim) => $(`.ai-stage[data-anim="${anim}"]`).text().replace(/\s+/g, " ");
+  for (const s of ["המשלוח", "סיכום", "סנטימנט", "משימה", "לבדוק סטטוס משלוח ולחזור ללקוח"]) assert.ok(text("analysis").includes(s), `analysis: ${s}`);
+  for (const s of ["אפשר לקבוע תור ליום שלישי?", "בטח! יש מקום ביום ג׳ ב־10:00", "מעולה, מתאים לי!", "התור נקבע"]) assert.ok(text("voicebot").includes(s), `voicebot: ${s}`);
+  for (const s of ["חייבו אותי פעמיים על אותה חשבונית", "סיכום להעברה", "כבר מטפל בזיכוי", "בלי לחזור על הפרטים"]) assert.ok(text("handoff").includes(s), `handoff: ${s}`);
+  const label = (anim, who) => $(`.ai-stage[data-anim="${anim}"] .ai-who--${who} .ai-who__label`).text().trim();
+  assert.deepStrictEqual([label("voicebot", "customer"), label("voicebot", "bot")], ["לקוח", "בוט AI"]);
+  assert.deepStrictEqual([label("handoff", "customer"), label("handoff", "bot"), label("handoff", "agent")], ["לקוח", "בוט AI", "נציג"]);
+  assert.strictEqual($('.ai-stage[data-anim="voicebot"] .ai-who--agent').length, 0);
+});
+
+test("no hidden steps without JS", () => {
+  // Without .is-live (no JS, reduced motion) the stage is its finished frame:
+  // a rule may only hide an AI element when it's scoped under .is-live.
+  const css = fs.readFileSync(path.join(ROOT, "src/assets/css/site.css"), "utf8");
+  const block = css.slice(css.indexOf("/* ---------- AI solutions page")).replace(/\/\*[\s\S]*?\*\//g, "");
+  assert.ok(block.includes(".ai-stage"), "AI stage styles exist");
+  for (const [, sel, decl] of block.matchAll(/([^{}]+)\{([^{}]*)\}/g)) {
+    if (/^\s*(from|to|[\d.%,\s]+)\s*$/.test(sel)) continue; // keyframe steps, not selectors
+    if (!/(^|;|\s)(opacity:\s*0(?![.\d])|visibility:\s*hidden|display:\s*none)/.test(decl)) continue;
+    for (const part of sel.split(",")) assert.ok(part.includes(".is-live"), `hidden without .is-live: ${part.trim()}`);
+  }
+});

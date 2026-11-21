@@ -1,0 +1,17 @@
+{#- Section 2 animation: a customer books an appointment with the voice bot.
+    The markup is the finished frame; assets/js/ai-solutions.js plays it. -#}
+{%- import "partials/ai-avatars.njk" as av -%}
+<div class="ai-stage" data-anim="voicebot" aria-hidden="true">
+  <div class="ai-cast">
+    <div class="ai-line"><i></i></div>
+    {{ av.customer() }}
+    {{ av.bot() }}
+  </div>
+  <div class="ai-chat">
+    <div class="ai-msg ai-msg--customer ai-step" data-step="1"><span class="ai-voice"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><rect x="9" y="3" width="6" height="11" rx="3"/><path d="M5 11a7 7 0 0 0 14 0M12 18v3"/></svg>{% for i in range(0, 8) %}<i></i>{% endfor %}</span></div>
+    <div class="ai-msg ai-msg--customer ai-step" data-step="2">אפשר לקבוע תור ליום שלישי?</div>
+    <div class="ai-msg ai-msg--bot ai-step" data-step="3" data-typing>בטח! יש מקום ביום ג׳ ב־10:00</div>
+    <div class="ai-msg ai-msg--customer ai-step" data-step="4">מעולה, מתאים לי!</div>
+    <div class="ai-tile ai-booked ai-step" data-step="5"><span class="ai-booked__cal">14</span><span><b>יום ג׳, 10:00</b><small>התור נקבע</small></span><span class="ai-ok">✓</span></div>
+  </div>
+</div>

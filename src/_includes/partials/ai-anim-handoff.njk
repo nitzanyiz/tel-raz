@@ -1,0 +1,19 @@
+{#- Section 3 animation: the bot hands the call to the right agent with a summary
+    card, which slides from the bot (middle) to the agent's side (left).
+    The markup is the finished frame; assets/js/ai-solutions.js plays it. -#}
+{%- import "partials/ai-avatars.njk" as av -%}
+<div class="ai-stage" data-anim="handoff" aria-hidden="true">
+  <div class="ai-cast ai-cast--three">
+    <div class="ai-line"><i></i></div>
+    {{ av.customer() }}
+    {{ av.bot() }}
+    {{ av.agent() }}
+  </div>
+  <div class="ai-chat">
+    <div class="ai-msg ai-msg--customer ai-step" data-step="1">חייבו אותי פעמיים על אותה חשבונית</div>
+    <div class="ai-msg ai-msg--bot ai-msg--center ai-step" data-step="2">אני מעביר אותך לנציג מחלקת חשבונות, עם כל הפרטים</div>
+    <div class="ai-tile ai-handoff-card ai-step" data-step="3"><b>✦ סיכום להעברה</b>יוסי ל. · חשבונית 4471<br>חויב פעמיים, מבקש זיכוי</div>
+    <div class="ai-msg ai-msg--agent ai-step" data-step="4">שלום יוסי, אני רואה את החיוב הכפול – כבר מטפל בזיכוי</div>
+    <span class="ai-chip ai-step" data-step="5">✓ בלי לחזור על הפרטים</span>
+  </div>
+</div>

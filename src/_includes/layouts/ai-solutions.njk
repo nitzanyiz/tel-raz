@@ -28,7 +28,7 @@ wide: true
       {%- endif %}
       {%- endfor %}
     </div>
-    <div class="ai-section__anim"></div>
+    <div class="ai-section__anim">{% include "partials/ai-anim-" + anims[loop.index0] + ".njk" %}</div>
   </section>
   {%- endif %}{% endfor %}
 </div>

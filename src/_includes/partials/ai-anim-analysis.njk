@@ -1,0 +1,17 @@
+{#- Section 1 animation: sound becomes text, then summary / sentiment / action.
+    The markup is the finished frame; assets/js/ai-solutions.js plays it. -#}
+{%- import "partials/ai-avatars.njk" as av -%}
+<div class="ai-stage" data-anim="analysis" aria-hidden="true">
+  <div class="ai-tile ai-strip ai-step" data-step="1">
+    <div class="ai-sound">{% for i in range(0, 28) %}<i></i>{% endfor %}</div>
+    <div class="ai-scan"><span class="ai-scan__badge">{{ av.sparkle() }}</span></div>
+    <p class="ai-words">{% for w in ["היי,", "המשלוח", "שלי", "עוד", "לא", "הגיע.", "אפשר", "לבדוק?"] %}<span class="ai-word">{{ w }}</span> {% endfor %}</p>
+  </div>
+  <div class="ai-results">
+    <div class="ai-tile ai-result ai-result--wide ai-step" data-step="2"><b>סיכום</b><p>הלקוח מברר על משלוח שהתעכב ומבקש בדיקה.</p></div>
+    <div class="ai-tile ai-result ai-step" data-step="3"><b>סנטימנט</b>
+      <svg class="ai-dial" viewBox="0 0 100 58"><path d="M10 50a40 40 0 0 1 26.7-37.7" stroke="#e8836f" stroke-width="9" fill="none"/><path d="M36.7 12.3a40 40 0 0 1 26.6 0" stroke="#f0c35a" stroke-width="9" fill="none"/><path d="M63.3 12.3A40 40 0 0 1 90 50" stroke="#5cc98f" stroke-width="9" fill="none"/><g class="ai-dial__needle"><path d="M50 50V18" stroke="#33394f" stroke-width="3.5" stroke-linecap="round"/></g><circle cx="50" cy="50" r="5" fill="#33394f"/></svg>
+    </div>
+    <div class="ai-tile ai-result ai-step" data-step="4"><b>משימה</b><div class="ai-todo"><span class="ai-todo__box">✓</span><span>לבדוק סטטוס משלוח ולחזור ללקוח</span></div></div>
+  </div>
+</div>
