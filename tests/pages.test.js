@@ -112,3 +112,13 @@ test("home hero is the decorative scene", () => {
   assert.doesNotMatch(read(out, "assets/css/site.css"), /hero\.webp/);
   assert.ok(fs.existsSync(path.join(out, "assets/img/logo.webp")), "logo.webp missing");
 });
+
+test("AI page lives at /ai-solutions/ and the old address redirects", () => {
+  const out = buildSite("preview");
+  assert.ok(fs.existsSync(fileFor(out, "/ai-solutions/")), "missing /ai-solutions/");
+  assert.ok(!fs.existsSync(fileFor(out, "/call-transcription/")), "old address still built");
+  assert.match(read(out, "_redirects"), /^\/call-transcription\s+\/ai-solutions\/\s+301$/m);
+  const home = JSON.parse(fs.readFileSync(path.join(__dirname, "../src/content/home.json"), "utf8"));
+  assert.ok(home.tiles.some((t) => t.link === "ai-solutions"), "home tile links to ai-solutions");
+  assert.ok(!home.tiles.some((t) => t.link === "call-transcription"), "no home tile links to the old address");
+});
