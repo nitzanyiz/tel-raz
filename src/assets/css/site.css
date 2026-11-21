@@ -375,6 +375,39 @@ input[aria-invalid="true"], textarea[aria-invalid="true"] { border-color: #b4231
   .form-inline.has-errors { padding-bottom: 28px; }
 }
 
+/* Contact form "דברו איתנו" button (assets/js/contact-form.js).
+   The phone rings 3 times each time the form comes into view (.is-live), then rests.
+   Focus in the form (.is-engaged) or a finished send (.is-done) → the plain, still button. */
+.cta-btn { position: relative; }
+.cta-ico { display: inline-flex; }
+.cta-ico .icon { width: 20px; height: 20px; }
+.is-live .cta-btn { animation: cta-buzz 3.2s ease-in-out 3; }
+.is-live .cta-ico { animation: cta-ring 3.2s ease-in-out 3; transform-origin: 50% 60%; }
+.is-engaged .cta-btn, .is-engaged .cta-ico, .is-done .cta-btn, .is-done .cta-ico { animation: none; }
+@keyframes cta-ring {
+  0%, 4%, 8%, 12%, 16%, 20%, 24%, 28%, 32% { transform: rotate(0); }
+  2%, 10%, 18%, 26% { transform: rotate(-18deg); }
+  6%, 14%, 22%, 30% { transform: rotate(18deg); }
+  34%, 100% { transform: rotate(0); }
+}
+@keyframes cta-buzz {
+  0%, 4%, 8%, 12%, 16%, 20%, 24%, 28%, 32%, 34%, 100% { transform: translateX(0) rotate(0); }
+  2%, 10%, 18%, 26% { transform: translateX(-2px) rotate(-1.5deg); }
+  6%, 14%, 22%, 30% { transform: translateX(2px) rotate(1.5deg); }
+}
+/* Sending → spinner; sent → green "✓ נשלח!" */
+.cta-spin { display: none; }
+.cta-btn.is-sending .cta-spin {
+  display: inline-block; width: 18px; height: 18px; border-radius: 50%;
+  border: 2.5px solid currentColor; border-top-color: transparent; animation: cta-spin .8s linear infinite;
+}
+.cta-btn.is-sending .cta-ico, .cta-btn.is-sent .cta-ico { display: none; }
+.cta-btn.is-sending { cursor: progress; }
+.cta-btn.is-sent, .cta-btn.is-sent:hover { background: #1d8a4e; color: #fff; cursor: default; }
+@keyframes cta-spin { to { transform: rotate(360deg); } }
+.form-error { grid-column: 1 / -1; margin: 0; font-size: .95rem; font-weight: 500; color: #b42318; }
+.contact-strip .form-error, .contact-strip .form-error a { color: #ffc4ba; }
+
 /* ---------- Downloads ---------- */
 .downloads { list-style: none; margin: 0; padding: 0; display: grid; gap: 10px; }
 .downloads a {
