@@ -17,7 +17,7 @@ Design: [`superpowers/specs/2026-11-14-tel-raz-site-design.md`](./superpowers/sp
 - **Menu** = `lib/menu.js` → `buildMenu(menuGroups, pages, site)`. Pages opt in with front matter `menu: { inMenu, title, parent, order }`, editable in the CMS (`parent: ""` = top level; the label is `menu.title`, falling back to the page title). Pages in the menu must say `inMenu: true` explicitly: the CMS writes the switch's default (false) on save, and `src/_data/menuGroups.json` defines the non-page entries (headers and the external remote-support link). Empty groups and links with empty URLs are dropped.
 - **Preview vs production:** `lib/env.js`. Only `CONTEXT=production` (Netlify's production branch) is production. Every other build gets `noindex`, `robots.txt: Disallow: /` and form subjects prefixed `[בדיקה] `.
 - **Admin:** Sveltia CMS at `/admin` (`src/admin/index.html` pins the version; `src/admin/config.yml` defines the forms). `tests/cms.test.js` keeps the config in sync with the content files.
-- **Forms:** Netlify Forms (`contact`, `service-call`), with a honeypot. They redirect to `/thanks/`.
+- **Forms:** Netlify Forms (`contact`, `service-call`), with a honeypot, validated with our own Hebrew messages (`assets/js/form-validation.js`, forms with `data-validate`). The `contact` form sends in the background and shows "✓ נשלח!" on the button (`assets/js/contact-form.js`); its button rings 3 times each time the form comes into view. `service-call`, and `contact` without JS, redirect to `/thanks/`.
 
 ## Testing
 
