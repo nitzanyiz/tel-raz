@@ -56,6 +56,10 @@ Body in Markdown. Use ## for headings (the page already has the h1).
 3. Add its name to `SYSTEM_PAGES` in `tests/cms.test.js`.
 4. Add the route to `ROUTES` in `tests/pages.test.js`.
 
+## Special pages (developer only)
+
+A page with a form of its own (today only `ai-solutions`) has `system: special` and a `files` entry in the `special_pages` collection of `src/admin/config.yml`, so neither the content nor the system view shows it. Don't move it into those views or give it their generic fields: a save through a generic form drops its own fields. To add another one: front matter with `system: special`, a `files` entry listing exactly its front-matter keys, its slug in `SPECIAL_PAGES` in `tests/cms.test.js`, and its route in `ROUTES` in `tests/pages.test.js`.
+
 ## Menu headers and external links (developer only)
 
 Edit `src/_data/menuGroups.json`:

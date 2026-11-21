@@ -39,13 +39,17 @@ test("developer setup covers launch, oauth and enabling page creation later", ()
   }
 });
 
+test("add-page skill covers special pages", () => {
+  assert.ok(read(".claude/skills/add-page/SKILL.md").includes("system: special"));
+});
+
 test("add-page skill has frontmatter name", () => {
   assert.match(read(".claude/skills/add-page/SKILL.md"), /^---\nname: add-page\ndescription: .+\n---/);
 });
 
 test("editor guide covers the page features and the current admin sections", () => {
   const guide = read("docs/מדריך-ניהול-האתר.md");
-  for (const s of ["פעם ראשונה", "הוספת עמוד חדש", "מחיקת עמוד", "קישור לעמוד", "מיקום התמונות", "הצגת עמוד בתפריט", "עמודי מערכת", "master--tel-raz.netlify.app/admin"]) {
+  for (const s of ["פעם ראשונה", "הוספת עמוד חדש", "מחיקת עמוד", "קישור לעמוד", "מיקום התמונות", "הצגת עמוד בתפריט", "עמודי מערכת", "עמוד פתרונות שירותי AI", "עמודים מיוחדים", "master--tel-raz.netlify.app/admin"]) {
     assert.ok(guide.includes(s), s);
   }
   for (const gone of ["שירותים ומוצרים", "מסמכים משפטיים", "הוספת עמודים חדשים ושינוי התפריט נעשים על ידי המפתח"]) {
@@ -59,7 +63,7 @@ test("developer docs and the add-page skill describe the flat page structure", (
     assert.ok(!doc.includes("src/pages/services"), "old services folder");
     assert.ok(!doc.includes("src/pages/legal"), "old legal folder");
   }
-  for (const s of ["system: true", "_redirects", "pageUrl"]) assert.ok(dev.includes(s), `developer-setup: ${s}`);
+  for (const s of ["system: true", "system: special", "special_pages", "_redirects", "pageUrl"]) assert.ok(dev.includes(s), `developer-setup: ${s}`);
 });
 
 test("test-site skill exists with its CMS lab", () => {
