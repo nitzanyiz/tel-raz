@@ -669,6 +669,7 @@ input[aria-invalid="true"], textarea[aria-invalid="true"] { border-color: #b4231
 .ai-stage.is-live .ai-step:not(.is-in) { opacity: 0; transform: translateY(10px) scale(.97); }
 .ai-stage.is-live .ai-word:not(.is-in) { opacity: 0; transform: translateX(10px); }
 .ai-stage.is-live.is-fading > * { opacity: 0; transition: opacity .6s; }
+.ai-stage.is-snapping, .ai-stage.is-snapping * { transition: none !important; }
 .ai-stage.is-live .ai-step:not(.is-in) .ai-dial__needle { transform: rotate(-80deg); transition: none; }
 .ai-stage.is-live .ai-step:not(.is-done) .ai-todo__box { color: transparent; background: #fff; border-color: var(--blue); }
 .ai-stage.is-live .ai-booked:not(.is-in) .ai-ok { transform: scale(0); }

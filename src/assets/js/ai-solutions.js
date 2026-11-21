@@ -21,6 +21,8 @@
   };
   const hearing = (on) => (st) => st.classList.toggle("is-hearing", on);
   const all = (...fns) => (st) => fns.forEach((fn) => fn(st));
+  // apply a change instantly (no transitions), e.g. jumping back to "empty" on a restart
+  const snap = (st, fn) => { st.classList.add("is-snapping"); fn(); void st.offsetWidth; st.classList.remove("is-snapping"); };
 
   // [atMs, step] pairs; END is when the loop fades out and starts over
   const TIMELINES = {
@@ -59,7 +61,7 @@
         [3000, (st) => {
           // the summary card appears under the bot (middle), then slides to the agent's side
           const card = $(st, ".ai-handoff-card"), chat = $(st, ".ai-chat").getBoundingClientRect(), r = card.getBoundingClientRect();
-          card.style.transform = `translateX(${chat.left + chat.width / 2 - (r.left + r.width / 2)}px)`;
+          snap(st, () => { card.style.transform = `translateX(${chat.left + chat.width / 2 - (r.left + r.width / 2)}px)`; });
           card.classList.add("is-in");
         }],
         [3900, all(flow("rtl"), (st) => {
@@ -90,7 +92,7 @@
     run.gen++;
     run.timers.forEach(clearTimeout);
     run.timers = [];
-    reset(st);
+    snap(st, () => reset(st));
   }
 
   function play(st) {
