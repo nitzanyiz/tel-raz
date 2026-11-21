@@ -122,3 +122,10 @@ test("AI page lives at /ai-solutions/ and the old address redirects", () => {
   assert.ok(home.tiles.some((t) => t.link === "ai-solutions"), "home tile links to ai-solutions");
   assert.ok(!home.tiles.some((t) => t.link === "call-transcription"), "no home tile links to the old address");
 });
+
+test("the AI animation script loads only on the AI page", () => {
+  const out = buildSite("preview");
+  const sel = 'script[src="/assets/js/ai-solutions.js"][defer]';
+  assert.strictEqual(load(out, "/ai-solutions/")(sel).length, 1);
+  for (const r of [...ROUTES, ...CONTENT_URLS].filter((r) => r !== "/ai-solutions/")) assert.strictEqual(load(out, r)(sel).length, 0, r);
+});

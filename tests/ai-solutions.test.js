@@ -106,3 +106,8 @@ test("no hidden steps without JS", () => {
     for (const part of sel.split(",")) assert.ok(part.includes(".is-live"), `hidden without .is-live: ${part.trim()}`);
   }
 });
+
+test("script plays only on screen and respects reduced motion", () => {
+  const js = fs.readFileSync(path.join(ROOT, "src/assets/js/ai-solutions.js"), "utf8");
+  for (const s of ["IntersectionObserver", "visibilitychange", "prefers-reduced-motion", "is-live", "analysis", "voicebot", "handoff"]) assert.ok(js.includes(s), s);
+});
