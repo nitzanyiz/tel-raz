@@ -14,9 +14,9 @@ wide: true
       {%- if site.hours | filled %}<li>{{ icons.icon("clock") }}<span>{{ site.hours }}</span></li>{% endif %}
     </ul>
   </div>
-  <div class="prose">
-    <h2>השאירו פרטים</h2>
-    {% include "partials/contact-form.njk" %}
+  <div class="prose" data-reveal>
+    <h2 class="reveal" style="--i:0">השאירו פרטים</h2>
+    <div class="reveal" style="--i:1">{% include "partials/contact-form.njk" %}</div>
   </div>
 </div>
 {%- if site.address | filled %}

@@ -60,3 +60,33 @@ test("contact page shows map for a real address", () => {
   assert.ok(src.startsWith("https://www.google.com/maps?q="), src);
   assert.ok(src.includes(encodeURIComponent("הרצל 1, רעננה")), src);
 });
+
+// Contact form CTA: ringing button, send status lines, staggered entrance (all three places).
+for (const [url, label] of [["/", "home strip"], ["/contact/", "contact page"], ["/call-center/", "content page"]]) {
+  test(`contact form CTA markup – ${label}`, () => {
+    const $ = load(buildSite("preview"), url);
+    const form = $('form[name="contact"]');
+    const btn = form.find("button.cta-btn");
+    assert.strictEqual(btn.find(".cta-ico svg").length, 1, "phone icon");
+    assert.strictEqual(btn.find(".cta-spin[aria-hidden=true]").length, 1, "spinner");
+    assert.strictEqual(btn.find(".cta-label").text().trim(), "דברו איתנו");
+    const err = form.find("p.form-error[hidden]");
+    assert.match(err.text(), /השליחה נכשלה\. נסו שוב, או התקשרו אלינו:/);
+    assert.strictEqual(err.find('a[href^="tel:"]').text().trim(), "09-7601760");
+    assert.strictEqual(form.find('p.form-status.visually-hidden[role="status"]').length, 1);
+    const section = form.closest("[data-reveal]");
+    assert.strictEqual(section.length, 1, "section has data-reveal");
+    assert.ok(section.find(".reveal").length >= 2, "at least two reveal parts");
+  });
+}
+
+test("base loads the contact form script and marks JS early", () => {
+  const $ = load(buildSite("preview"), "/");
+  assert.strictEqual($('script[src="/assets/js/contact-form.js"]').length, 1);
+  assert.match($("head").html(), /<script>document\.documentElement\.classList\.add\("js"\)<\/script>/);
+});
+
+test("service-call button is not the contact CTA", () => {
+  const $ = load(buildSite("preview"), "/support/service-call/");
+  assert.strictEqual($('form[name="service-call"] .cta-btn').length, 0);
+});

@@ -61,11 +61,11 @@ pageScript: /assets/js/hero-scene.js
 </section>
 {%- endif %}
 
-<section class="contact-strip" id="contact-form">
+<section class="contact-strip" id="contact-form" data-reveal>
   <div class="container">
-    <h2>{{ home.contactTitle }}</h2>
-    <p class="strip-text">{{ home.contactText }}</p>
+    <h2 class="reveal" style="--i:0">{{ home.contactTitle }}</h2>
+    <p class="strip-text reveal" style="--i:1">{{ home.contactText }}</p>
     {%- set formInline = true %}
-    {% include "partials/contact-form.njk" %}
+    <div class="reveal" style="--i:2">{% include "partials/contact-form.njk" %}</div>
   </div>
 </section>
