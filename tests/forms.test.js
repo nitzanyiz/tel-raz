@@ -70,7 +70,7 @@ for (const [url, label] of [["/", "home strip"], ["/contact/", "contact page"], 
     assert.strictEqual(btn.find(".cta-ico svg").length, 1, "phone icon");
     assert.strictEqual(btn.find(".cta-spin[aria-hidden=true]").length, 1, "spinner");
     assert.strictEqual(btn.find(".cta-label").text().trim(), "דברו איתנו");
-    const err = form.find("p.form-error[hidden]");
+    const err = form.find('p.form-error[hidden][role="alert"]');
     assert.match(err.text(), /השליחה נכשלה\. נסו שוב, או התקשרו אלינו:/);
     assert.strictEqual(err.find('a[href^="tel:"]').text().trim(), "09-7601760");
     assert.strictEqual(form.find('p.form-status.visually-hidden[role="status"]').length, 1);
@@ -83,7 +83,10 @@ for (const [url, label] of [["/", "home strip"], ["/contact/", "contact page"], 
 test("base loads the contact form script and marks JS early", () => {
   const $ = load(buildSite("preview"), "/");
   assert.strictEqual($('script[src="/assets/js/contact-form.js"]').length, 1);
-  assert.match($("head").html(), /<script>document\.documentElement\.classList\.add\("js"\)<\/script>/);
+  const head = $("head").html();
+  assert.match(head, /document\.documentElement\.classList\.add\("js"\)/);
+  // If site.js never ran its reveal code (failed to load / threw), show everything on load.
+  assert.match(head, /addEventListener\("load", *\(\) *=> *\{ *if \(!window\.revealReady\) document\.documentElement\.classList\.remove\("js"\)/);
 });
 
 test("service-call button is not the contact CTA", () => {

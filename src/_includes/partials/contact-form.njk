@@ -22,7 +22,7 @@
   <button type="submit" class="btn {{ 'btn-light' if formInline else 'btn-primary' }} cta-btn">
     <span class="cta-ico">{{ icons.icon("phone") }}</span><span class="cta-spin" aria-hidden="true"></span><span class="cta-label">דברו איתנו</span>
   </button>
-  <p class="form-error" hidden>השליחה נכשלה. נסו שוב, או התקשרו אלינו: <a href="tel:{{ site.phoneDial }}" dir="ltr">{{ site.phoneDisplay }}</a></p>
+  <p class="form-error" role="alert" hidden>השליחה נכשלה. נסו שוב, או התקשרו אלינו: <a href="tel:{{ site.phoneDial }}" dir="ltr">{{ site.phoneDisplay }}</a></p>
   <p class="form-status visually-hidden" role="status"></p>
 </form>
 <p class="form-note">בשליחת הטופס אתם מאשרים את <a href="/privacy/">מדיניות הפרטיות</a> שלנו.</p>

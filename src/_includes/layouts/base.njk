@@ -3,7 +3,9 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <script>document.documentElement.classList.add("js")</script>
+  {#- "js" hides the [data-reveal] parts until site.js reveals them; if site.js never
+      got that far (failed to load / an error), show everything once the page loads. #}
+  <script>document.documentElement.classList.add("js"); addEventListener("load", () => { if (!window.revealReady) document.documentElement.classList.remove("js"); });</script>
   {% include "partials/seo.njk" %}
   <link rel="icon" href="/favicon.ico" sizes="any">
   <link rel="icon" type="image/png" href="/assets/img/favicon.png">

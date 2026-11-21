@@ -82,6 +82,7 @@
         btn.disabled = false;
         label.textContent = original;
         error.hidden = false;
+        btn.focus(); // disabling it dropped focus to <body>
         return;
       }
       btn.classList.add("is-sent");

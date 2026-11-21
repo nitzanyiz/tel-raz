@@ -406,7 +406,10 @@ input[aria-invalid="true"], textarea[aria-invalid="true"] { border-color: #b4231
 .cta-btn.is-sent, .cta-btn.is-sent:hover { background: #1d8a4e; color: #fff; cursor: default; }
 @keyframes cta-spin { to { transform: rotate(360deg); } }
 .form-error { grid-column: 1 / -1; margin: 0; font-size: .95rem; font-weight: 500; color: #b42318; }
+.form-error a { white-space: nowrap; }
 .contact-strip .form-error, .contact-strip .form-error a { color: #ffc4ba; }
+/* One-row form: a fixed-width button, so the fields don't jump as its label changes */
+@media (min-width: 761px) { .form-inline .cta-btn { min-width: 172px; } }
 
 /* Staggered entrance ([data-reveal] sections, assets/js/site.js): parts rise in one after
    another the first time the section comes into view. Hidden only when JS runs (html.js). */
@@ -415,6 +418,7 @@ input[aria-invalid="true"], textarea[aria-invalid="true"] { border-color: #b4231
   transition: opacity .6s ease, transform .6s ease; transition-delay: calc(var(--i, 0) * 90ms);
 }
 .js [data-reveal].is-in .reveal { opacity: 1; transform: none; }
+@media print { .js [data-reveal] .reveal { opacity: 1; transform: none; } }
 
 /* ---------- Downloads ---------- */
 .downloads { list-style: none; margin: 0; padding: 0; display: grid; gap: 10px; }
