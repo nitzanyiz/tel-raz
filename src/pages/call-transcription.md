@@ -1,5 +1,5 @@
 ---
-title: פתרונות ושרותי AI
+title: פתרונות ושירותי AI
 intro: הפיכת שיחות הטלפון לטקסט – לתיעוד, בקרה ושיפור השירות.
 images: []
 imagePosition: side
@@ -9,9 +9,11 @@ menu:
   inMenu: true
   parent: services
   order: 3
-  title: תמלול שיחות
-seoTitle: ''
-seoDescription: שירות תמלול שיחות לעסקים – תיעוד שיחות, חיפוש ובקרת איכות.
+  title: פתרונות שירותי AI
+seoTitle: תמלול שיחות, בוט קולי
+seoDescription: |-
+  שירות תמלול שיחות לעסקים – תיעוד שיחות, חיפוש ובקרת איכות.
+  בוט קולי שיכול לקבוע ביומנים ולחייב
 system: false
 sitemap: true
 ---
