@@ -17,6 +17,12 @@
     "order": 2
   },
   {
+    "key": "advanced",
+    "title": "פתרונות מתקדמים",
+    "parent": "services",
+    "order": 3
+  },
+  {
     "key": "support",
     "title": "שירות ותמיכה",
     "order": 2

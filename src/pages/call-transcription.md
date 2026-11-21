@@ -7,8 +7,8 @@ items: []
 contactForm: true
 menu:
   inMenu: true
-  parent: services
-  order: 3
+  parent: advanced
+  order: 1
   title: פתרונות שירותי AI
 seoTitle: תמלול שיחות, בוט קולי
 seoDescription: |-
