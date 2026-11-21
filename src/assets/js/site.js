@@ -165,3 +165,21 @@
     });
   });
 })();
+
+// Staggered entrance for [data-reveal] sections (the contact form sections):
+// shown once, the first time a quarter of the section is in view.
+(function () {
+  const sections = document.querySelectorAll("[data-reveal]");
+  if (!("IntersectionObserver" in window)) {
+    sections.forEach((s) => s.classList.add("is-in"));
+    return;
+  }
+  const io = new IntersectionObserver((entries) => {
+    entries.forEach((e) => {
+      if (!e.isIntersecting) return;
+      e.target.classList.add("is-in");
+      io.unobserve(e.target);
+    });
+  }, { threshold: 0.25 });
+  sections.forEach((s) => io.observe(s));
+})();
