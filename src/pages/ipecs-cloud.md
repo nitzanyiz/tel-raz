@@ -3,7 +3,17 @@ title: IPECS Cloud
 intro: מרכזיה בענן לעסקים – בלי ציוד בשרתים, עם כל היכולות של מרכזיה מתקדמת.
 images: []
 imagePosition: side
-items: []
+items:
+  - name: kk
+    image: /assets/uploads/one.webp
+    text: ''
+    link: ''
+    linkText: ''
+  - name: jj
+    image: /assets/uploads/AI2.webp
+    text: ''
+    link: ''
+    linkText: ''
 contactForm: true
 menu:
   inMenu: true
