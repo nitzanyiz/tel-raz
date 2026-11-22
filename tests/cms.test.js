@@ -157,7 +157,10 @@ test("the AI page has its own form, outside the generic page views", () => {
   const entry = specialEntry("ai-solutions");
   assert.ok(entry, "entry for src/pages/ai-solutions.md");
   assert.strictEqual(entry.format, "frontmatter");
-  assert.deepStrictEqual(fieldNames(entry.fields), frontMatterKeys(path.join(ROOT, "src/pages/ai-solutions.md")).sort());
+  assert.deepStrictEqual(fieldNames(entry.fields), [...frontMatterKeys(path.join(ROOT, "src/pages/ai-solutions.md")), "body"].sort());
+  const body = sub(entry.fields, "body");
+  assert.strictEqual(body.widget, "markdown");
+  assert.strictEqual(body.required, false);
   for (const name of ["system", "sitemap"]) assert.strictEqual(sub(entry.fields, name).widget, "hidden", name);
   const sections = sub(entry.fields, "sections");
   assert.strictEqual(sections.widget, "list");

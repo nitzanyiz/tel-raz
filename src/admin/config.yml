@@ -280,6 +280,7 @@ collections:
         fields:
           - { name: title, label: כותרת העמוד, widget: string }
           - { name: intro, label: משפט פתיחה, widget: text, required: false }
+          - { name: body, label: "טקסט פתיחה (מעל האזורים, לא חובה)", widget: markdown, required: false }
           - name: sections
             label: אזורים
             label_singular: אזור

@@ -111,3 +111,19 @@ test("script plays only on screen and respects reduced motion", () => {
   const js = fs.readFileSync(path.join(ROOT, "src/assets/js/ai-solutions.js"), "utf8");
   for (const s of ["IntersectionObserver", "visibilitychange", "prefers-reduced-motion", "is-live", "analysis", "voicebot", "handoff"]) assert.ok(js.includes(s), s);
 });
+
+test("opening text (page body) shows above the sections, and nothing when empty", () => {
+  const $ = page();
+  const intro = $(".ai-opening");
+  assert.strictEqual(intro.length, 1);
+  assert.strictEqual(intro.find("h2").first().text().trim(), "למה שירות AI?");
+  assert.ok(intro.text().includes("טכנולוגיות AI מאפשרות"));
+  assert.ok($("*").index(intro) < $("*").index($("section.ai-section").first()), "above the sections");
+  let empty;
+  const r = buildCopy(
+    (dir) => { const f = path.join(dir, "src/pages/ai-solutions.md"); fs.writeFileSync(f, fs.readFileSync(f, "utf8").replace(/^(---\n[\s\S]*?\n---\n)[\s\S]*$/, "$1")); },
+    (out) => { empty = cheerio.load(fs.readFileSync(path.join(out, "ai-solutions/index.html"), "utf8")); }
+  );
+  assert.ok(r.ok, r.output);
+  assert.strictEqual(empty(".ai-opening").length, 0);
+});

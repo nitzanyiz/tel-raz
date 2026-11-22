@@ -3,10 +3,16 @@ layout: layouts/page.njk
 wide: true
 ---
 {#- AI solutions page (src/pages/ai-solutions.md, own CMS form): three sections,
-    cards on the right, a fixed decorative animation on the left. The animation
+    cards on the right, a fixed decorative animation on the left. The page body
+    ("טקסט פתיחה" in the CMS) shows above them when it isn't empty. The animation
     is chosen by the section's position, never by the editor. -#}
 {%- import "partials/icons.njk" as icons -%}
 {%- set anims = ["analysis", "voicebot", "handoff"] -%}
+{%- if content | trim %}
+<article class="prose ai-opening">
+  {{ content | safe }}
+</article>
+{%- endif %}
 <div class="ai-sections">
   {%- for s in sections %}{% if loop.index0 < anims.length %}
   <section class="ai-section" data-anim="{{ anims[loop.index0] }}" aria-labelledby="ai-s{{ loop.index }}">

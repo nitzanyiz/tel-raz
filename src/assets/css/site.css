@@ -565,6 +565,7 @@ input[aria-invalid="true"], textarea[aria-invalid="true"] { border-color: #b4231
 .breadcrumbs [aria-current="page"] { color: var(--navy); font-weight: 500; }
 
 /* ---------- AI solutions page (layouts/ai-solutions.njk) ---------- */
+.ai-opening { margin-bottom: 32px; }
 .ai-sections { display: grid; gap: 32px; }
 .ai-section {
   display: grid; grid-template-columns: minmax(0, 1.1fr) minmax(0, .9fr); gap: clamp(20px, 4vw, 48px); align-items: center;
