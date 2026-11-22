@@ -631,8 +631,8 @@ input[aria-invalid="true"], textarea[aria-invalid="true"] { border-color: #b4231
 .ai-voice { display: flex; align-items: center; gap: 3px; height: 22px; color: var(--blue); }
 .ai-voice svg { width: 18px; height: 18px; margin-left: 6px; }
 .ai-voice i, .ai-sound i { width: 4px; height: 45%; border-radius: 2px; background: var(--blue); }
-.ai-voice i:nth-child(3n), .ai-sound i:nth-child(3n) { height: 75%; }
-.ai-voice i:nth-child(4n), .ai-sound i:nth-child(4n) { height: 30%; }
+.ai-voice i:nth-child(3n) { height: 75%; }
+.ai-voice i:nth-child(4n) { height: 30%; }
 .ai-booked { align-self: center; display: flex; align-items: center; gap: 10px; }
 .ai-booked__cal {
   position: relative; width: 38px; height: 40px; border-radius: 8px; border: 2px solid var(--blue); overflow: hidden;
@@ -649,9 +649,12 @@ input[aria-invalid="true"], textarea[aria-invalid="true"] { border-color: #b4231
 
 /* section 1: sound → text, then results */
 .ai-strip { position: relative; height: 104px; padding: 0; overflow: hidden; }
-.ai-sound { position: absolute; top: 0; bottom: 0; right: 0; width: 50%; display: flex; align-items: center; gap: 3px; padding: 0 12px; overflow: hidden; }
-.ai-sound i { flex: none; height: 30%; }
-.ai-sound i:nth-child(3n) { height: 60%; }
+/* the sound: speech bars, then a dashed "silence" line (the <b>s). While playing, the script slides
+   the track once right → left, so the speech flows into the AI line and the silence follows it. */
+.ai-sound { position: absolute; top: 0; bottom: 0; right: 0; width: 50%; overflow: hidden; direction: ltr; }
+.ai-sound__track { display: flex; align-items: center; gap: 3px; height: 100%; width: max-content; }
+.ai-sound b { flex: none; width: 6px; height: 3px; border-radius: 2px; background: var(--blue); opacity: .7; }
+.ai-sound i { flex: none; height: calc(var(--h) * .8%); }
 .ai-scan { position: absolute; left: 50%; top: 8px; bottom: 8px; width: 3px; transform: translateX(-50%); border-radius: 2px; background: linear-gradient(#5b84c0, #8fb4ec, #5b84c0); box-shadow: 0 0 14px 3px rgb(91 132 192 / .5); }
 .ai-scan__badge { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); width: 30px; height: 30px; border-radius: 50%; display: grid; place-items: center; color: #fff; background: radial-gradient(circle at 35% 28%, #7aa0d6, #2f5185); box-shadow: 0 4px 12px rgb(68 107 164 / .45); }
 .ai-scan__badge svg { width: 18px; height: 18px; }
@@ -676,10 +679,9 @@ input[aria-invalid="true"], textarea[aria-invalid="true"] { border-color: #b4231
 .ai-stage.is-live .ai-booked:not(.is-in) .ai-ok { transform: scale(0); }
 .ai-stage.is-live .ai-sparkle__big { animation: ai-twinkle 2.4s ease-in-out infinite; }
 .ai-stage.is-live .ai-sparkle__small { animation: ai-twinkle 2.4s ease-in-out .6s infinite; }
-.ai-stage.is-live.is-hearing .ai-sound i, .ai-stage.is-live.is-hearing .ai-voice i { animation: ai-bar .9s ease-in-out infinite; }
-.ai-stage.is-live .ai-sound i:nth-child(2n), .ai-stage.is-live .ai-voice i:nth-child(2n) { animation-delay: .15s; }
-.ai-stage.is-live .ai-sound i:nth-child(3n), .ai-stage.is-live .ai-voice i:nth-child(3n) { animation-delay: .3s; }
-.ai-stage.is-live .ai-sound i:nth-child(5n) { animation-delay: .05s; }
+.ai-stage.is-live.is-hearing .ai-voice i { animation: ai-bar .9s ease-in-out infinite; }
+.ai-stage.is-live .ai-voice i:nth-child(2n) { animation-delay: .15s; }
+.ai-stage.is-live .ai-voice i:nth-child(3n) { animation-delay: .3s; }
 .ai-stage.is-live .ai-who.is-talking .ai-av { transform: scale(1.07); }
 .ai-stage.is-live .ai-who.is-talking .ai-av::after { content: ""; position: absolute; inset: -5px; border-radius: 50%; border: 2px solid rgb(68 107 164 / .45); animation: ai-ring 1.3s ease-out infinite; }
 .ai-stage.is-live .ai-who--agent:not(.is-on) .ai-av { opacity: .45; }

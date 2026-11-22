@@ -3,7 +3,10 @@
 {%- import "partials/ai-avatars.njk" as av -%}
 <div class="ai-stage" data-anim="analysis" aria-hidden="true">
   <div class="ai-tile ai-strip ai-step" data-step="1">
-    <div class="ai-sound">{% for i in range(0, 28) %}<i></i>{% endfor %}</div>
+    {#- about 1.5s of speech (bursts and short gaps), then a dashed "silence" line. While playing, the
+        track slides once right → left: the speech flows into the AI line and the silence follows it. -#}
+    {%- set wave = [16, 35, 71, 49, 47, 20, 8, 30, 65, 76, 24, 11, 17, 36, 74, 68, 80, 89, 58, 44, 16, 16, 10, 36, 70, 67, 38, 11, 19, 49, 82, 85, 71, 62, 21, 9, 14, 48, 68, 64, 88, 49, 39, 16, 15, 16, 28, 53, 65, 60, 33, 12, 15, 9] %}
+    <div class="ai-sound"><div class="ai-sound__track">{% for h in wave %}<i style="--h:{{ h }}"></i>{% endfor %}{% for d in range(0, 40) %}<b></b>{% endfor %}</div></div>
     <div class="ai-scan"><span class="ai-scan__badge">{{ av.sparkle() }}</span></div>
     <p class="ai-words">{% for w in ["היי,", "המשלוח", "שלי", "עוד", "לא", "הגיע.", "אפשר", "לבדוק?"] %}<span class="ai-word">{{ w }}</span> {% endfor %}</p>
   </div>

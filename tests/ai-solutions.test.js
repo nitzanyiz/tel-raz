@@ -127,3 +127,20 @@ test("opening text (page body) shows above the sections, and nothing when empty"
   assert.ok(r.ok, r.output);
   assert.strictEqual(empty(".ai-opening").length, 0);
 });
+
+test("section 1 sound: speech bars, then a dashed silence line, flowing left into the AI line", () => {
+  const $ = page();
+  const track = $('.ai-stage[data-anim="analysis"] .ai-sound__track');
+  const bars = track.find("i"), dashes = track.find("b");
+  assert.ok(bars.length >= 50, `about 1.5s of speech (${bars.length} bars)`);
+  assert.ok(new Set(bars.map((_, e) => $(e).attr("style")).get()).size >= 25, "irregular heights");
+  assert.ok(dashes.length >= 30, `a dashed silence line after the speech (${dashes.length} dashes)`);
+  assert.ok(track.children().last().is("b") && track.children().first().is("i"), "speech first, silence after it");
+  const css = fs.readFileSync(path.join(ROOT, "src/assets/css/site.css"), "utf8");
+  assert.ok(!/\.ai-sound__track \{[^}]*linear-gradient/.test(css), "no solid line running through the speech");
+  assert.ok(!/\.ai-sound i \{[^}]*height:\s*3px/.test(css) && !/:not\(\.is-hearing\) \.ai-sound i/.test(css), "bars never flatten in place");
+  assert.ok(!/\.ai-sound i[^{]*\{[^}]*animation/.test(css), "each bar keeps its own fixed height as it moves (no flicker)");
+  const js = fs.readFileSync(path.join(ROOT, "src/assets/js/ai-solutions.js"), "utf8");
+  assert.match(js, /\.animate\(/, "the track moves once, right to left, and stays where it ends");
+  assert.match(js, /getAnimations\(\)/, "a restart cancels the move");
+});

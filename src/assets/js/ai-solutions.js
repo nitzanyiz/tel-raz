@@ -26,16 +26,30 @@
 
   // [atMs, step] pairs; END is when the loop fades out and starts over
   const TIMELINES = {
-    analysis: {
-      end: 9300,
-      steps: [
-        [0, all(show(1), hearing(true))],
-        ...[0, 1, 2, 3, 4, 5, 6, 7].map((i) => [600 + i * 330, (st) => st.querySelectorAll(".ai-word")[i].classList.add("is-in")]),
-        [3300, all(hearing(false), show(2))],
-        [3900, show(3)],
-        [5200, show(4)],
-        [6000, (st) => $(st, '.ai-step[data-step="4"]').classList.add("is-done")],
-      ],
+    // the speech fills the strip and flows left into the AI line, the dashed silence line follows it,
+    // and everything stops once the last bar has gone in; the words appear while the speech passes
+    analysis: (st) => {
+      const SPEED = 120;                                     // px per second
+      const START = 200;
+      const track = $(st, ".ai-sound__track"), bars = track.querySelectorAll("i");
+      const speech = bars[bars.length - 1].offsetLeft + bars[bars.length - 1].offsetWidth - bars[0].offsetLeft;
+      const gone = START + (speech / SPEED) * 1000;          // last bar has gone into the AI line
+      const words = st.querySelectorAll(".ai-word");
+      return {
+        end: gone + 6300,
+        steps: [
+          [0, all(show(1), () => track.animate(
+            [{ transform: "translateX(0)" }, { transform: `translateX(${-speech}px)` }],
+            { duration: gone - START, delay: START, easing: "linear", fill: "forwards" }))],
+          [START, hearing(true)],
+          ...[...words].map((el, i) => [START + 250 + i * ((gone - START - 500) / Math.max(1, words.length - 1)), () => el.classList.add("is-in")]),
+          [gone, hearing(false)],
+          [gone + 300, show(2)],
+          [gone + 900, show(3)],
+          [gone + 2200, show(4)],
+          [gone + 3000, (s) => $(s, '.ai-step[data-step="4"]').classList.add("is-done")],
+        ],
+      };
     },
     voicebot: {
       end: 9800,
@@ -85,6 +99,7 @@
       el.classList.remove("is-in", "is-done", "is-talking", "is-on", "is-flowing", "is-reverse", "is-sending"));
     st.querySelectorAll("[data-typing]").forEach((el) => { if (el.dataset.final) el.textContent = el.dataset.final; });
     st.querySelectorAll(".ai-handoff-card").forEach((el) => { el.style.transform = ""; });
+    st.querySelectorAll(".ai-sound__track").forEach((el) => el.getAnimations().forEach((a) => a.cancel()));
   }
 
   function stop(st) {
@@ -99,7 +114,7 @@
     stop(st);
     if (reduced.matches) { st.classList.remove("is-live"); return; }
     st.classList.add("is-live");
-    const run = runs.get(st), gen = run.gen, tl = TIMELINES[st.dataset.anim];
+    const run = runs.get(st), gen = run.gen, def = TIMELINES[st.dataset.anim], tl = typeof def === "function" ? def(st) : def;
     const at = (ms, fn) => run.timers.push(setTimeout(() => { if (run.gen === gen) fn(st); }, ms));
     tl.steps.forEach(([ms, fn]) => at(ms, fn));
     at(tl.end, () => st.classList.add("is-fading"));
