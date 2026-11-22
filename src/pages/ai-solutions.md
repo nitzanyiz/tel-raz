@@ -1,10 +1,8 @@
 ---
-system: special
-sitemap: true
 title: פתרונות ושירותי AI
 intro: פתרונות AI לעסקים – תקשורת חכמה, שירות יעיל יותר
 sections:
-  - title: ניתוח שיחות באמצעות iPECS Cloud – AI
+  - title: ניתוח שיחות באמצעות IPECS Cloud – AI
     tagline: ''
     groups:
       - heading: ''
@@ -30,7 +28,7 @@ sections:
             text: סקירת סיכומים ותמלולים במקום האזנה להקלטות מלאות, לחיסכון בזמן ולייעול תהליכי הבקרה.
             icon: review
           - keyword: זמינות מכל מקום
-            text: גישה למידע, לתמלולים ולסיכומים מממשקי iPECS ONE ו־iPECS Analytics, בהתאם להרשאות ולתצורת המערכת.
+            text: גישה למידע, לתמלולים ולסיכומים מממשקי IPECS ONE ו־IPECS Analytics, בהתאם להרשאות ולתצורת המערכת.
             icon: devices
   - title: בוט קולי חכם – שירות לקוחות אוטומטי מבוסס AI
     tagline: משיחה לפעולה – באופן אוטומטי
@@ -71,6 +69,8 @@ menu:
   title: פתרונות שירותי AI
 seoTitle: פתרונות AI לעסקים – ניתוח שיחות ובוט קולי
 seoDescription: ניתוח ותמלול שיחות ב-iPECS Cloud, בוט קולי חכם שקובע תורים וגובה תשלומים, ושירות זמין מסביב לשעון עם ניתוב חכם לנציג.
+system: special
+sitemap: true
 ---
 
 ## למה שירות AI?
