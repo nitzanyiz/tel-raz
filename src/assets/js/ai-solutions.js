@@ -13,12 +13,18 @@
   const $ = (st, sel) => st.querySelector(sel);
   const show = (n) => (st) => $(st, `.ai-step[data-step="${n}"]`).classList.add("is-in");
   const talk = (who) => (st) => st.querySelectorAll(".ai-who").forEach((el) => el.classList.toggle("is-talking", !!who && el.classList.contains(`ai-who--${who}`)));
-  // the dot on the call line: "rtl" runs from the right avatar to the left one
-  const flow = (dir) => (st) => {
-    const line = $(st, ".ai-line");
-    line.classList.toggle("is-flowing", !!dir);
-    line.classList.toggle("is-reverse", dir === "ltr");
-  };
+  // the dot on a call line: "rtl" runs from the right avatar to the left one. `which` picks the line
+  // (section 3 has two: .ai-line--customer and .ai-line--agent); every other line stops.
+  // A new message's dot always starts fresh from the speaker's end (the run restarts, never mirrors).
+  const flow = (dir, which = ".ai-line") => (st) => st.querySelectorAll(".ai-line").forEach((line) => {
+    const on = !!dir && line.matches(which), rev = on && dir === "ltr";
+    if (on && line.classList.contains("is-flowing") && line.classList.contains("is-reverse") === rev) return;   // same run: keep going
+    line.classList.remove("is-flowing", "is-reverse");
+    if (!on) return;
+    void line.offsetWidth;
+    line.classList.add("is-flowing");
+    line.classList.toggle("is-reverse", rev);
+  });
   const hearing = (on) => (st) => st.classList.toggle("is-hearing", on);
   const all = (...fns) => (st) => fns.forEach((fn) => fn(st));
   // apply a change instantly (no transitions), e.g. jumping back to "empty" on a restart
@@ -70,22 +76,23 @@
     handoff: {
       end: 9300,
       steps: [
-        [500, all(talk("customer"), flow("rtl"), show(1))],
-        [2100, all(talk("bot"), flow(null), show(2))],
+        [500, all(talk("customer"), flow("rtl", ".ai-line--customer"), show(1))],   // 1. customer → bot
+        [2100, all(talk("bot"), flow("ltr", ".ai-line--customer"), show(2))],       // 2. bot → customer
         [3000, (st) => {
           // the summary card appears under the bot (middle), then slides to the agent's side
           const card = $(st, ".ai-handoff-card"), chat = $(st, ".ai-chat").getBoundingClientRect(), r = card.getBoundingClientRect();
           snap(st, () => { card.style.transform = `translateX(${chat.left + chat.width / 2 - (r.left + r.width / 2)}px)`; });
           card.classList.add("is-in");
+          flow("rtl", ".ai-line--agent")(st);                                        // 3. bot → agent (the summary)
         }],
-        [3900, all(flow("rtl"), (st) => {
+        [3900, all(flow("rtl", ".ai-line--agent"), (st) => {
           const card = $(st, ".ai-handoff-card");
           card.classList.add("is-sending");
           void card.offsetWidth;
           card.style.transform = "";
         })],
-        [4900, all(flow(null), talk("agent"), show(4), (st) => $(st, ".ai-who--agent").classList.add("is-on"))],
-        [6400, all(talk(null), show(5))],
+        [4900, all(flow("ltr", ".ai-line--full"), talk("agent"), show(4), (st) => $(st, ".ai-who--agent").classList.add("is-on"))],   // 4. agent → customer
+        [6400, all(flow(null), talk(null), show(5))],
       ],
     },
   };

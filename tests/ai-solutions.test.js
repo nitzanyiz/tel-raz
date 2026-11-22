@@ -156,3 +156,20 @@ test("cards rise in one after another when their section first scrolls into view
     assert.deepStrictEqual(order, order.map((_, i) => i), "numbered in reading order, across groups");
   });
 });
+
+test("section 3 call line: customer–bot and bot–agent segments, plus a full-width dot line", () => {
+  const $ = page();
+  const stage = $('.ai-stage[data-anim="handoff"]');
+  assert.strictEqual(stage.find(".ai-line").length, 3);
+  assert.strictEqual(stage.find(".ai-line--full").length, 1, "a full-width line that carries the agent → customer dot");
+  assert.strictEqual(stage.find(".ai-line--customer").length, 1, "between the customer and the bot");
+  assert.strictEqual(stage.find(".ai-line--agent").length, 1, "between the bot and the agent");
+});
+
+test("each message sends a single dot (it runs once, not in a loop)", () => {
+  const css = fs.readFileSync(path.join(ROOT, "src/assets/css/site.css"), "utf8");
+  const rule = css.match(/\.ai-stage\.is-live \.ai-line\.is-flowing i \{([^}]*)\}/);
+  assert.ok(rule, "the flowing dot rule exists");
+  assert.match(rule[1], /animation:\s*ai-flow\b/);
+  assert.doesNotMatch(rule[1], /infinite/, "one run per message");
+});

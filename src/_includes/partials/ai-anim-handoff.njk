@@ -4,7 +4,9 @@
 {%- import "partials/ai-avatars.njk" as av -%}
 <div class="ai-stage" data-anim="handoff" aria-hidden="true">
   <div class="ai-cast ai-cast--three">
-    <div class="ai-line"><i></i></div>
+    <div class="ai-line ai-line--customer"><i></i></div>
+    <div class="ai-line ai-line--agent"><i></i></div>
+    <div class="ai-line ai-line--full"><i></i></div>
     {{ av.customer() }}
     {{ av.bot() }}
     {{ av.agent() }}
