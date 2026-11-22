@@ -2,7 +2,7 @@
 title: פתרונות ושירותי AI
 intro: פתרונות AI לעסקים – תקשורת חכמה, שירות יעיל יותר
 sections:
-  - title: ניתוח שיחות באמצעות IPECS Cloud – AI
+  - title: ניתוח שיחות AI באמצעות IPECS Cloud
     tagline: ''
     groups:
       - heading: ''
