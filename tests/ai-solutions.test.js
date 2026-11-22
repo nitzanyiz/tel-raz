@@ -144,3 +144,15 @@ test("section 1 sound: speech bars, then a dashed silence line, flowing left int
   assert.match(js, /\.animate\(/, "the track moves once, right to left, and stays where it ends");
   assert.match(js, /getAnimations\(\)/, "a restart cancels the move");
 });
+
+test("cards rise in one after another when their section first scrolls into view", () => {
+  const $ = page();
+  $("section.ai-section").each((_, s) => {
+    assert.ok($(s).is("[data-reveal]"), `${$(s).attr("data-anim")}: section uses the site's reveal`);
+    const order = $(s).find(".ai-card").map((_, c) => {
+      assert.ok($(c).hasClass("reveal"), "card is a reveal part");
+      return +(($(c).attr("style") || "").match(/--i:\s*(\d+)/) || [])[1];
+    }).get();
+    assert.deepStrictEqual(order, order.map((_, i) => i), "numbered in reading order, across groups");
+  });
+});

@@ -15,7 +15,10 @@ wide: true
 {%- endif %}
 <div class="ai-sections">
   {%- for s in sections %}{% if loop.index0 < anims.length %}
-  <section class="ai-section" data-anim="{{ anims[loop.index0] }}" aria-labelledby="ai-s{{ loop.index }}">
+  {#- cards rise in one after another (the site's [data-reveal], assets/js/site.js); numbered across
+      the section's groups: push() returns the new length, so this array is a running counter -#}
+  {%- set cardNo = [] %}
+  <section class="ai-section" data-anim="{{ anims[loop.index0] }}" aria-labelledby="ai-s{{ loop.index }}" data-reveal>
     <div class="ai-section__text">
       <h2 id="ai-s{{ loop.index }}">{{ s.title }}</h2>
       {%- if s.tagline | filled %}
@@ -28,7 +31,7 @@ wide: true
       {%- if g.cards and g.cards.length %}
       <ul class="ai-cards">
         {%- for c in g.cards %}
-        <li class="ai-card"><span class="ai-card__icon">{{ icons.icon(c.icon) }}</span><b class="ai-card__key">{{ c.keyword }}</b><p class="ai-card__text">{{ c.text }}</p></li>
+        <li class="ai-card reveal" style="--i:{{ cardNo.push(1) - 1 }}"><span class="ai-card__icon">{{ icons.icon(c.icon) }}</span><b class="ai-card__key">{{ c.keyword }}</b><p class="ai-card__text">{{ c.text }}</p></li>
         {%- endfor %}
       </ul>
       {%- endif %}
