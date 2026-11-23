@@ -470,7 +470,7 @@ input[aria-invalid="true"], textarea[aria-invalid="true"] { border-color: #b4231
 .lightbox[open] { display: grid; place-items: center; }
 .lightbox::backdrop { background: rgb(12 16 26 / .92); }
 .lightbox-img {
-  max-width: calc(100% - 32px); max-height: calc(100% - 120px); object-fit: contain;
+  max-width: calc(100vw - 32px); max-height: calc(100vh - 120px); max-height: calc(100dvh - 120px); object-fit: contain;
   touch-action: pan-y; user-select: none; -webkit-user-drag: none;
 }
 .lightbox-close, .lightbox-prev, .lightbox-next {
