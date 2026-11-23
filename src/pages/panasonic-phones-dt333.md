@@ -1,6 +1,6 @@
 ---
 title: KX-DT333
-intro: ''
+intro: טלפון דיגיטלי
 images:
   - src: /assets/uploads/KX-DT333.webp
     alt: DT333
