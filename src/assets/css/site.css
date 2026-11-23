@@ -452,7 +452,7 @@ input[aria-invalid="true"], textarea[aria-invalid="true"] { border-color: #b4231
   touch-action: pan-y; /* horizontal swipes go to the gallery, vertical ones scroll the page */
 }
 .gallery-main img { width: 100%; height: 100%; object-fit: contain; display: block; user-select: none; -webkit-user-drag: none; mix-blend-mode: multiply; }
-.gallery-thumbs { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 10px; }
+.gallery-thumbs { display: flex; flex-wrap: wrap; justify-content: center; gap: 8px; margin-top: 10px; }
 .gallery-thumb {
   width: 72px; aspect-ratio: 1; padding: 4px; cursor: pointer;
   background: #eef1f6; border: 2px solid transparent; border-radius: 10px;
