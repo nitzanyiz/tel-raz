@@ -175,18 +175,23 @@ test("the AI page has its own form, outside the generic page views", () => {
   assert.notStrictEqual(pageFm("ai-solutions.md").system, col("system_pages").filter.value);
 });
 
-test("AI page content matches the spec", () => {
+// Checks only what the editor can't change: the three locked sections (one per
+// animation in layouts/ai-solutions.njk) and the required fields. Titles,
+// taglines, groups and cards are editable, so their wording and counts aren't pinned.
+test("AI page content has the shape the template expects", () => {
   const fm = pageFm("ai-solutions.md");
-  assert.deepStrictEqual(fm.sections.map((s) => s.title), [
-    "ניתוח שיחות באמצעות iPECS Cloud – AI",
-    "בוט קולי חכם – שירות לקוחות אוטומטי מבוסס AI",
-    "שירות זמין וחכם יותר",
-  ]);
-  assert.deepStrictEqual(fm.sections.map((s) => s.tagline), ["", "משיחה לפעולה – באופן אוטומטי", ""]);
-  assert.deepStrictEqual(fm.sections.map((s) => s.groups.map((g) => g.cards.length)), [[4, 3], [4], [3]]);
-  assert.deepStrictEqual(fm.sections[0].groups.map((g) => g.heading), ["", "איתור מידע וייעול תהליכי עבודה"]);
-  for (const s of fm.sections) for (const g of s.groups) for (const c of g.cards) {
-    assert.ok(c.keyword && c.text, `${s.title}: card text`);
-    assert.ok(ICONS.includes(c.icon), `${c.keyword}: icon ${c.icon}`);
+  assert.strictEqual(fm.sections.length, 3, "three sections, one per animation");
+  for (const [i, s] of fm.sections.entries()) {
+    assert.ok(typeof s.title === "string" && s.title.trim(), `section ${i + 1}: title`);
+    assert.strictEqual(typeof (s.tagline ?? ""), "string", `section ${i + 1}: tagline`);
+    assert.ok(Array.isArray(s.groups) && s.groups.length, `section ${i + 1}: at least one group`);
+    for (const g of s.groups) {
+      assert.strictEqual(typeof (g.heading ?? ""), "string", `${s.title}: group heading`);
+      assert.ok(Array.isArray(g.cards) && g.cards.length, `${s.title}: group has cards`);
+      for (const c of g.cards) {
+        assert.ok(c.keyword && c.text, `${s.title}: card keyword and text`);
+        assert.ok(ICONS.includes(c.icon), `${c.keyword}: icon ${c.icon}`);
+      }
+    }
   }
 });
