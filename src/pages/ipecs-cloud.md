@@ -2,7 +2,7 @@
 title: IPECS Cloud
 intro: מרכזיה בענן לעסקים – בלי ציוד בשרתים, עם כל היכולות של מרכזיה מתקדמת.
 images: []
-imagePosition: top
+imagePosition: side
 items: []
 contactForm: true
 menu:
@@ -17,8 +17,6 @@ sitemap: true
 ---
 
 ## מה זה IPECS Cloud?
-
-![](/assets/uploads/cloud.webp)
 
 מרכזיה וירטואלית שפועלת בענן ומאפשרת לעסק לנהל את כל השיחות במקום אחד – מהמשרד, מהבית או מהנייד.
 
