@@ -97,7 +97,7 @@ test("items render as cards; unlinked cards are plain", () => {
   assert.strictEqual($(".item-card").length, 2);
   assert.strictEqual($(".item-card--link").length, 0);
   assert.strictEqual($(".item-card").first().prop("tagName"), "DIV");
-  assert.deepStrictEqual($(".item-card h3").map((_, e) => $(e).text().trim()).get(), ["דגם א", "דגם ב"]);
+  assert.deepStrictEqual($(".item-card h2").map((_, e) => $(e).text().trim()).get(), ["דגם א", "דגם ב"]);
 });
 
 test("an item without an image shows the placeholder", () => {
