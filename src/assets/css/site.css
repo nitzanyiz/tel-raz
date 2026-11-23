@@ -445,6 +445,8 @@ input[aria-invalid="true"], textarea[aria-invalid="true"] { border-color: #b4231
   .content-layout--side { grid-template-columns: 1fr; }
   .content-layout--side > .gallery { order: 0; position: static; }
 }
+/* Above/below the text: same size as the side gallery, centered, instead of full width */
+.content-layout--top > .gallery, .content-layout--bottom > .gallery { width: 100%; max-width: 560px; justify-self: center; }
 .gallery-main {
   display: block; width: 100%; padding: 0; cursor: zoom-in;
   aspect-ratio: 4 / 3; border-radius: var(--radius); overflow: hidden;
