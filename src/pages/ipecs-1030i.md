@@ -6,7 +6,7 @@ images:
     alt: טלפון 1030i
   - src: /assets/uploads/1030i_front.webp
     alt: טלפון 1030i
-imagePosition: bottom
+imagePosition: top
 items: []
 contactForm: true
 menu:
