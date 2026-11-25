@@ -7,30 +7,30 @@ overview:
   image: /assets/uploads/one.webp
   alt: ממשק IPECS ONE – שיחות, צ'אט, תא קולי ו-Spaces במקום אחד
   facts:
-    - icon: pin
-      text: מתארחת בישראל, בזק בינלאומי
-    - icon: server
-      text: 2 חוות שרתים – שרידות מלאה
-    - icon: devices
-      text: משרד, בית, נייד ודפדפן
-    - icon: star
-      text: מבית Ericsson-LG
+    - text: מתארחת בישראל, בזק בינלאומי
+      icon: pin
+    - text: 2 חוות שרתים – שרידות מלאה
+      icon: server
+    - text: משרד, בית, נייד ודפדפן
+      icon: devices
+    - text: מבית Ericsson-LG
+      icon: star
 audience:
   heading: פתרון אחד – לכל סוג של עסק
   subtitle: IPECS Cloud מתאימה את עצמה להיקף הפעילות ולסגנון העבודה שלכם.
   cards:
-    - icon: shop
-      title: עסק קטן
+    - title: עסק קטן
       text: כל היכולות של מרכזיה מתקדמת – בלי ציוד בעסק.
-    - icon: trend
-      title: חברה בצמיחה
+      icon: shop
+    - title: חברה בצמיחה
       text: מוסיפים משתמשים ויכולות לפי הצורך, בלי להחליף מערכת.
-    - icon: building
-      title: ארגון גדול
+      icon: trend
+    - title: ארגון גדול
       text: ניהול מרכזי של משתמשים, שלוחות והרשאות, וחיבור ל-Teams ול-CRM.
-    - icon: headset
-      title: מוקד שירות ומכירות
+      icon: building
+    - title: מוקד שירות ומכירות
       text: תורים (ACD), הקלטה ותמלול, WhatsApp ודוחות בזמן אמת.
+      icon: headset
 cta:
   title: רוצים לראות את המערכת בפעולה?
   text: נשמח להדגים ולהתאים פתרון לעסק שלכם.
@@ -66,73 +66,73 @@ features:
   heading: יכולות ותכונות
   subtitle: יותר ממרכזיה – סביבת תקשורת עסקית שלמה, בפלטפורמה אחת.
   cards:
-    - icon: phone
-      title: מרכזיית ענן מתקדמת
+    - title: מרכזיית ענן מתקדמת
       text: שלוחות, IVR, תורים (ACD), קבוצות חיוג, חדרי ועידה, הקלטות ותא קולי למייל.
+      icon: phone
       link: ''
       linkText: ''
-    - icon: devices
-      title: עבודה מכל מקום
+    - title: עבודה מכל מקום
       text: טלפון שולחני, מחשב, דפדפן או אפליקציה לנייד – אותה שלוחה בכל מקום.
+      icon: devices
       link: ''
       linkText: ''
-    - icon: sliders
-      title: ניהול מרכזי ונוח
+    - title: ניהול מרכזי ונוח
       text: ממשק Web לניהול משתמשים, שלוחות, הרשאות והגדרות.
+      icon: sliders
       link: ''
       linkText: ''
-    - icon: chart
-      title: IPECS Analytics
+    - title: IPECS Analytics
       text: 'דוחות ולוחות בקרה בזמן אמת: זמני המתנה, שיחות שלא נענו וביצועי נציגים.'
+      icon: chart
       link: ipecs-analytics
       linkText: לעמוד IPECS Analytics
-    - icon: cursor
-      title: Click to Call
+    - title: Click to Call
       text: מסמנים מספר כמעט מכל מקום במחשב – מסמכים, מיילים, אנשי קשר ומערכות עסקיות – והשיחה יוצאת. בלי הקלדה ובלי טעויות.
+      icon: cursor
       link: ''
       linkText: ''
-    - icon: browser
-      title: תוסף חיוג ל-Chrome
-      text: מזהה מספרי טלפון באתרים ובמערכות CRM בדפדפן ומוסיף לידם כפתור חיוג – בלי צורך באינטגרציה ייעודית ל-CRM.
+    - title: תוסף חיוג ל-Chrome
+      text: מזהה באופן אוטומטי מספרי טלפון באתרים ובמערכות CRM בדפדפן ומוסיף לידם כפתור חיוג – בלי צורך באינטגרציה ייעודית ל-CRM.
+      icon: browser
       link: ''
       linkText: ''
-    - icon: people
-      title: Microsoft Teams
+    - title: Microsoft Teams
       text: שיחות פנימיות וחיצוניות מהשלוחה העסקית, ישירות מתוך Teams.
+      icon: people
       link: ''
       linkText: ''
-    - icon: link
-      title: אינטגרציות ו-CRM
+    - title: אינטגרציות ו-CRM
       text: חיבור למערכות העסקיות ול-CRM – המידע זמין ברצף אחד.
+      icon: link
       link: ''
       linkText: ''
-    - icon: trend
-      title: גדלה יחד עם העסק
+    - title: גדלה יחד עם העסק
       text: מוסיפים משתמשים ויכולות לפי הצורך – מעסק קטן ועד מוקד שירות.
+      icon: trend
       link: ''
       linkText: ''
 security:
   heading: אבטחת מידע – שקט נפשי לעסק
   subtitle: המערכת יושבת מאחורי Firewall ומערכות הגנה, עם אבטחה ברמת המערכת, הטלפונים ותשתית האירוח.
   cards:
-    - icon: lock
-      title: מערכת בקוד סגור
+    - title: מערכת בקוד סגור
       text: מערכת קניינית של היצרן עם מנגנוני הגנה ייעודיים.
-    - icon: phone
-      title: פרוטוקול תקשורת ייעודי
+      icon: lock
+    - title: פרוטוקול תקשורת ייעודי
       text: טלפוני ה-IP עובדים בפרוטוקול של היצרן.
-    - icon: layers
-      title: הגנה רב-שכבתית
+      icon: phone
+    - title: הגנה רב-שכבתית
       text: אבטחת Ericsson-LG יחד עם הגנות חוות השרתים.
-    - icon: shield
-      title: תמיכה בתקן אירופאי GDPR
+      icon: layers
+    - title: תמיכה בתקן אירופאי GDPR
       text: בהתאם לתצורת השירות ואופן השימוש בו.
-    - icon: server
-      title: אירוח בתקן SOC 2
+      icon: shield
+    - title: אירוח בתקן SOC 2
       text: תשתית מוסמכת בחוות השרתים של בזק בינלאומי.
-    - icon: key
-      title: אימות ובקרת גישה
+      icon: server
+    - title: אימות ובקרת גישה
       text: אימות דו-שלבי (2FA), זיהוי פנים ובקרת הרשאות.
+      icon: key
 contactForm: true
 menu:
   inMenu: true
