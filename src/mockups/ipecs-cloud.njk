@@ -47,6 +47,16 @@ sitemap: false
   .mk-close { text-align:center; margin-top:48px; }
   .mk-close p { color:var(--muted); max-width:680px; margin:8px auto 0; }
   @media (max-width:820px) { .mk-spot { grid-template-columns:1fr; gap:20px; } .mk-spot:nth-of-type(even) .mk-spot__img { order:0; } }
+  /* Animation demo – only when JS adds .mk-anim (never with reduced motion), so the page is complete without it */
+  .mk-anim .mk-spot > div:first-child { opacity:0; transform:translateY(18px); transition:opacity .7s ease, transform .7s ease; }
+  .mk-anim .mk-spot__img { opacity:0; transform:translateX(-40px); transition:opacity .85s ease .15s, transform .85s cubic-bezier(.2,.7,.3,1) .15s; }
+  .mk-anim .mk-spot:nth-of-type(even) .mk-spot__img { transform:translateX(40px); }
+  @media (max-width:820px) { .mk-anim .mk-spot .mk-spot__img, .mk-anim .mk-spot:nth-of-type(even) .mk-spot__img { transform:translateY(24px); } }
+  /* .is-in .mk-spot__img matches the even-row start rule's specificity, so being later it wins */
+  .mk-anim .mk-spot.is-in > div, .mk-anim .mk-spot.is-in .mk-spot__img { opacity:1; transform:none; }
+  .mk-anim .mk-stagger > * { opacity:0; transform:translateY(24px); transition:opacity .55s ease, transform .55s ease; transition-delay:calc(var(--i, 0) * 100ms); }
+  .mk-anim .mk-stagger.is-in > * { opacity:1; transform:none; }
+  .mk-spot { overflow:hidden; }
 </style>
 <svg width="0" height="0" style="position:absolute" aria-hidden="true">
   <defs>
@@ -89,7 +99,7 @@ sitemap: false
 <!-- 2. Who it's for -->
 <h2 class="mk-h2">פתרון אחד – לכל סוג של עסק</h2>
 <p class="mk-sub">IPECS Cloud מתאימה את עצמה להיקף הפעילות ולסגנון העבודה שלכם.</p>
-<div class="mk-aud">
+<div class="mk-aud mk-stagger">
   <div class="mk-card"><span class="mk-ico"><svg><use href="#i-shop"/></svg></span><h3>עסק קטן</h3><p>כל היכולות של מרכזיה מתקדמת – בלי ציוד בעסק.</p></div>
   <div class="mk-card"><span class="mk-ico"><svg><use href="#i-grow"/></svg></span><h3>חברה בצמיחה</h3><p>מוסיפים משתמשים ויכולות לפי הצורך, בלי להחליף מערכת.</p></div>
   <div class="mk-card"><span class="mk-ico"><svg><use href="#i-building"/></svg></span><h3>ארגון גדול</h3><p>ניהול מרכזי של משתמשים, שלוחות והרשאות, וחיבור ל-Teams ול-CRM.</p></div>
@@ -137,7 +147,7 @@ sitemap: false
 <!-- 4. Feature cards -->
 <h2 class="mk-h2">כל היכולות</h2>
 <p class="mk-sub">יותר ממרכזיה – סביבת תקשורת עסקית שלמה, בפלטפורמה אחת.</p>
-<div class="mk-grid">
+<div class="mk-grid mk-stagger">
   <div class="mk-card"><span class="mk-ico"><svg><use href="#i-pbx"/></svg></span><h3>מרכזיית ענן מתקדמת</h3><p>שלוחות, IVR, תורים (ACD), קבוצות חיוג, חדרי ועידה, הקלטות ותא קולי למייל.</p></div>
   <div class="mk-card"><span class="mk-ico"><svg><use href="#i-any"/></svg></span><h3>עבודה מכל מקום</h3><p>טלפון שולחני, מחשב, דפדפן או אפליקציה לנייד – אותה שלוחה בכל מקום.</p></div>
   <div class="mk-card"><span class="mk-ico"><svg><use href="#i-admin"/></svg></span><h3>ניהול מרכזי ונוח</h3><p>ממשק Web לניהול משתמשים, שלוחות, הרשאות והגדרות.</p></div>
@@ -161,6 +171,22 @@ sitemap: false
   <div class="mk-card"><span class="mk-ico"><svg><use href="#i-key"/></svg></span><div><h3>אימות ובקרת גישה</h3><p>אימות דו-שלבי (2FA), זיהוי פנים ובקרת הרשאות.</p></div></div>
 </div>
 
+
+<script>
+  // Animation demo: highlights slide in and card grids appear in a quick wave.
+  // Each plays once. Skipped entirely with reduced motion or without IntersectionObserver.
+  (function () {
+    if (!("IntersectionObserver" in window) || matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+    document.documentElement.classList.add("mk-anim");
+    document.querySelectorAll(".mk-stagger").forEach((g) => [...g.children].forEach((c, i) => c.style.setProperty("--i", i)));
+    const io = new IntersectionObserver((entries) => entries.forEach((e) => {
+      if (!e.isIntersecting) return;
+      e.target.classList.add("is-in");
+      io.unobserve(e.target);
+    }), { rootMargin: "0px 0px -25% 0px" });
+    document.querySelectorAll(".mk-spot, .mk-stagger").forEach((el) => io.observe(el));
+  })();
+</script>
 
 <div id="contact">
 {% include "partials/contact-cta.njk" %}
