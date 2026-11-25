@@ -38,6 +38,7 @@ test("uses its own layout, not the generic content layout", () => {
   const $ = page();
   assert.strictEqual($(".content-layout").length, 0);
   assert.strictEqual($(".ipc-overview").length, 1);
+  assert.ok($(".ipc-overview").hasClass("prose"), "overview sits on the site's white card");
 });
 
 test("overview: heading, text and facts from front matter", () => {
