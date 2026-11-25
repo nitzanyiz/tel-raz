@@ -370,6 +370,8 @@ collections:
             fields:
               - { name: heading, label: כותרת, widget: string }
               - { name: text, label: טקסט, widget: text }
+              - { name: image, label: "תמונה (לא חובה – בלי תמונה הטקסט ברוחב מלא)", widget: image, required: false }
+              - { name: alt, label: "תיאור התמונה (לנגישות)", widget: string, required: false }
               - name: facts
                 label: עובדות קצרות
                 label_singular: עובדה

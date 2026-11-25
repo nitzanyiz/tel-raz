@@ -230,6 +230,7 @@ test("IPECS Cloud content has the shape the template expects", () => {
   const fm = pageFm("ipecs-cloud.md");
   assert.ok(fm.overview && fm.overview.heading && fm.overview.text, "overview");
   for (const f of fm.overview.facts || []) assert.ok(f.text, "fact text");
+  if (fm.overview.image) assert.ok(fm.overview.alt, "overview picture needs a description");
   for (const key of ["audience", "features", "security"]) {
     assert.ok(Array.isArray(fm[key].cards), `${key}: cards`);
     for (const c of fm[key].cards) assert.ok(c.title && c.text, `${key}: card title and text`);

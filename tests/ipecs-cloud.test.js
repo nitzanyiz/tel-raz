@@ -47,6 +47,18 @@ test("overview: heading, text and facts from front matter", () => {
   assert.strictEqual(txt($, ".ipc-overview__text"), o.text);
   assert.deepStrictEqual($(".ipc-facts li").map((_, e) => txt($, e)).get(), o.facts.map((f) => f.text));
   drawn($, ".ipc-facts");
+  const img = $(".ipc-overview__img");
+  if (o.image) {
+    assert.ok($(".ipc-overview").hasClass("ipc-overview--img"));
+    assert.strictEqual(img.attr("src"), o.image);
+    assert.strictEqual(img.attr("alt"), o.alt);
+  } else assert.strictEqual(img.length, 0);
+});
+
+test("overview without a picture: no image and the text takes the full width", () => {
+  const $ = buildEdited((d) => { delete d.overview.image; delete d.overview.alt; });
+  assert.strictEqual($(".ipc-overview__img").length, 0);
+  assert.ok(!$(".ipc-overview").hasClass("ipc-overview--img"));
 });
 
 test("card sections render their heading, subtitle and cards", () => {

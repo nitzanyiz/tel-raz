@@ -715,6 +715,23 @@ input[aria-invalid="true"], textarea[aria-invalid="true"] { border-color: #b4231
 /* ---------- IPECS Cloud page (layouts/ipecs-cloud.njk) ---------- */
 .ipc-overview { display: grid; gap: 28px; }
 .ipc-overview h2 { margin: 0 0 12px; color: var(--navy); }
+/* with a picture: picture on the left; on the right the text with the facts in a 2×2 block under it,
+   so both columns are about the same height (on phones: text, picture, facts) */
+.ipc-overview--img { grid-template-columns: 1fr 1fr; grid-template-areas: "intro img" "facts img"; align-content: center; column-gap: 36px; row-gap: 22px; }
+.ipc-overview--img .ipc-overview__intro { grid-area: intro; align-self: end; }
+.ipc-overview--img .ipc-overview__img { grid-area: img; align-self: center; }
+.ipc-overview--img .ipc-facts { grid-area: facts; align-self: start; grid-template-columns: repeat(2, 1fr); }
+.ipc-overview__img { display: block; width: 100%; height: auto; border-radius: 12px; }
+/* mid widths: the right column is too narrow for a 2×2 block, so the facts go back across the bottom */
+@media (max-width: 1100px) {
+  .ipc-overview--img { grid-template-areas: "intro img" "facts facts"; }
+  .ipc-overview--img .ipc-overview__intro { align-self: center; }
+  .ipc-overview--img .ipc-facts { grid-template-columns: repeat(auto-fit, minmax(min(100%, 200px), 1fr)); }
+}
+@media (max-width: 820px) {
+  .ipc-overview--img { grid-template-columns: 1fr; grid-template-areas: "intro" "img" "facts"; }
+  .ipc-overview--img .ipc-facts { grid-template-columns: repeat(auto-fit, minmax(min(100%, 200px), 1fr)); }
+}
 .ipc-overview__text { font-size: 1.1rem; margin: 0; }
 .ipc-facts { display: grid; gap: 12px; grid-template-columns: repeat(auto-fit, minmax(min(100%, 200px), 1fr)); list-style: none; margin: 0; padding: 0; }
 .ipc-facts li { display: flex; gap: 10px; align-items: center; background: var(--bg); border-radius: 12px; padding: 12px 14px; font-weight: 500; color: var(--navy); }

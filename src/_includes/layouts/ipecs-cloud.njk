@@ -31,11 +31,14 @@ wide: true
 {%- endmacro %}
 
 {%- if overview %}
-<article class="prose ipc-overview">
-  <div>
+<article class="prose ipc-overview{% if overview.image %} ipc-overview--img{% endif %}">
+  <div class="ipc-overview__intro">
     {%- if overview.heading | filled %}<h2>{{ overview.heading }}</h2>{% endif %}
     {%- if overview.text | filled %}<p class="ipc-overview__text">{{ overview.text }}</p>{% endif %}
   </div>
+  {%- if overview.image %}
+  <img class="ipc-overview__img" src="{{ overview.image }}" alt="{{ overview.alt }}">
+  {%- endif %}
   {%- if overview.facts and overview.facts.length %}
   <ul class="ipc-facts">
     {%- for f in overview.facts %}
