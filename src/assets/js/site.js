@@ -1,5 +1,7 @@
-// Staggered entrance for [data-reveal] sections (the contact form sections):
-// shown once, the first time a quarter of the section is in view.
+// Staggered entrance for [data-reveal] sections: shown once, the first time a
+// quarter of the section is in view. data-reveal="late" waits until the section's
+// top is a quarter of the way up the screen, so the motion isn't over before the
+// reader gets there (and works for sections taller than the screen).
 // First in this file, so an error in a later block can't leave the sections hidden.
 (function () {
   window.revealReady = true; // see the inline script in base.njk
@@ -8,14 +10,14 @@
     sections.forEach((s) => s.classList.add("is-in"));
     return;
   }
-  const io = new IntersectionObserver((entries) => {
-    entries.forEach((e) => {
-      if (!e.isIntersecting) return;
-      e.target.classList.add("is-in");
-      io.unobserve(e.target);
-    });
-  }, { threshold: 0.25 });
-  sections.forEach((s) => io.observe(s));
+  const reveal = (entries, observer) => entries.forEach((e) => {
+    if (!e.isIntersecting) return;
+    e.target.classList.add("is-in");
+    observer.unobserve(e.target);
+  });
+  const io = new IntersectionObserver(reveal, { threshold: 0.25 });
+  const late = new IntersectionObserver(reveal, { rootMargin: "0px 0px -25% 0px" });
+  sections.forEach((s) => (s.dataset.reveal === "late" ? late : io).observe(s));
 })();
 
 // Header behavior: desktop mega panels (hover / click / keyboard) and the

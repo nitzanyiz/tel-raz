@@ -265,9 +265,9 @@ collections:
       - { name: image, widget: hidden }
       - { name: imageAlt, widget: hidden }
 
-  # A page with a form of its own (src/pages/ai-solutions.md). Its front matter
-  # has system: special, so neither folder view above shows it (saving it
-  # through their generic forms would drop the sections).
+  # Pages with a form of their own (src/pages/ai-solutions.md, src/pages/ipecs-cloud.md).
+  # Their front matter has system: special, so neither folder view above shows them
+  # (saving through those generic forms would drop their sections).
   - name: special_pages
     label: עמודים מיוחדים
     label_singular: עמוד מיוחד
@@ -328,6 +328,171 @@ collections:
                           - { label: "ניתוב (חיצים)", value: routing }
                           - { label: "חוויית שירות (לב)", value: service }
                           - { label: "AI (ניצוץ)", value: sparkle }
+          - { name: contactForm, label: הצגת טופס יצירת קשר בתחתית העמוד, widget: boolean, required: false, default: true }
+          - name: menu
+            label: תפריט
+            widget: object
+            collapsed: true
+            hint: "האם העמוד מופיע בתפריט העליון, ואיפה"
+            fields:
+              - { name: inMenu, label: להציג בתפריט, widget: boolean, default: false, required: false }
+              - name: parent
+                label: מתחת לכותרת
+                widget: select
+                required: false
+                default: ""
+                options:
+                  - { label: "שורת התפריט הראשית", value: "" }
+                  - { label: "שירותים", value: services }
+                  - { label: "שירותים › שירותי מרכזיה בענן", value: cloud-pbx }
+                  - { label: "שירותים › מרכזיה", value: pbx }
+                  - { label: "שירותים › פתרונות מתקדמים", value: advanced }
+                  - { label: "שירות ותמיכה", value: support }
+              - { name: order, label: "מיקום (מספר קטן = ראשון)", widget: number, value_type: int, required: false }
+              - { name: title, label: "שם קצר בתפריט (ריק = כותרת העמוד)", widget: string, required: false }
+          - { name: seoTitle, label: "כותרת לגוגל (לא חובה)", widget: string, required: false }
+          - { name: seoDescription, label: "תיאור לגוגל (עד כ-155 תווים)", widget: text, required: false }
+          - { name: system, widget: hidden, default: special }
+          - { name: sitemap, widget: hidden, default: true }
+
+      # IPECS Cloud (src/pages/ipecs-cloud.md, layouts/ipecs-cloud.njk): fixed sections in a fixed
+      # order (objects, so they can't be removed or moved); the cards inside are editable.
+      - name: ipecs-cloud
+        label: IPECS Cloud
+        file: src/pages/ipecs-cloud.md
+        format: frontmatter
+        fields:
+          - { name: title, label: כותרת העמוד, widget: string }
+          - { name: intro, label: משפט פתיחה, widget: text, required: false }
+          - name: overview
+            label: "אזור 1: מה זה IPECS Cloud"
+            widget: object
+            fields:
+              - { name: heading, label: כותרת, widget: string }
+              - { name: text, label: טקסט, widget: text }
+              - name: facts
+                label: עובדות קצרות
+                label_singular: עובדה
+                widget: list
+                required: false
+                summary: "{{fields.text}}"
+                fields:
+                  - { name: text, label: טקסט, widget: string }
+                  - name: icon
+                    label: אייקון
+                    widget: select
+                    default: sparkle
+                    options: &ipc_icons
+                      - { label: "טלפון", value: phone }
+                      - { label: "מכשירים (מחשב ונייד)", value: devices }
+                      - { label: "ניהול (מחוונים)", value: sliders }
+                      - { label: "צמיחה (גרף עולה)", value: trend }
+                      - { label: "דוחות (עמודות)", value: chart }
+                      - { label: "לחיצה (סמן עכבר)", value: cursor }
+                      - { label: "דפדפן", value: browser }
+                      - { label: "צוות (אנשים)", value: people }
+                      - { label: "חיבור (חוליות)", value: link }
+                      - { label: "WhatsApp", value: whatsapp }
+                      - { label: "אבטחה (מגן)", value: shield }
+                      - { label: "מנעול", value: lock }
+                      - { label: "שכבות", value: layers }
+                      - { label: "מפתח", value: key }
+                      - { label: "שרתים", value: server }
+                      - { label: "מיקום (סיכה)", value: pin }
+                      - { label: "כוכב", value: star }
+                      - { label: "חנות", value: shop }
+                      - { label: "בניין", value: building }
+                      - { label: "אוזניות (מוקד)", value: headset }
+                      - { label: "ענן", value: cloud }
+                      - { label: "שעון", value: clock }
+                      - { label: "תמלול (שורות טקסט)", value: transcript }
+                      - { label: "מיקרופון", value: mic }
+                      - { label: "AI (ניצוץ)", value: sparkle }
+          - name: audience
+            label: "אזור 2: לאיזה עסק זה מתאים"
+            widget: object
+            fields:
+              - { name: heading, label: "כותרת (לא חובה)", widget: string, required: false }
+              - { name: subtitle, label: "שורה מתחת לכותרת (לא חובה)", widget: string, required: false }
+              - name: cards
+                label: כרטיסים
+                label_singular: כרטיס
+                hint: "בלי כרטיסים – האזור לא מופיע."
+                widget: list
+                required: false
+                summary: "{{fields.title}}"
+                fields:
+                  - { name: title, label: כותרת, widget: string }
+                  - { name: text, label: טקסט, widget: text }
+                  - { name: icon, label: אייקון, widget: select, default: sparkle, options: *ipc_icons }
+          - name: cta
+            label: "אזור 3: פס הצעת מחיר (כהה)"
+            widget: object
+            hint: "הכפתור מוביל לטופס יצירת הקשר בתחתית העמוד."
+            fields:
+              - { name: title, label: כותרת, widget: string }
+              - { name: text, label: "טקסט (לא חובה)", widget: string, required: false }
+              - { name: button, label: טקסט הכפתור, widget: string }
+          - name: highlights
+            label: "אזור 4: מה מייחד (טקסט ותמונה)"
+            widget: object
+            fields:
+              - { name: heading, label: "כותרת (לא חובה)", widget: string, required: false }
+              - name: items
+                label: נושאים
+                label_singular: נושא
+                hint: "כל נושא מוצג ככרטיס עם תמונה, לסירוגין מימין ומשמאל."
+                widget: list
+                required: false
+                summary: "{{fields.title}}"
+                fields:
+                  - { name: tag, label: "תגית קטנה מעל הכותרת (לא חובה)", widget: string, required: false }
+                  - { name: title, label: כותרת, widget: string }
+                  - { name: text, label: טקסט, widget: text }
+                  - name: points
+                    label: "נקודות (לא חובה)"
+                    label_singular: נקודה
+                    widget: list
+                    required: false
+                    field: { name: point, label: נקודה, widget: string }
+                  - { name: image, label: תמונה, widget: image }
+                  - { name: alt, label: "תיאור התמונה (לנגישות)", widget: string }
+          - name: features
+            label: "אזור 5: כל היכולות"
+            widget: object
+            fields:
+              - { name: heading, label: "כותרת (לא חובה)", widget: string, required: false }
+              - { name: subtitle, label: "שורה מתחת לכותרת (לא חובה)", widget: string, required: false }
+              - name: cards
+                label: כרטיסים
+                label_singular: כרטיס
+                hint: "בלי כרטיסים – האזור לא מופיע."
+                widget: list
+                required: false
+                summary: "{{fields.title}}"
+                fields:
+                  - { name: title, label: כותרת, widget: string }
+                  - { name: text, label: טקסט, widget: text }
+                  - { name: icon, label: אייקון, widget: select, default: sparkle, options: *ipc_icons }
+                  - { name: link, label: "קישור לעמוד (לא חובה)", widget: relation, collection: all_pages, value_field: "{{slug}}", search_fields: [title], display_fields: [title], required: false, filters: [{ field: sitemap, values: [true] }] }
+                  - { name: linkText, label: "טקסט הקישור (ריק = לפרטים נוספים)", widget: string, required: false }
+          - name: security
+            label: "אזור 6: אבטחת מידע"
+            widget: object
+            fields:
+              - { name: heading, label: "כותרת (לא חובה)", widget: string, required: false }
+              - { name: subtitle, label: "שורה מתחת לכותרת (לא חובה)", widget: string, required: false }
+              - name: cards
+                label: כרטיסים
+                label_singular: כרטיס
+                hint: "בלי כרטיסים – האזור לא מופיע."
+                widget: list
+                required: false
+                summary: "{{fields.title}}"
+                fields:
+                  - { name: title, label: כותרת, widget: string }
+                  - { name: text, label: טקסט, widget: text }
+                  - { name: icon, label: אייקון, widget: select, default: sparkle, options: *ipc_icons }
           - { name: contactForm, label: הצגת טופס יצירת קשר בתחתית העמוד, widget: boolean, required: false, default: true }
           - name: menu
             label: תפריט

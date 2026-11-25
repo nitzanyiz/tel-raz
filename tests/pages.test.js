@@ -6,7 +6,7 @@ const { buildSite, load, fileFor } = require("./helpers/build");
 
 // Home + system pages (the editor can't delete these); content pages are
 // checked dynamically from src/pages so editor changes don't break tests.
-const ROUTES = ["/", "/about/", "/ai-solutions/", "/support/guides/", "/support/service-call/", "/contact/", "/accessibility/", "/privacy/", "/thanks/", "/404.html"].filter(
+const ROUTES = ["/", "/about/", "/ai-solutions/", "/ipecs-cloud/", "/support/guides/", "/support/service-call/", "/contact/", "/accessibility/", "/privacy/", "/thanks/", "/404.html"].filter(
   (r) => r !== "/about/" || fs.existsSync(path.join(__dirname, "../src/pages/about.md"))
 );
 const CONTENT_URLS = fs.readdirSync(path.join(__dirname, "../src/pages"))

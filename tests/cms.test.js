@@ -66,7 +66,7 @@ test("every page with menu settings states inMenu explicitly", () => {
 const col = (name) => config.collections.find((c) => c.name === name);
 const SYSTEM_PAGES = ["404", "accessibility", "contact", "guides", "privacy", "service-call", "thanks"];
 // Pages with their own form (a files entry in special_pages), kept out of both folder views.
-const SPECIAL_PAGES = ["ai-solutions"];
+const SPECIAL_PAGES = ["ai-solutions", "ipecs-cloud"];
 const specialEntry = (slug) => col("special_pages").files.find((f) => f.file === `src/pages/${slug}.md`);
 const pageFiles = () => fs.readdirSync(path.join(ROOT, "src/pages")).filter((f) => f.endsWith(".md"));
 const pageFm = (file) => YAML.parse(fs.readFileSync(path.join(ROOT, "src/pages", file), "utf8").match(/^---\n([\s\S]*?)\n---/)[1]);
@@ -153,7 +153,7 @@ const sub = (fields, name) => fields.find((f) => f.name === name);
 test("the AI page has its own form, outside the generic page views", () => {
   const c = col("special_pages");
   assert.ok(c, "special_pages collection");
-  assert.strictEqual(c.files.length, 1);
+  assert.deepStrictEqual(c.files.map((f) => f.file).sort(), SPECIAL_PAGES.map((s) => `src/pages/${s}.md`).sort());
   const entry = specialEntry("ai-solutions");
   assert.ok(entry, "entry for src/pages/ai-solutions.md");
   assert.strictEqual(entry.format, "frontmatter");
@@ -193,5 +193,50 @@ test("AI page content has the shape the template expects", () => {
         assert.ok(ICONS.includes(c.icon), `${c.keyword}: icon ${c.icon}`);
       }
     }
+  }
+});
+
+
+// ---- the IPECS Cloud page: its own form
+test("the IPECS Cloud page has its own form with fixed sections", () => {
+  const entry = specialEntry("ipecs-cloud");
+  assert.ok(entry, "entry for src/pages/ipecs-cloud.md");
+  assert.strictEqual(entry.format, "frontmatter");
+  assert.deepStrictEqual(fieldNames(entry.fields), frontMatterKeys(path.join(ROOT, "src/pages/ipecs-cloud.md")).sort());
+  for (const name of ["system", "sitemap"]) assert.strictEqual(sub(entry.fields, name).widget, "hidden", name);
+  // sections are objects, so the editor can't remove or reorder them
+  for (const name of ["overview", "audience", "cta", "highlights", "features", "security"]) assert.strictEqual(sub(entry.fields, name).widget, "object", name);
+  // every icon option is drawn by partials/icons.njk (an unknown name would fall back to the sparkle)
+  const iconsNjk = fs.readFileSync(path.join(ROOT, "src/_includes/partials/icons.njk"), "utf8");
+  const iconFields = [sub(sub(entry.fields, "overview").fields, "facts"), ...["audience", "features", "security"].map((n) => sub(sub(entry.fields, n).fields, "cards"))]
+    .map((list) => sub(list.fields, "icon"));
+  for (const icon of iconFields) {
+    assert.strictEqual(icon.widget, "select");
+    for (const o of icon.options) assert.ok(o.value === "sparkle" || iconsNjk.includes(`name == "${o.value}"`), `icon ${o.value}`);
+  }
+  const link = sub(sub(sub(entry.fields, "features").fields, "cards").fields, "link");
+  assert.strictEqual(link.widget, "relation");
+  assert.strictEqual(link.collection, "all_pages");
+  assert.strictEqual(link.value_field, "{{slug}}");
+  assert.deepStrictEqual(link.filters, [{ field: "sitemap", values: [true] }]);
+  const image = sub(sub(sub(entry.fields, "highlights").fields, "items").fields, "image");
+  assert.strictEqual(image.widget, "image");
+  assert.notStrictEqual(pageFm("ipecs-cloud.md").system, col("pages").filter.value);
+  assert.notStrictEqual(pageFm("ipecs-cloud.md").system, col("system_pages").filter.value);
+});
+
+// Checks only what the template needs; wording and counts are editable.
+test("IPECS Cloud content has the shape the template expects", () => {
+  const fm = pageFm("ipecs-cloud.md");
+  assert.ok(fm.overview && fm.overview.heading && fm.overview.text, "overview");
+  for (const f of fm.overview.facts || []) assert.ok(f.text, "fact text");
+  for (const key of ["audience", "features", "security"]) {
+    assert.ok(Array.isArray(fm[key].cards), `${key}: cards`);
+    for (const c of fm[key].cards) assert.ok(c.title && c.text, `${key}: card title and text`);
+  }
+  assert.ok(fm.cta.title && fm.cta.button, "quote strip");
+  for (const it of fm.highlights.items) {
+    assert.ok(it.title && it.text && it.image && it.alt, `highlight ${it.title}: title, text, image, alt`);
+    assert.ok(Array.isArray(it.points ?? []), `highlight ${it.title}: points`);
   }
 });

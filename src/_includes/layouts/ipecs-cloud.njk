@@ -1,0 +1,86 @@
+---
+layout: layouts/page.njk
+wide: true
+---
+{#- IPECS Cloud page (src/pages/ipecs-cloud.md, own CMS form): fixed sections in a
+    fixed order – overview, audience, quote strip, highlights, features, security –
+    each filled from front matter. A section with nothing to show is left out.
+    Highlights and card grids rise in as they come into view ([data-reveal="late"],
+    assets/js/site.js). -#}
+{%- import "partials/icons.njk" as icons -%}
+{%- macro cards(sec, key, reveal=false, linked=false) %}
+{%- if sec and sec.cards and sec.cards.length %}
+<section class="ipc-section" data-section="{{ key }}">
+  {%- if sec.heading | filled %}<h2 class="ipc-h2">{{ sec.heading }}</h2>{% endif %}
+  {%- if sec.subtitle | filled %}<p class="ipc-sub">{{ sec.subtitle }}</p>{% endif %}
+  <div class="ipc-grid ipc-grid--{{ key }}"{% if reveal %} data-reveal="late"{% endif %}>
+    {%- for c in sec.cards %}
+    {%- set url = (c.link | pageUrl(collections.all)) if linked else "" %}
+    <div class="ipc-card{% if reveal %} reveal{% endif %}"{% if reveal %} style="--i:{{ loop.index0 }}"{% endif %}>
+      <span class="ipc-ico">{{ icons.icon(c.icon) }}</span>
+      <div>
+        <h3>{{ c.title }}</h3>
+        {%- if c.text | filled %}<p>{{ c.text }}</p>{% endif %}
+        {%- if url %}<a class="ipc-more" href="{{ url }}">{{ c.linkText if (c.linkText | filled) else "לפרטים נוספים" }} <span aria-hidden="true">←</span></a>{% endif %}
+      </div>
+    </div>
+    {%- endfor %}
+  </div>
+</section>
+{%- endif %}
+{%- endmacro %}
+
+{%- if overview %}
+<article class="ipc-overview">
+  <div>
+    {%- if overview.heading | filled %}<h2>{{ overview.heading }}</h2>{% endif %}
+    {%- if overview.text | filled %}<p class="ipc-overview__text">{{ overview.text }}</p>{% endif %}
+  </div>
+  {%- if overview.facts and overview.facts.length %}
+  <ul class="ipc-facts">
+    {%- for f in overview.facts %}
+    <li><span class="ipc-ico">{{ icons.icon(f.icon) }}</span>{{ f.text }}</li>
+    {%- endfor %}
+  </ul>
+  {%- endif %}
+</article>
+{%- endif %}
+
+{{ cards(audience, "audience", true) }}
+
+{%- if cta and (cta.title | filled) and (cta.button | filled) %}
+<div class="ipc-band">
+  <div><strong>{{ cta.title }}</strong>{% if cta.text | filled %}<span>{{ cta.text }}</span>{% endif %}</div>
+  <a class="btn btn-light" href="{{ '#contact' if contactForm !== false else '/contact/' }}">{{ cta.button }}</a>
+</div>
+{%- endif %}
+
+{%- if highlights and highlights.items and highlights.items.length %}
+<section class="ipc-section" data-section="highlights">
+  {%- if highlights.heading | filled %}<h2 class="ipc-h2">{{ highlights.heading }}</h2>{% endif %}
+  <div class="ipc-spots">
+    {%- for it in highlights.items %}
+    <section class="ipc-spot" data-reveal="late">
+      <div class="ipc-spot__text reveal">
+        {%- if it.tag | filled %}<span class="ipc-tag">{{ it.tag }}</span>{% endif %}
+        <h3>{{ it.title }}</h3>
+        {%- if it.text | filled %}<p>{{ it.text }}</p>{% endif %}
+        {%- if it.points and it.points.length %}
+        <ul>{% for p in it.points %}<li>{{ p }}</li>{% endfor %}</ul>
+        {%- endif %}
+      </div>
+      <div class="ipc-spot__img reveal">{% if it.image %}<img src="{{ it.image }}" alt="{{ it.alt }}" loading="lazy">{% endif %}</div>
+    </section>
+    {%- endfor %}
+  </div>
+</section>
+{%- endif %}
+
+{{ cards(features, "features", true, true) }}
+{{ cards(security, "security") }}
+
+{%- if contactForm !== false %}
+<div id="contact">
+{% include "partials/contact-cta.njk" %}
+</div>
+{%- endif %}
