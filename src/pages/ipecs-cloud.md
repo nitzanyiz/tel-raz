@@ -61,7 +61,7 @@ highlights:
       image: /assets/uploads/AI2.webp
       alt: תמלול שיחה בממשק המערכת
 features:
-  heading: כל היכולות
+  heading: יכולות ותכונות
   subtitle: יותר ממרכזיה – סביבת תקשורת עסקית שלמה, בפלטפורמה אחת.
   cards:
     - icon: phone
@@ -123,7 +123,7 @@ security:
       title: הגנה רב-שכבתית
       text: אבטחת Ericsson-LG יחד עם הגנות חוות השרתים.
     - icon: shield
-      title: תמיכה ב-GDPR
+      title: תמיכה בתקן אירופאי GDPR
       text: בהתאם לתצורת השירות ואופן השימוש בו.
     - icon: server
       title: אירוח בתקן SOC 2
