@@ -113,7 +113,7 @@ features:
       linkText: ''
     - title: חדרי ועידה
       text: חדרי ועידה מרובי משתתפים, עם הגנת סיסמה המאפשרת שליטה על המשתתפים ושמירה על פרטיות השיחה.
-      icon: shop
+      icon: cloud
       link: ''
       linkText: ''
     - title: שירותי פקס
