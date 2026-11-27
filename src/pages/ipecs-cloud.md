@@ -113,7 +113,7 @@ features:
       linkText: ''
     - title: חדרי ועידה
       text: חדרי ועידה מרובי משתתפים, עם הגנת סיסמה המאפשרת שליטה על המשתתפים ושמירה על פרטיות השיחה.
-      icon: people
+      icon: shop
       link: ''
       linkText: ''
     - title: שירותי פקס
@@ -125,7 +125,7 @@ features:
       linkText: ''
     - title: מוזיקה בהמתנה
       text: שפרו את חוויית ההמתנה של לקוחותיכם באמצעות מוזיקה או ג'ינגלים המותאמים לאופי העסק, לצד השמעת מסרים שיווקיים.
-      icon: sparkle
+      icon: sliders
       link: ''
       linkText: ''
 security:
