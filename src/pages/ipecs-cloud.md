@@ -101,8 +101,8 @@ features:
       icon: people
       link: ''
       linkText: ''
-    - title: אינטגרציות ו-CRM
-      text: חיבור למערכות העסקיות ול-CRM – המידע זמין ברצף אחד.
+    - title: הקפצת מסך ב CRM
+      text: חיבור ואינטגרציה למערכות CRM, המאפשרים הקפצה אוטומטית של כרטיס הלקוח למסך הנציג בעת קבלת שיחה נכנסת.
       icon: link
       link: ''
       linkText: ''
